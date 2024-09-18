@@ -39,7 +39,12 @@ Zorg dat je 5 min voor het contactmoment aanwezig bent voor de standup.
 
 ## Code rules
 
-### Git commit messages:
+### Git commit frequentie:
+Probeer vaak te commiten zodat je werk niet verloren gaat en je makkelijk terug kan naar een vorige versie.
+
+Dit kan bijvoorbeeld van pas komen als je een feature maakt en je wilt terug naar een vorige versie van de code of je ziek wordt en iemand anders je werk over moet nemen.
+
+### Git commit berichten:
 "Type - optional scope : description"<br>
 Types:<br>
 feat: feature<br>
@@ -51,31 +56,19 @@ test: test a feature<br>
 chore: maintenance/configuration related<br>
 
 ### Soorten branches:
-hotfix/<name> : voor bufixes op main branch deze moeten daarna wel doorgezet worden naar develop zodat deze snelle fixes verbetered kunnen worden indien nodig
-feature/<issue-number>-<name> : voor alle features die gemaakt worden.
+**hotfix/<name>** : voor bugfixes op main branch deze moeten daarna wel doorgezet worden naar develop zodat deze snelle fixes verbetered kunnen worden indien nodig
+**feature/<issue-number>-<name>** : voor alle features die gemaakt worden.
 
 ### Merge requests:
-Je maakt een merge request van de feature naar de develop branch.
+Wanneer je klaar bent met je feature maak je een merge request aan naar de development branch.
 
-Deze feature wordt door minimaal 1 teamlid gereviewed.
+**Regels:**
+- Je moet minimaal 1 persoon vragen om je merge request te reviewen.
+- Je moet zorgen dat de pipeline succesvol is, als dit niet het geval is moet je dit oplossen.
+- Als je merge request is goedgekeurd en alle comments zijn verwerkt mag je hem mergen.
 
-Als dev van een feature ben jij verandwoordelijk om ervoor te zorgen dat jouw feature gereviewed/getest wordt door een teamlid.
 
-Pas wanneer een feature compleet geaccepteerd is wordt deze gemergd naar de develop branch.
-Je mag features op features maken.
-voorbeeld:
-Main feature: feature/new-ui-overhaul
-deze branch is voor alle wijzigignen gerelateerd aan de nieuwe UI
 
-Sub-branch: feature/new-ui-homepage
-Deze branch takt af van feature/new-ui-overhaul en focust op het UI van de homepage.
-
-Nog een sub-feature branch: feature/new-ui-homepage-add-login
-Terwijl feature/new-ui-homepage nog gemaakt wordt, werkt een teamlid aan de inlog op de nieuwe homepage. In plaats van te wachten tot feature/new-ui-homepage klaar is, wordt een nieuwe branch feature/new-ui-homepage-add-login gemaakt die aftakt van feature/new-ui-homepage.
-
-Dit zorgt ervoor dat er gewoon doorgewerkt kan worden, als er maar regelmatig de parent branch gemerged wordt dus bijvoorbeeld als jij in feature/new-ui-homepage-add-login werkt merge je regelmatig met feature/new-ui-homepage
-
-en feature/new-ui-homepage mergt regelmatig feature/new-ui-overhaul in zijn branch.
 
 ### Docs:
 Documentatie die met het project te maken hebben zetten we op de main branch in de folder documentation/
