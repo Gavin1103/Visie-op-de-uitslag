@@ -6,7 +6,7 @@
 <template>
   <nav class="">
     <ul class="flex items-center">
-      <li><router-link to="/">Home</router-link></li>
+      <li class="text-red-800"><router-link to="/">Home</router-link></li>
       <li><router-link to="/about">About</router-link></li>
       <li><router-link to="/parties">Parties</router-link></li>
       <li><router-link to="/forum">Forum</router-link></li>
