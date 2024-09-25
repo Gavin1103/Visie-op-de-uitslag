@@ -11,7 +11,6 @@ const router = createRouter({
       component: HomeView
     },
     {
-<<<<<<< frontend/src/router/index.ts
       path: '/parties',
       name: 'parties',
       component: () => import('../views/AboutView.vue')
@@ -30,11 +29,11 @@ const router = createRouter({
       path: '/forum',
       name: 'forum',
       component: () => import('../views/AboutView.vue')
-=======
+    },
+    {
       path: '/register',
       name: 'register',
       component: CreateUser
->>>>>>> frontend/src/router/index.ts
     },
     {
       path: '/about',

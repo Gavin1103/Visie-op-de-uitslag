@@ -16,9 +16,6 @@ import IconLogo from "@/components/icons/IconLogo.vue";
       <li><router-link class="text-white" to="/forum">Forum</router-link></li>
     </ul>
     <router-link class="text-white text-2xl font-bold mr-6" to="/login">Login</router-link>
+    <router-link class="text-white text-2xl font-bold mr-6" to="/register">Register</router-link>
   </nav>
 </template>
-
-<style scoped>
-
-</style>

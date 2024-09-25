@@ -77,8 +77,12 @@ const onSubmit = async () => {
 
 <style scoped>
 .create-user {
-  max-width: 400px;
+  max-width: 300px;
   margin: 0 auto;
+  border: solid 1px rgb(22 31 64);
+  border-radius: 25px;
+  padding: 1rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
   .create-form {
     display: flex;
@@ -89,12 +93,13 @@ const onSubmit = async () => {
 
   .create-title {
     text-align: center;
+    font-size: 2rem;
   }
 
   .create-input {
     padding: 0.5rem;
     font-size: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid rgb(22 31 64);
     border-radius: 0.25rem;
   }
 
@@ -103,7 +108,7 @@ const onSubmit = async () => {
     font-size: 1rem;
     border: none;
     border-radius: 0.25rem;
-    background-color: hsla(160, 100%, 37%, 1);
+    background-color: rgb(22 31 64);
     color: white;
     cursor: pointer;
   }
