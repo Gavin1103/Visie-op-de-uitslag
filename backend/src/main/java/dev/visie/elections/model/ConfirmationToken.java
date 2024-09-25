@@ -1,0 +1,31 @@
+package dev.visie.elections.model;
+
+import dev.visie.elections.model.User;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.UUID;
+
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+public class ConfirmationToken {
+
+    @Id
+    @GeneratedValue
+    public Long generationTokenId;
+
+    private String confirmationToken;
+
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public ConfirmationToken(User user) {
+        this.user = user;
+        confirmationToken = UUID.randomUUID().toString();
+    }
+}

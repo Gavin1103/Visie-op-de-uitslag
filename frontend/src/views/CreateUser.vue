@@ -33,7 +33,7 @@ const onSubmit = async () => {
     const createdUser: any = await userService.createUser(newUser);
     switch (createdUser.statusCodeValue) {
       case 201:
-        successMessage.value = `User ${createdUser.body.username} created successfully!`;
+        successMessage.value = `User created successfully!`;
         break;
       case 409:
         errorMessage.value = 'User with that email already exists.';

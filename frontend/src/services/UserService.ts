@@ -13,7 +13,7 @@ export class UserService {
   }
 
   async createUser(user: NewUser): Promise<NewUser> {
-    return await this.dbService.post<NewUser>('authentication/register', user);
+    return await this.dbService.post<NewUser>('auth/register', user);
   }
 
   async getUserById(userId: number): Promise<User> {
