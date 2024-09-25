@@ -50,25 +50,22 @@ const onSubmit = async () => {
 </script>
 <template>
   <div class="create-user">
-    <h2>Create User</h2>
+    <h2 class="create-title">Create User</h2>
 
-    <form @submit.prevent="onSubmit">
+    <form class="create-form" @submit.prevent="onSubmit">
       <div>
-        <label for="name">Name:</label>
-        <input type="text" v-model="name" id="name" required />
+        <input class="create-input" placeholder="Name" type="text" v-model="name" id="name" required />
       </div>
 
       <div>
-        <label for="email">Email:</label>
-        <input type="email" v-model="email" id="email" required />
+        <input class="create-input" placeholder="Email" type="email" v-model="email" id="email" required />
       </div>
 
       <div>
-        <label for="password">Password:</label>
-        <input type="password" v-model="password" id="password" required />
+        <input class="create-input" placeholder="Password" type="password" v-model="password" id="password" required />
       </div>
 
-      <button type="submit" :disabled="loading">
+      <button class="create-submit" type="submit" :disabled="loading">
         {{ loading ? 'Creating...' : 'Create User' }}
       </button>
 
@@ -77,3 +74,46 @@ const onSubmit = async () => {
     </form>
   </div>
 </template>
+
+<style scoped>
+.create-user {
+  max-width: 400px;
+  margin: 0 auto;
+
+  .create-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .create-title {
+    text-align: center;
+  }
+
+  .create-input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+  }
+
+  .create-submit {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: hsla(160, 100%, 37%, 1);
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+</style>
