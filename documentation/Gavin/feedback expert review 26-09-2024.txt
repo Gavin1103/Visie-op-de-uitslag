@@ -1,0 +1,10 @@
+Docent: Tycho Veltmijer
+datum 26-09-2024
+
+Feedback:
+
+ - Geef zoveel mogelijk informatie in de class diagram.
+ - Maak gebruik van de correcte pijlen in de class diagram.
+ - Zorg dat iedereen in je groepje begrijpt wat er gemaakt is. Bijvoorbeeld niet iedereen wist wat CORS was.
+ - Bij de ERD zorg dat je alle technische informatie begrijpt die je toepast, zoals de underline.
+ - geef
