@@ -28,3 +28,4 @@ Om over na te denken:
 Denk nog goed na over hoe en waar wij gaan deployen.
 Denk na over hoeveel comments/antwoorden je kan zien per keer.
 De relatie tussen votes en de bebruiker, zodat een gebruiker niet meerdere keren kan voten.
+
