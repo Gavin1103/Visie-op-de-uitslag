@@ -28,19 +28,15 @@ const onSubmit = async () => {
   };
 
   try {
-    const createdUser: any = await userService.authenticateUser(loginUser);
-    switch (createdUser.statusCodeValue) {
-      case 201:
-        successMessage.value = `User created successfully!`;
-        break;
-      case 409:
-        errorMessage.value = 'User with that email already exists.';
+    const result: any = await userService.authenticateUser(loginUser);
+  } catch (error: any) {
+    switch (error.status) {
+      case 403:
+        errorMessage.value = 'This account has not yet been confirmed';
         break;
       default:
-        errorMessage.value = 'Failed to create user. Please try again.';
+        errorMessage.value = 'Failed to login user. Please try again.';
     }
-  } catch (error: any) {
-    errorMessage.value = 'Failed to create user. Please try again.';
   } finally {
     loading.value = false;
   }
@@ -48,7 +44,7 @@ const onSubmit = async () => {
 </script>
 <template>
   <div class="create-user">
-    <h2 class="create-title">Create User</h2>
+    <h2 class="create-title">Login</h2>
 
     <form class="create-form" @submit.prevent="onSubmit">
       <div>
