@@ -2,7 +2,7 @@
 // TypeScript enabled
 import { ref } from 'vue'
 import { UserService } from '@/services/UserService';
-import type { LoginUser } from '@/models/User'
+import type { LoginUser, NewUser } from '@/models/User'
 
 
 
@@ -52,10 +52,6 @@ const onSubmit = async () => {
 
     <form class="create-form" @submit.prevent="onSubmit">
       <div>
-        <input class="create-input" placeholder="Name" type="text" v-model="name" id="name" required />
-      </div>
-
-      <div>
         <input class="create-input" placeholder="Email" type="email" v-model="email" id="email" required />
       </div>
 
@@ -64,7 +60,7 @@ const onSubmit = async () => {
       </div>
 
       <button class="create-submit" type="submit" :disabled="loading">
-        {{ loading ? 'Creating...' : 'Create User' }}
+        {{ loading ? 'Logging in...' : 'Login' }}
       </button>
 
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
