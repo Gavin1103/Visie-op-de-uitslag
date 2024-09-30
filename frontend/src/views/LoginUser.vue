@@ -1,22 +1,22 @@
 <script setup lang="ts">
-// TypeScript enabled
 import { ref } from 'vue'
 import { UserService } from '@/services/UserService';
 import type { LoginUser, NewUser } from '@/models/User'
+import { CookieService } from '@/services/CookieService'
+import { useRouter } from 'vue-router'
 
 
 
-// Reactive variables
 const email = ref<string>('');
 const password = ref<string>('');
 const loading = ref<boolean>(false);
 const errorMessage = ref<string>('');
 const successMessage = ref<string>('');
 
-// Instantiate the user service
 const userService = new UserService();
+const cookieService = new CookieService();
+const router = useRouter();
 
-// Function to handle form submission
 const onSubmit = async () => {
   loading.value = true;
   errorMessage.value = '';
@@ -27,8 +27,9 @@ const onSubmit = async () => {
     email: email.value
   };
 
+  let result: any = null;
   try {
-    const result: any = await userService.authenticateUser(loginUser);
+     result = await userService.authenticateUser(loginUser);
   } catch (error: any) {
     switch (error.status) {
       case 403:
@@ -38,6 +39,13 @@ const onSubmit = async () => {
         errorMessage.value = 'Failed to login user. Please try again.';
     }
   } finally {
+    if(result) {
+      cookieService.setTokenCookies(result.access_token, result.refresh_token);
+      await router.push({name: 'home'}).then(() => {
+        window.location.reload(); // Force full page reload after navigation
+      });
+
+    }
     loading.value = false;
   }
 };

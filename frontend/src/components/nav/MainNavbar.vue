@@ -1,7 +1,23 @@
 <script setup lang="ts">
-
-
+import { ref, watch } from 'vue' // Import ref
 import IconLogo from "@/components/icons/IconLogo.vue";
+import { CookieService } from '@/services/CookieService';
+import router from '@/router'
+
+let cookieService = new CookieService();
+
+
+let isUserLoggedIn = ref(cookieService.tokenExists());
+console.log(isUserLoggedIn.value);
+
+function logout() {
+  cookieService.removeTokenCookies();
+  isUserLoggedIn.value = false;
+  router.push('/login').then(() => {
+    window.location.reload(); // Force full page reload after navigation
+  });
+}
+
 </script>
 
 <template>
@@ -15,7 +31,8 @@ import IconLogo from "@/components/icons/IconLogo.vue";
       <li><router-link class="text-white" to="/parties">Parties</router-link></li>
       <li><router-link class="text-white" to="/forum">Forum</router-link></li>
     </ul>
-    <router-link class="text-white text-2xl font-bold mr-6" to="/login">Login</router-link>
-    <router-link class="text-white text-2xl font-bold mr-6" to="/register">Register</router-link>
+    <router-link v-if="!isUserLoggedIn.value" class="text-white text-2xl font-bold mr-6" to="/login">Login</router-link>
+    <router-link v-if="!isUserLoggedIn.value" class="text-white text-2xl font-bold mr-6" to="/register">Register</router-link>
+    <button v-else @click="logout" class="text-white text-2xl font-bold mr-6">Logout</button>
   </nav>
 </template>

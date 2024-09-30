@@ -1,12 +1,10 @@
 <script setup lang="ts">
-// TypeScript enabled
 import { ref } from 'vue'
 import { UserService } from '@/services/UserService';
 import type { NewUser, User } from '@/models/User'
 
 
 
-// Reactive variables
 const name = ref<string>('');
 const email = ref<string>('');
 const password = ref<string>('');
@@ -14,10 +12,8 @@ const loading = ref<boolean>(false);
 const errorMessage = ref<string>('');
 const successMessage = ref<string>('');
 
-// Instantiate the user service
 const userService = new UserService();
 
-// Function to handle form submission
 const onSubmit = async () => {
   loading.value = true;
   errorMessage.value = '';
