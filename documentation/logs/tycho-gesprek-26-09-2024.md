@@ -1,7 +1,6 @@
 # Tycho expert review feedback
 ### datum: 26-09-2024
 ## Verbeter punten:
-
 - Relatie in de database tussen de votes en een gebruiker.
 - Let op de pijlen die worden gebruikt in de klasse diagram.
 - Bij de ERD zorg dat je alle technische informatie begrijpt die je toepast, zoals de underline.

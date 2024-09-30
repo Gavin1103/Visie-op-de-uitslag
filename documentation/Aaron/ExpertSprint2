@@ -1,0 +1,17 @@
+Datum: 26-09-2024
+Docent: Tycho Veltmeijer
+
+Verbeterpunten:
+- Relatie tussen votes en gebruiker in de database: Zorg voor een duidelijke en goed uitgewerkte relatie tussen de stemmen en een gebruiker.
+- Pijlen in klasse diagram: Let goed op het correct gebruik van de pijlen in het klassen diagram.
+- Technische details in het ERD: Zorg ervoor dat je alle technische informatie die je in het ERD toepast volledig begrijpt. Bijvoorbeeld het correct gebruik van (underline) om keys te identificeren.
+-Groepsbegrip van het project: Zorg dat alle groepsleden een goed begrip hebben van wat er gemaakt is. Bijvoorbeeld wist niet iedereen in de groep wat CORS inhield.
+
+Dingen om over na te denken:
+- Ophalen van antwoorden: Denk goed na over hoe je de antwoorden gaat ophalen, zoals hoeveel reacties je per keer ophaalt en weergeeft. Dit kan invloed hebben op de prestaties.
+- Deployment van het project: Overweeg waar en hoe je het project gaat deployen, bijvoorbeeld via Oege of een andere gratis service, of eventueel een betaalde provider.
+- Meer onderzoek naar CORS: Ondanks dat ik al meer heb geleerd van het voorbeeld van Tycho, is het goed om min verder in te lezen in CORS om het correct toe te passen in ons project.
+
+Positieve feedback:
+- Lijnen in het ERD: De lijnen en relaties in het ERD zijn goed toegepast.
+- Veelheden in klasse diagram: De cardinaliteit in het klassen diagram is goed toegepast.
