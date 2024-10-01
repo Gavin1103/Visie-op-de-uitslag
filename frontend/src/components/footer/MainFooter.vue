@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import IconLogo from "@/components/icons/IconLogo.vue";
-import SocailsIcons from "@/components/footer/SocialsIcons.vue";
+import SocialsIcons from "@/components/footer/SocialsIcons.vue";
 </script>
 
 <template>
@@ -22,7 +22,7 @@ import SocailsIcons from "@/components/footer/SocialsIcons.vue";
       <div class="w-full flex justify-center m-5">
         <div class="h-2 w-full bg-white"></div>
       </div>
-      <SocailsIcons />
+      <SocialsIcons />
 
 
     </div>
