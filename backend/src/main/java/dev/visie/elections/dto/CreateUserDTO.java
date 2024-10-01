@@ -2,12 +2,13 @@ package dev.visie.elections.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
+@AllArgsConstructor
 public class CreateUserDTO {
     @NotBlank(message = "Username is mandatory")
     private String username;

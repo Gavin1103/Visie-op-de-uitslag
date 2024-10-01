@@ -6,18 +6,7 @@ import MainNavbar from "@/components/nav/MainNavbar.vue";
 
 <template>
   <main-navbar />
-  <header>
-    <div class="wrapper">
-     <h1>Home page!!</h1>
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/register">Register</RouterLink>
-      </nav>
-    </div>
-  </header>
-
+  <br />
   <RouterView />
 </template>
 
