@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { UserService } from '@/services/UserService';
-import type { NewUser, User } from '@/models/User'
+import type { LoginUser, NewUser } from '@/models/User'
+import { CookieService } from '@/services/CookieService'
+import { useRouter } from 'vue-router'
 
 
 
-const name = ref<string>('');
 const email = ref<string>('');
 const password = ref<string>('');
 const loading = ref<boolean>(false);
@@ -13,46 +14,50 @@ const errorMessage = ref<string>('');
 const successMessage = ref<string>('');
 
 const userService = new UserService();
+const cookieService = new CookieService();
+const router = useRouter();
 
 const onSubmit = async () => {
   loading.value = true;
   errorMessage.value = '';
   successMessage.value = '';
 
-  const newUser: NewUser = {
-    username: name.value,
-    email: email.value,
+  const loginUser: LoginUser = {
     password: password.value,
+    email: email.value
   };
 
+  let result: any = null;
   try {
-    const createdUser: any = await userService.createUser(newUser);
-    switch (createdUser.statusCodeValue) {
-      case 201:
-        successMessage.value = `User created successfully!`;
+     result = await userService.authenticateUser(loginUser);
+  } catch (error: any) {
+    switch (error.status) {
+      case 403:
+        errorMessage.value = 'This account has not yet been confirmed';
         break;
-      case 409:
-        errorMessage.value = 'User with that email already exists.';
+      case 401:
+        errorMessage.value = 'Invalid email or password';
         break;
       default:
-        errorMessage.value = 'Failed to create user. Please try again.';
+        errorMessage.value = 'Failed to login user. Please try again.';
     }
-  } catch (error: any) {
-    errorMessage.value = 'Failed to create user. Please try again.';
   } finally {
+    if(result) {
+      cookieService.setTokenCookies(result.access_token, result.refresh_token);
+      await router.push({name: 'home'}).then(() => {
+        window.location.reload(); // Force full page reload after navigation
+      });
+
+    }
     loading.value = false;
   }
 };
 </script>
 <template>
   <div class="create-user">
-    <h2 class="create-title">Create User</h2>
+    <h2 class="create-title">Login</h2>
 
     <form class="create-form" @submit.prevent="onSubmit">
-      <div>
-        <input class="create-input" placeholder="Name" type="text" v-model="name" id="name" required />
-      </div>
-
       <div>
         <input class="create-input" placeholder="Email" type="email" v-model="email" id="email" required />
       </div>
@@ -62,7 +67,7 @@ const onSubmit = async () => {
       </div>
 
       <button class="create-submit" type="submit" :disabled="loading">
-        {{ loading ? 'Creating...' : 'Create User' }}
+        {{ loading ? 'Logging in...' : 'Login' }}
       </button>
 
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
