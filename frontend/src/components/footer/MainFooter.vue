@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import IconLogo from "@/components/icons/IconLogo.vue";
-import SocailsIcons from "@/components/footer/SocailsIcons.vue";
+import SocailsIcons from "@/components/footer/SocialsIcons.vue";
 </script>
 
 <template>
