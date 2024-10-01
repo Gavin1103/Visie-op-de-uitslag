@@ -6,8 +6,8 @@ import SocailsIcons from "@/components/footer/SocialsIcons.vue";
 
 <template>
   <footer class="bg-NavBlue px-8 py-6 h-56 text-white w-full flex justify-center">
-      <div class="flex flex-col w-11/12 items-center">
-        <div class="w-full ">
+    <div class="flex flex-col w-11/12 items-center">
+      <div class="w-full ">
         <section class="flex gap-14">
           <IconLogo width="w-40" height="h-20" />
           <section>
@@ -18,14 +18,14 @@ import SocailsIcons from "@/components/footer/SocialsIcons.vue";
             </ul>
           </section>
         </section>
-        </div>
-        <div class="w-full flex justify-center m-5">
-          <div class="h-2 w-full bg-white"></div>
-        </div>
-        <SocailsIcons />
-
-
       </div>
+      <div class="w-full flex justify-center m-5">
+        <div class="h-2 w-full bg-white"></div>
+      </div>
+      <SocailsIcons />
+
+
+    </div>
   </footer>
 
 </template>
