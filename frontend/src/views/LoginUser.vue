@@ -35,6 +35,9 @@ const onSubmit = async () => {
       case 403:
         errorMessage.value = 'This account has not yet been confirmed';
         break;
+      case 401:
+        errorMessage.value = 'Invalid email or password';
+        break;
       default:
         errorMessage.value = 'Failed to login user. Please try again.';
     }
