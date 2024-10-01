@@ -3,8 +3,10 @@ package dev.visie.elections.controller;
 import dev.visie.elections.config.PreAuthorizeAdmin;
 import dev.visie.elections.dto.CreateUserDTO;
 import dev.visie.elections.dto.JwtRequest;
+import dev.visie.elections.model.User;
 import dev.visie.elections.model.enums.RoleEnum;
 import dev.visie.elections.service.AuthenticationService;
+import dev.visie.elections.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,15 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
-
     private final AuthenticationService authenticationService;
+    private final UserService userService;
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationController(AuthenticationService authenticationService, UserService userService) {
         this.authenticationService = authenticationService;
+        this.userService = userService;
+
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -89,5 +95,11 @@ public class AuthenticationController {
     @GetMapping("/is-admin")
     public boolean isAdmin(){
         return true;
+    }
+
+    @PreAuthorizeAdmin
+    @GetMapping("/get-users")
+    public List<User> getUsers(){
+        return userService.getUsers();
     }
 }

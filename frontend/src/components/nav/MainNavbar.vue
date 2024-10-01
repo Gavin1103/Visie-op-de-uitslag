@@ -8,7 +8,6 @@ let cookieService = new CookieService();
 
 
 let isUserLoggedIn = ref(cookieService.tokenExists());
-console.log(isUserLoggedIn.value);
 
 function logout() {
   cookieService.removeTokenCookies();
