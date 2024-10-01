@@ -12,7 +12,6 @@ import IconTelegram from "@/components/icons/IconTelegram.vue";
     <IconTwitter />
     <IconFacebook />
     <IconTelegram />
-
   </div>
 </template>
 

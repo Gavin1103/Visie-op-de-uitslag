@@ -11,13 +11,12 @@ import SocailsIcons from "@/components/footer/SocailsIcons.vue";
         <section class="flex gap-14">
           <IconLogo width="w-40" height="h-20" />
           <section>
-            <lu class="list-none text-lg font-extrabold">
+            <ul class="list-none text-lg font-extrabold">
               <li><router-link class="text-white" to="/about">Over ons</router-link></li>
               <li><router-link class="text-white" to="/about">FAQ</router-link></li>
               <li><router-link class="text-white" to="/contact">Contact</router-link></li>
-            </lu>
+            </ul>
           </section>
-
         </section>
         </div>
         <div class="w-full flex justify-center m-5">
