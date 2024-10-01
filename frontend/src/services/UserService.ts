@@ -1,5 +1,5 @@
 import { DatabaseService } from './DatabaseService';
-import type { LoginUser, NewUser, User } from '@/models/User'
+import type { getUser, LoginUser, NewUser, User } from '@/models/User'
 
 export class UserService {
   private dbService: DatabaseService;
@@ -8,8 +8,8 @@ export class UserService {
     this.dbService = new DatabaseService();
   }
 
-  async getUsers(): Promise<User[]> {
-    return await this.dbService.get<User[]>('users');
+  async getUsers(): Promise<getUser[]> {
+    return await this.dbService.get<getUser[]>('auth/get-users');
   }
 
   async createUser(user: NewUser): Promise<NewUser> {
@@ -22,5 +22,10 @@ export class UserService {
 
   async getUserById(userId: number): Promise<User> {
     return await this.dbService.get<User>(`users/${userId}`);
+  }
+
+  async currentUserIsAdmin(): Promise<boolean> {
+    const result: any = await this.dbService.get<boolean>('auth/is-admin');
+    return result.status !== 403;
   }
 }
