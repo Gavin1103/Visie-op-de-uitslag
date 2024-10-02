@@ -91,14 +91,17 @@ public class AuthenticationController {
         return authenticationService.resetPassword(token, password);
     }
 
+
     @PreAuthorizeAdmin
     @GetMapping("/is-admin")
+    @Operation(summary = "Check if the current user is an admin", description = "Returns true if the current user has admin privileges.")
     public boolean isAdmin(){
         return true;
     }
 
     @PreAuthorizeAdmin
     @GetMapping("/get-users")
+    @Operation(summary = "Retrieve list of users", description = "Returns a list of all users in the system. Requires admin privileges.")
     public List<User> getUsers(){
         return userService.getUsers();
     }
