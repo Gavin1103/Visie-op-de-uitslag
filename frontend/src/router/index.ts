@@ -1,7 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CreateUser from '../views/CreateUser.vue'
+import UserOverview from '../views/UserOverview.vue'
 import LoginUser from '../views/LoginUser.vue'
+import { UserService } from '@/services/UserService'
+import Unauthorized from '@/components/Unauthorized.vue'
+
+
+const userService = new UserService();
+let isAdmin = await userService.currentUserIsAdmin();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +44,17 @@ const router = createRouter({
       component: CreateUser
     },
     {
+      path: '/userOverview',
+      name: 'userOverview',
+      component: UserOverview,
+      meta: { requiresAdmin: true }
+    },
+    {
+      path: '/unauthorized',
+      name: 'unauthorized',
+      component: Unauthorized
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -46,5 +64,18 @@ const router = createRouter({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if (!isAdmin) {
+      next({ name: 'unauthorized' })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
 
 export default router

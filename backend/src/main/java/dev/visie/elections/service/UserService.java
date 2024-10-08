@@ -5,6 +5,8 @@ import dev.visie.elections.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -22,5 +24,14 @@ public class UserService {
      */
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    /**
+     * Retrieves all users.
+     *
+     * @return a list of all users
+     */
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 }
