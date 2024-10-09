@@ -1,35 +1,54 @@
 <script setup lang="ts">
-
 </script>
 
 <template>
-  <div class="profile">
-    <h1>Profile Page</h1>
+  <div class="profile container mx-auto p-6 flex items-start space-x-8">
 
-    <!-- Profile Picture Section -->
-    <div class="profile-picture-section">
-      <h1>Profile Picture here</h1>
-      <input type="file" @change="uploadPicture" />
+    <!-- Profile Picture Section on the Left -->
+    <div class="profile-picture-section flex flex-col items-center w-1/3">
+      <h2 class="text-2xl font-semibold mb-4">Profile Picture</h2>
+      <input type="file" @change="uploadPicture" class="text-sm text-gray-500
+        file:mr-4 file:py-2 file:px-4
+        file:rounded-full file:border-0
+        file:text-sm file:font-semibold
+        file:bg-blue-50 file:text-blue-700
+        hover:file:bg-blue-100"/>
     </div>
 
-    <!-- User Info Section -->
-    <div class="user-info">
-      <p><strong>First Name:</strong> {{}}</p>
-      <p><strong>Last Name:</strong> {{}}</p>
-      <p><strong>Email:</strong> {{}}</p>
-      <p><strong>Birthdate:</strong> {{}}</p>
-    </div>
+    <!-- User Info Section on the Right -->
+    <div class="user-info bg-white p-6 rounded-lg shadow-lg w-2/3 ml-auto space-y-4">
+      <div class="border border-gray-300 p-4 rounded-md">
+        <p class="text-lg font-semibold"><strong>First Name:</strong></p>
+        <p class="text-lg">{{}}</p>
+      </div>
+      <div class="border border-gray-300 p-4 rounded-md">
+        <p class="text-lg font-semibold"><strong>Last Name:</strong></p>
+        <p class="text-lg">{{}}</p>
+      </div>
+      <div class="border border-gray-300 p-4 rounded-md">
+        <p class="text-lg font-semibold"><strong>Email:</strong></p>
+        <p class="text-lg">{{}}</p>
+      </div>
+      <div class="border border-gray-300 p-4 rounded-md">
+        <p class="text-lg font-semibold"><strong>Birthdate:</strong></p>
+        <p class="text-lg">{{}}</p>
+      </div>
 
-    <!-- Action Buttons -->
-    <div class="action-buttons">
-      <button @click="changePassword">Change Password</button>
-      <button @click="editAccount">Edit Account</button>
-      <button @click="deleteAccount">Delete Account</button>
+      <!-- Action Buttons Aligned with User Info -->
+      <div class="action-buttons flex justify-center space-x-4 mt-4">
+        <button @click="changePassword" class="bg-[#5564c8] text-white py-2 px-4 rounded hover:bg-blue-400">
+          Change Password
+        </button>
+        <button @click="editAccount" class="bg-[#5564c8] text-white py-2 px-4 rounded hover:bg-green-400">
+          Edit Account
+        </button>
+        <button @click="deleteAccount" class="bg-[#5564c8] text-white py-2 px-4 rounded hover:bg-red-400">
+          Delete Account
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
-
 <style>
-
 </style>
