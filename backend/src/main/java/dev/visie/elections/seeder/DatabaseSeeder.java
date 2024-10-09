@@ -28,9 +28,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         CreateUserDTO userDto = new CreateUserDTO(
                 "User",
                 "user@user.com",
-                "tester",
-                new Date(),
-                new Date()
+                "tester"
         );
 
         this.authenticationService.register(userDto, RoleEnum.USER, true);
@@ -38,9 +36,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         CreateUserDTO adminDto = new CreateUserDTO(
                 "Admin",
                 "admin@admin.com",
-                "admin",
-                new Date(),
-                new Date()
+                "admin"
         );
         this.authenticationService.register(adminDto, RoleEnum.ADMIN, true);
     }
