@@ -49,6 +49,13 @@ const router = createRouter({
       component: UserOverview,
       meta: { requiresAdmin: true }
     },
+
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/ProfileView.vue') // Assuming you'll create ProfileView.vue in the views folder
+    },
+
     {
       path: '/unauthorized',
       name: 'unauthorized',

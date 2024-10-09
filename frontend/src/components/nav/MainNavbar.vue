@@ -28,9 +28,12 @@ function logout() {
       <li><router-link class="text-white" to="/about">About</router-link></li>
       <li><router-link class="text-white" to="/parties">Parties</router-link></li>
       <li><router-link class="text-white" to="/forum">Forum</router-link></li>
+
     </ul>
     <router-link v-if="!isUserLoggedIn" class="text-white text-2xl font-bold mr-6" to="/login">Login</router-link>
     <router-link v-if="!isUserLoggedIn" class="text-white text-2xl font-bold mr-6" to="/register">Register</router-link>
     <button v-else @click="logout" class="text-white text-2xl font-bold mr-6">Logout</button>
+    <router-link v-if="isUserLoggedIn" class="text-white text-2xl font-bold mr-6" to="/profile">Profile</router-link>
+
   </nav>
 </template>
