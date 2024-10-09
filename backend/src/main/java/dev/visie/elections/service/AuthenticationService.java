@@ -25,10 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class AuthenticationService {
@@ -111,6 +108,8 @@ public class AuthenticationService {
         userRole.setName(roleEnum);
         userRole.setUser(user);
         user.setRoles(new HashSet<>(Set.of(userRole)));
+        user.setCreatedAt(new Date());
+        user.setUpdatedAt(new Date());
 
         User savedUser = userRepository.save(user);
 
@@ -151,7 +150,7 @@ public class AuthenticationService {
      * @param user the user
      */
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getUserId());
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {

@@ -8,6 +8,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 @Order(1)
 public class DatabaseSeeder implements CommandLineRunner {
@@ -26,7 +28,9 @@ public class DatabaseSeeder implements CommandLineRunner {
         CreateUserDTO userDto = new CreateUserDTO(
                 "User",
                 "user@user.com",
-                "tester"
+                "tester",
+                new Date(),
+                new Date()
         );
 
         this.authenticationService.register(userDto, RoleEnum.USER, true);
@@ -34,7 +38,9 @@ public class DatabaseSeeder implements CommandLineRunner {
         CreateUserDTO adminDto = new CreateUserDTO(
                 "Admin",
                 "admin@admin.com",
-                "admin"
+                "admin",
+                new Date(),
+                new Date()
         );
         this.authenticationService.register(adminDto, RoleEnum.ADMIN, true);
     }
