@@ -16,6 +16,7 @@ import dev.visie.elections.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,9 +40,20 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
     private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final EmailService emailService;
+
+    @Value("${cors.origin}")
+    private String corsOrigin;
 
     @Autowired
-    public AuthenticationService(UserService userService, @Lazy JwtService jwtService, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ModelMapper modelMapper, UserRepository userRepository, ConfirmationTokenRepository confirmationTokenRepository) {
+    public AuthenticationService(UserService userService,
+                                 @Lazy JwtService jwtService,
+                                 PasswordEncoder passwordEncoder,
+                                 TokenRepository tokenRepository,
+                                 ModelMapper modelMapper,
+                                 UserRepository userRepository,
+                                 ConfirmationTokenRepository confirmationTokenRepository,
+                                 EmailService emailService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.jwtService = jwtService;
@@ -49,6 +61,7 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
         this.tokenRepository = tokenRepository;
         this.confirmationTokenRepository = confirmationTokenRepository;
+        this.emailService = emailService;
     }
 
 
@@ -98,8 +111,7 @@ public class AuthenticationService {
     public ResponseEntity<?> register(CreateUserDTO userDto, RoleEnum roleEnum, boolean isEnabled) {
         User user = modelMapper.map(userDto, User.class);
 
-        User existingUser = this.userService.getUserByEmail(user.getEmail()); // Check if user already exists
-
+        User existingUser = this.userService.getUserByEmail(user.getEmail());
         if (existingUser != null) {
             return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
         }
@@ -121,12 +133,26 @@ public class AuthenticationService {
         ConfirmationToken confirmationToken = new ConfirmationToken(savedUser);
         confirmationTokenRepository.save(confirmationToken);
 
+        String confirmationLink = corsOrigin + "/confirm?token=" + confirmationToken.getConfirmationToken();
+        String emailContent = "<div style=\"font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd;\">"
+                + "<h2 style=\"color: #4CAF50;\">Hello " + user.getUsername() + ",</h2>"
+                + "<p style=\"font-size: 16px; line-height: 1.5;\">Thank you for registering! Please click the link below to confirm your email address:</p>"
+                + "<p style=\"text-align: center; margin: 20px 0;\">"
+                + "<a href=\"" + confirmationLink + "\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #4CAF50; text-decoration: none; border-radius: 5px;\">Confirm your account</a>"
+                + "</p>"
+                + "<p style=\"font-size: 14px; line-height: 1.5; color: #666;\">If you did not register, please ignore this email.</p>"
+                + "<p style=\"font-size: 14px; line-height: 1.5;\">Best regards,<br><span style=\"font-weight: bold;\">Elections</span></p>"
+                + "</div>";
+
+        emailService.sendHtmlEmail(user.getEmail(), "Email Confirmation", emailContent);
+
         return new ResponseEntity<>(AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .confirmationToken(confirmationToken.getConfirmationToken())
                 .build(), HttpStatus.CREATED);
     }
+
 
     /**
      * Saves the user's token.
