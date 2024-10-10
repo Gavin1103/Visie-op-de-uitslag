@@ -13,7 +13,6 @@ public class CreateUserDTO {
     @NotBlank(message = "Username is mandatory")
     private String username;
 
-
     @NotBlank(message = "Email is mandatory")
     @Email(message = "Email should be valid")
     private String email;

@@ -8,6 +8,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 @Order(1)
 public class DatabaseSeeder implements CommandLineRunner {
