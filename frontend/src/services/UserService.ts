@@ -28,4 +28,8 @@ export class UserService {
     const result: any = await this.dbService.get<boolean>('auth/is-admin');
     return result.status !== 403;
   }
+
+  async confirmAccount(token: string): Promise<boolean> {
+    return await this.dbService.get<boolean>(`auth/confirm-account/${token}`);
+  }
 }

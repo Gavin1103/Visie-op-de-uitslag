@@ -133,7 +133,7 @@ public class AuthenticationService {
         ConfirmationToken confirmationToken = new ConfirmationToken(savedUser);
         confirmationTokenRepository.save(confirmationToken);
 
-        String confirmationLink = corsOrigin + "/confirm?token=" + confirmationToken.getConfirmationToken();
+        String confirmationLink = corsOrigin + "/confirm/" + confirmationToken.getConfirmationToken();
         String emailContent = "<div style=\"font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd;\">"
                 + "<h2 style=\"color: #4CAF50;\">Hello " + user.getUsername() + ",</h2>"
                 + "<p style=\"font-size: 16px; line-height: 1.5;\">Thank you for registering! Please click the link below to confirm your email address:</p>"
