@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import CreateUser from '../views/CreateUser.vue'
 import UserOverview from '../views/UserOverview.vue'
 import LoginUser from '../views/LoginUser.vue'
+import EmailConfirmation from '../views/EmailConfirmation.vue'
 import { UserService } from '@/services/UserService'
 import Unauthorized from '@/components/Unauthorized.vue'
 
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: CreateUser
+    },
+    {
+      path: '/confirm/:token',
+      name: 'confirm',
+      component: EmailConfirmation
     },
     {
       path: '/forum',
