@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import ElectedPartyComponent from "@/components/homePage/ElectedPartyComponent.vue";
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <ElectedPartyComponent/>
   </main>
 </template>
