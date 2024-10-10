@@ -21,7 +21,6 @@ public class TestController {
     @GetMapping("/")
     @Operation(summary = "Test endpoint")
     public String test() {
-        emailService.sendEmail("aaron.laan@gmail.com", "Test", "Test");
         return "Test";
     }
 
