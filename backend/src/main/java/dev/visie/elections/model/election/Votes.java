@@ -1,6 +1,6 @@
 package dev.visie.elections.model.election;
 
-import dev.visie.elections.model.election.comprimisedId.VotesId;
+import dev.visie.elections.model.election.compositeId.VotesId;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

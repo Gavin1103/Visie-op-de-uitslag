@@ -1,4 +1,4 @@
-package dev.visie.elections.model.election.comprimisedId;
+package dev.visie.elections.model.election.compositeId;
 
 
 import java.io.Serializable;
