@@ -19,7 +19,7 @@ export default {
        }
     }
     onMounted(() => {
-      fetchParties();
+      // fetchParties();
     });
 
     return {

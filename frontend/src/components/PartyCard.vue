@@ -1,18 +1,22 @@
 <script setup lang="ts">
 import type { Party } from '@/models/Party'
+import router from '@/router'
 
 const props = defineProps<{
   party: Party;
 }>();
+
+const ClickCard = (id: number) => {
+  router.push({name:`party`, params: {id: id}})
+}
 </script>
 
 <template>
   <div class="party-card w-52">
     <div class="card">
-      <img :src="party.logoUrl" alt="Party Logo" class="party-logo" />
+      <img :src="party.image" alt="Party Logo" class="party-logo" />
       <h3>{{ party.name }}</h3>
-      <p>{{ party.description }}</p>
-      <button @click="viewDetails(party.id)">View Details</button>
+      <button @click="ClickCard(party.id)">View Details</button>
     </div>
   </div>
 </template>

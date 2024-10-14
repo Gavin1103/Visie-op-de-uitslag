@@ -1,5 +1,5 @@
 import { DatabaseService } from '@/services/DatabaseService'
-import {Party} from '@/models/Party'
+// import { Party } from '@/models/Party'
 
 export class ElectionService {
   private dbService: DatabaseService;
@@ -8,7 +8,7 @@ export class ElectionService {
     this.dbService = new DatabaseService();
   }
 
-  async getParties(): Promise<Party[]> {
-    return await this.dbService.get<Party[]>("election/parties")
+  async getParties(): Promise<String> {
+    return await this.dbService.get<String>("election/parties")
   }
 }

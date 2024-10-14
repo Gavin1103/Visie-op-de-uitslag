@@ -7,6 +7,7 @@ import EmailConfirmation from '../views/EmailConfirmation.vue'
 import { UserService } from '@/services/UserService'
 import Unauthorized from '@/components/Unauthorized.vue'
 import PartyOverview from '@/views/PartyOverview.vue'
+import PartyView from '@/views/PartyView.vue'
 
 
 const userService = new UserService();
@@ -24,6 +25,12 @@ const router = createRouter({
       path: '/parties',
       name: 'parties',
       component: PartyOverview
+    },
+    {
+      path: '/party/:id',
+      name: 'party',
+      component: PartyView,
+      props: true
     },
     {
       path: '/login',
