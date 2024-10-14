@@ -4,5 +4,4 @@ export interface Party {
   id: number;
   name: string;
   image: string;
-  candidates: Candidate[];
 }
