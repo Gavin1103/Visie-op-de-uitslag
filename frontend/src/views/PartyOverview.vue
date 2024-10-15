@@ -7,7 +7,7 @@ import { ElectionService } from '@/services/ElectionService'
 export default {
   components: { PartyCard },
   setup(){
-    const parties = ref<Party[]>([{id: "1",name: "vvd",image: ""}]);
+    const parties = ref<Party[]>([]);
     const electionService = new ElectionService();
 
     const fetchParties = async () => {
@@ -19,7 +19,7 @@ export default {
        }
     }
     onMounted(() => {
-      // fetchParties();
+      fetchParties();
     });
 
     return {
@@ -27,16 +27,15 @@ export default {
     }
   }
 }
-
-
-
 </script>
 
 <template>
-  <div class="">
-    <div class="party-cards">
+  <div class="flex justify-center my-14">
+  <div class="w-10/12">
+    <div class="flex flex-wrap gap-6">
       <PartyCard v-for="party in parties" :key="party.id" :party="party" />
     </div>
+  </div>
   </div>
 </template>
 

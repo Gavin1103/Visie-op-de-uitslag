@@ -12,19 +12,17 @@ const ClickCard = (id: number) => {
 </script>
 
 <template>
-  <div class="party-card w-52">
-    <div class="card">
+  <div @click="ClickCard(party.id)" class="party-card">
       <img :src="party.image" alt="Party Logo" class="party-logo" />
-      <h3>{{ party.name }}</h3>
-      <button @click="ClickCard(party.id)">View Details</button>
-    </div>
+      <h3 class="text-2xl font-bold">{{ party.name }}</h3>
   </div>
 </template>
 
 <style scoped>
 .party-card {
   margin: 10px;
-  padding: 15px;
+  width: 150px;
+  padding: 10px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -32,32 +30,28 @@ const ClickCard = (id: number) => {
 }
 
 .party-card img {
-  width: 100px;
-  height: 100px;
+  height: 80px;
+  width: 130px;
   object-fit: cover;
-  border-radius: 50%;
+  background-color: #0056b3;
 }
 
 .party-card h3 {
-  margin: 10px 0;
-}
+  margin: 5px 0;
 
-.party-card p {
-  color: #666;
-  font-size: 0.9rem;
 }
 
 .party-card button {
   margin-top: 10px;
   padding: 8px 16px;
-  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.party-card button:hover {
-  background-color: #0056b3;
+.party-card:hover {
+  cursor: pointer;
+  background-color: #aaa5a5;
 }
 </style>
