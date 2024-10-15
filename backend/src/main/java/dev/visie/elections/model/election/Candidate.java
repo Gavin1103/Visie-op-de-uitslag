@@ -28,7 +28,7 @@ public class Candidate {
 
 
      @ManyToOne
-     @JoinColumn(name = "partyId", referencedColumnName = "partyId", insertable = false, updatable = false)
+     @JoinColumn(name = "party_id", referencedColumnName = "party_id", insertable = false, updatable = false)
     private Party party;
 
     @Override

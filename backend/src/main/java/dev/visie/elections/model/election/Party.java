@@ -14,6 +14,7 @@ import java.util.List;
 public class Party {
 
     @Id
+    @Column(name = "party_id")
     private int partyId;
 
     private String name;

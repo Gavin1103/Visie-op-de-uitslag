@@ -18,13 +18,13 @@ public class Votes {
 
     @ManyToOne
     @JoinColumns({
-        @JoinColumn(name = "partyId", referencedColumnName = "partyId", insertable = false, updatable = false),
-        @JoinColumn(name = "candidateId", referencedColumnName = "candidateId", insertable = false, updatable = false)
+        @JoinColumn(name = "party_id", referencedColumnName = "party_id", insertable = false, updatable = false),
+        @JoinColumn(name = "candidate_id", referencedColumnName = "candidate_id", insertable = false, updatable = false)
     })
     private Candidate candidate;
 
     @ManyToOne
-    @JoinColumn(name = "stationId", insertable = false, updatable = false)
+    @JoinColumn(name = "station_id", insertable = false, updatable = false)
     private Station station;
 
     public void setStation(Station station) {

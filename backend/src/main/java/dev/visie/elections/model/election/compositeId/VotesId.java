@@ -18,7 +18,7 @@ public class VotesId implements Serializable {
     @Embedded
     private CandidateId candidateId;  // Reusing CandidateId for partyId and candidateId
 
-    @Column(name = "stationId")  // Same applies to stationId
+    @Column(name = "station_id")  // Same applies to stationId
     private String stationId;  // New field for stationId
 
     @Override

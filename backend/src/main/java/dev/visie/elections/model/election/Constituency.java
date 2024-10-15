@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 public class Constituency {
     @Id
+    @Column(name = "constituency_id")
     private int constituencyId;
 
     private String name;

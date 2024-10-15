@@ -16,12 +16,13 @@ import java.util.List;
 @Entity
 public class Station {
     @Id
+    @Column(name = "station_id")
     private String stationId;
     private String name;
     private String zipcode;
 
      @ManyToOne
-    @JoinColumn(name = "municipalityId", nullable = false)
+    @JoinColumn(name = "municipality_id", nullable = false)
     private Municipality municipality;
     
 

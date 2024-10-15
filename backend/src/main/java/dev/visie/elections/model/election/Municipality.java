@@ -13,12 +13,13 @@ import java.util.List;
 @Entity
 public class Municipality {
     @Id
+    @Column(name = "municipality_id")
     private String municipalityId;
 
     private String name;
 
      @ManyToOne
-    @JoinColumn(name = "constituencyId", nullable = false)
+    @JoinColumn(name = "constituency_id", nullable = false)
     private Constituency constituency;
 
     @OneToMany(mappedBy = "municipality", cascade = CascadeType.ALL)
