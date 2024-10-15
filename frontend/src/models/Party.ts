@@ -1,5 +1,5 @@
 export interface Party {
-  id: number;
+  partyId: number;
   name: string;
   image: string;
 }

@@ -12,9 +12,11 @@ const ClickCard = (id: number) => {
 </script>
 
 <template>
-  <div @click="ClickCard(party.id)" class="party-card">
+  <div @click="ClickCard(party.partyId)" class="party-card">
       <img :src="party.image" alt="Party Logo" class="party-logo" />
-      <h3 class="text-2xl font-bold">{{ party.name }}</h3>
+      <div class="flex items-center flex-1 justify-center">
+        <h3 class="text-xl font-semibold">{{ party.name }}</h3>
+      </div>
   </div>
 </template>
 
@@ -23,6 +25,8 @@ const ClickCard = (id: number) => {
   margin: 10px;
   width: 150px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);

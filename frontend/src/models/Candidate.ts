@@ -1,5 +1,5 @@
 export interface Candidate {
-  id: number;
+  candidateId: number;
   firstName: string;
   lastName: string;
   initials: string;

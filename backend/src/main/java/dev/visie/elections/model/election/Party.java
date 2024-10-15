@@ -1,6 +1,5 @@
 package dev.visie.elections.model.election;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,7 +24,7 @@ public class Party {
 
     
     @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonManagedReference
     private List<Candidate> candidates = new ArrayList<>();
 
     @Override
