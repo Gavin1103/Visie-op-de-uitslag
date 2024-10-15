@@ -1,11 +1,10 @@
 package dev.visie.elections.controller;
 
+import dev.visie.elections.dto.PartyLogoDTO;
 import dev.visie.elections.model.election.Party;
 import dev.visie.elections.service.PartyService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +21,11 @@ public class ElectionController {
     @Operation(summary = "getting all the parties")
     public List<Party> getParties() {
         return partyService.getParties();
+    }
+
+    @PostMapping("set-partylogo")
+    @Operation(summary = "set the logo if the party in db")
+    public void setPartyLogo(@RequestBody PartyLogoDTO partyLogo) {
+        partyService.savePartyLogo(partyLogo.getLogo(), partyLogo.getId());
     }
 }

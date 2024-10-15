@@ -13,7 +13,7 @@ const ClickCard = (id: number) => {
 
 <template>
   <div @click="ClickCard(party.partyId)" class="party-card">
-      <img :src="`../../public/partyLogos/${party.image}.png`" alt="Party Logo" class="party-logo" />
+      <img :src="`../../public/partyLogos/${party.logo}.png`" alt="Party Logo" class="party-logo" />
       <div class="flex items-center flex-1 justify-center">
         <h3 class="text-xl font-semibold">{{ party.name }}</h3>
       </div>
