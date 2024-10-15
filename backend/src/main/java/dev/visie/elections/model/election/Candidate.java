@@ -1,6 +1,7 @@
 package dev.visie.elections.model.election;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import dev.visie.elections.model.election.compositeId.CandidateId;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,8 +28,9 @@ public class Candidate {
     private String locality;
 
 
-     @ManyToOne
-     @JoinColumn(name = "partyId", referencedColumnName = "partyId", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "party_id", referencedColumnName = "party_id", insertable = false, updatable = false)
+    @JsonBackReference
     private Party party;
 
     @Override

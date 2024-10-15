@@ -14,10 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Embeddable
 public class CandidateId implements Serializable {
-    @Column(name = "partyId")  // Make sure the column name matches
+    @Column(name = "party_id")  // Make sure the column name matches
     private int partyId;
 
-    @Column(name = "candidateId")  // Make sure the column name matches
+    @Column(name = "candidate_id")  // Make sure the column name matches
     private int candidateId;
 
     @Override
