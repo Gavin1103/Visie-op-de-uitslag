@@ -1,6 +1,5 @@
 import { DatabaseService } from '@/services/DatabaseService'
 import type { Party } from '@/models/Party'
-// import { Party } from '@/models/Party'
 
 export class ElectionService {
   private dbService: DatabaseService;
