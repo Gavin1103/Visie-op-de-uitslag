@@ -1,4 +1,41 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import {UserService} from '@/services/UserService'; // Import your UserService
+
+// Create a reactive reference for user data
+const user = ref({
+  username: '',
+  email: '',
+});
+
+// Assume the user ID is known or passed from a prop or route parameter
+const userId = 1; // Replace with dynamic ID as needed
+
+// Fetch user data using the UserService
+onMounted(async () => {
+  try {
+    const userService = new UserService(); // Create an instance of UserService
+    const [userData] = await Promise.all([userService.getUserById(userId)]); // Fetch user data by ID
+    user.value = userData;
+    console.log(user.value);
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+});
+
+// Mock methods for actions (you can replace them with actual logic)
+const uploadPicture = () => {
+  console.log("Uploading picture...");
+};
+const changePassword = () => {
+  console.log("Change password...");
+};
+const editAccount = () => {
+  console.log("Edit account...");
+};
+const deleteAccount = () => {
+  console.log("Delete account...");
+};
 </script>
 
 <template>
@@ -18,20 +55,12 @@
     <!-- User Info Section on the Right -->
     <div class="user-info bg-white p-6 rounded-lg shadow-lg w-2/3 ml-auto space-y-4">
       <div class="border border-gray-300 p-4 rounded-md">
-        <p class="text-lg font-semibold"><strong>First Name:</strong></p>
-        <p class="text-lg">{{}}</p>
-      </div>
-      <div class="border border-gray-300 p-4 rounded-md">
-        <p class="text-lg font-semibold"><strong>Last Name:</strong></p>
-        <p class="text-lg">{{}}</p>
+        <p class="text-lg font-semibold"><strong>Username:</strong></p>
+        <p class="text-lg">{{ user.username   }}</p>
       </div>
       <div class="border border-gray-300 p-4 rounded-md">
         <p class="text-lg font-semibold"><strong>Email:</strong></p>
-        <p class="text-lg">{{}}</p>
-      </div>
-      <div class="border border-gray-300 p-4 rounded-md">
-        <p class="text-lg font-semibold"><strong>Birthdate:</strong></p>
-        <p class="text-lg">{{}}</p>
+        <p class="text-lg">{{ user.email }}</p>
       </div>
 
       <!-- Action Buttons Aligned with User Info -->
@@ -51,4 +80,5 @@
 </template>
 
 <style>
+/* Add your custom styles if needed */
 </style>

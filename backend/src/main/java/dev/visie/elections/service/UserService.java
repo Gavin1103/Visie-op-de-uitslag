@@ -34,4 +34,15 @@ public class UserService {
     public List<User> getUsers() {
         return userRepository.findAll();
     }
+
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param id the ID of the user
+     * @return the user with the specified ID
+     */
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
 }
