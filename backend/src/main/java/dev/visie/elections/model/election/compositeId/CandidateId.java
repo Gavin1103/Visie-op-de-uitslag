@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Embeddable
 public class CandidateId implements Serializable {
+
     @Column(name = "party_id")  // Make sure the column name matches
     private int partyId;
 
