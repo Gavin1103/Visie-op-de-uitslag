@@ -1,0 +1,26 @@
+<hibernate-configuration>
+    <session-factory>
+        <!-- JDBC Database connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/elections</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">password</property>
+
+        <!-- JDBC connection pool settings -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Other configurations -->
+        <property name="hibernate.hbm2ddl.auto">update</property> <!-- Change according to your needs -->
+
+        <mapping class="nl.hva.ict.se.sm3.demo.models.Party"/>
+        <mapping class="nl.hva.ict.se.sm3.demo.models.Candidate"/>
+        <mapping class="nl.hva.ict.se.sm3.demo.models.Station"/>
+        <mapping class="nl.hva.ict.se.sm3.demo.models.Votes"/>
+        <mapping class="nl.hva.ict.se.sm3.demo.models.Constituency"/>
+        <mapping class="nl.hva.ict.se.sm3.demo.models.Municipality"/>
+    </session-factory>
+</hibernate-configuration>
