@@ -1,21 +1,56 @@
 <script  lang="ts">
 
 import { useRoute } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import type { fullParty } from '@/models/Party'
+import type { ElectionService } from '@/services/ElectionService'
 
 export default {
   setup() {
     const route = useRoute();
     const id = route.params.id;
+    const party = ref<fullParty>()
+
+    const electionService: ElectionService = new ElectionService();
+
+    const fetchParty = async () => {
+      try{
+        party.value = await electionService.getPartyById(id);
+      }
+      catch (error){
+        console.error("no party found:", error);
+      }
+    }
+
+    onMounted(() => {
+      fetchParty();
+    })
+
 
     return {
-      id
+      party
     }
   }
 }
 </script>
 
 <template>
-  <div class="text-7xl">{{id}}</div>
+  <div class="party-details p-6 bg-white shadow-md rounded-md">
+    <h1 class="party-name text-3xl font-bold mb-4">{{ party?.name }}</h1>
+
+    <p class="votes text-lg text-gray-700">Total Votes: <span class="font-semibold">{{ totalVotes }}</span></p>
+
+    <h2 class="candidates-title text-2xl mt-6 mb-2 font-semibold">Candidates</h2>
+
+    <ul class="candidate-list space-y-2">
+      <li v-for="candidate in candidates" :key="candidate.id" class="candidate-item p-4 bg-gray-100 rounded-md shadow-sm">
+        <div class="flex justify-between items-center">
+          <span class="candidate-name font-medium text-lg">{{ candidate.firstName }} {{ candidate.lastName }}</span>
+          <span class="candidate-votes text-gray-600">{{ candidate.votes }} votes</span>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style scoped>

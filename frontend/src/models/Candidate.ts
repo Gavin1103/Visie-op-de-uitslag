@@ -7,3 +7,10 @@ export interface Candidate {
   locality: string;
   partyId: number;
 }
+
+export interface CandidateWithVotes {
+  candidateId: number;
+  partyId: number;
+  fullName: string;
+  votes: number;
+}

@@ -1,5 +1,6 @@
 package dev.visie.elections.service;
 
+import dev.visie.elections.dto.party.PartyPageResponse;
 import dev.visie.elections.model.election.Party;
 import dev.visie.elections.repository.PartyRepository;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,12 @@ public class PartyService {
 
         party.setLogo(logo);
         partyRepository.save(party);
+    }
+
+    public PartyPageResponse getPartyPageInfo(int id){
+        PartyPageResponse party = partyRepository.getPartyPageInfo(id);
+
+        
+
     }
 }

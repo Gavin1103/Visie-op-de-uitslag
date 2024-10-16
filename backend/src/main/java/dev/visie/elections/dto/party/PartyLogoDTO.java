@@ -1,4 +1,4 @@
-package dev.visie.elections.dto;
+package dev.visie.elections.dto.party;
 
 import lombok.Getter;
 import lombok.Setter;
