@@ -13,6 +13,6 @@ export class ElectionService {
   }
 
   async getPartyById(id: number): Promise<fullParty> {
-    return await this.dbService.get<Party>(`election/party/${id}`);
+    return await this.dbService.get<fullParty>(`election/party/${id}`);
   }
 }

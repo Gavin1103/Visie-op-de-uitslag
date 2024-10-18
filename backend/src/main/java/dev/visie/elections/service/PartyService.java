@@ -1,8 +1,10 @@
 package dev.visie.elections.service;
 
+import dev.visie.elections.dto.candidate.CandidateWithVotes;
 import dev.visie.elections.dto.party.PartyPageResponse;
 import dev.visie.elections.model.election.Party;
 import dev.visie.elections.repository.PartyRepository;
+import dev.visie.elections.repository.VotesRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +13,11 @@ import java.util.List;
 public class PartyService {
 
     private final PartyRepository partyRepository;
+    private final VotesRepository votesRepository;
 
-    public PartyService(PartyRepository partyRepository) {
+    public PartyService(PartyRepository partyRepository, VotesRepository votesRepository) {
         this.partyRepository = partyRepository;
+        this.votesRepository = votesRepository;
     }
 
     public List<Party> getParties(){
@@ -29,8 +33,8 @@ public class PartyService {
 
     public PartyPageResponse getPartyPageInfo(int id){
         PartyPageResponse party = partyRepository.getPartyPageInfo(id);
-
-        
-
+        List<CandidateWithVotes> candidates = votesRepository.getCandidateWithVotes(id);
+        party.setCandidates(candidates);
+        return party;
     }
 }

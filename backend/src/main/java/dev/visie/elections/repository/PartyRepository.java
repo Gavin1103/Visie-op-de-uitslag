@@ -12,7 +12,7 @@ public interface PartyRepository extends JpaRepository<Party, Integer> {
 
     @Query("SELECT new dev.visie.elections.dto.party.PartyPageResponse(p.partyId, p.name, p.logo, SUM(v.amount)) " +
             "FROM Party p " +
-            "JOIN Votes v " +
+            "JOIN Votes v ON p.partyId = v.votesId.candidateId.partyId " +
             "WHERE p.partyId = :partyId " +
             "GROUP BY p.partyId, p.name, p.logo")
     PartyPageResponse getPartyPageInfo(@Param("partyId") int partyId);

@@ -9,8 +9,12 @@ export interface Candidate {
 }
 
 export interface CandidateWithVotes {
-  candidateId: number;
-  partyId: number;
+  candidateId: CandidateId
   fullName: string;
   votes: number;
+}
+
+type CandidateId = {
+  candidateId: number;
+  partyId: number;
 }
