@@ -19,6 +19,6 @@ public interface VotesRepository extends JpaRepository<Votes, VotesId> {
             "JOIN v.candidate c " +
             "WHERE v.votesId.candidateId.partyId = :partyId " +
             "GROUP BY c.candidateId.candidateId, c.candidateId.partyId, c.firstName, c.lastName, c.lastNamePrefix " +
-            "ORDER BY c.candidateId.candidateId")
+            "ORDER BY SUM(v.amount) DESC")
     List<CandidateWithVotes> getCandidateWithVotes(@Param("partyId") int partyId);
 }
