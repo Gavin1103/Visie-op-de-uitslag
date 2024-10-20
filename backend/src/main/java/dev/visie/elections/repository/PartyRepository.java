@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface PartyRepository extends JpaRepository<Party, Integer> {
 
     @Query("SELECT new dev.visie.elections.dto.party.PartyPageResponse(p.partyId, p.name, p.logo, SUM(v.amount)) " +
-            "FROM Party p " +
-            "JOIN Votes v ON p.partyId = v.votesId.candidateId.partyId " +
+            "FROM Votes v " +
+            "JOIN v.party p " +
             "WHERE p.partyId = :partyId " +
             "GROUP BY p.partyId, p.name, p.logo")
     PartyPageResponse getPartyPageInfo(@Param("partyId") int partyId);

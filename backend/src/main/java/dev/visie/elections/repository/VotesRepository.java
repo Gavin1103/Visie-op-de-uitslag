@@ -13,11 +13,12 @@ import java.util.List;
 @Repository
 public interface VotesRepository extends JpaRepository<Votes, VotesId> {
 
-    @Query("SELECT new dev.visie.elections.dto.candidate.CandidateWithVotes(c.candidateId, CONCAT(c.firstName, ' ', c.lastName), SUM(v.amount)) " +
+    @Query("SELECT new dev.visie.elections.dto.candidate.CandidateWithVotes(c.candidateId, " +
+            "CONCAT(CONCAT(CONCAT(c.firstName, ' '), COALESCE(c.lastNamePrefix, '')), ' ', c.lastName), SUM(v.amount)) " +
             "FROM Votes v " +
             "JOIN v.candidate c " +
             "WHERE v.votesId.candidateId.partyId = :partyId " +
-            "GROUP BY c.candidateId.candidateId, c.candidateId.partyId, c.firstName, c.lastName " + // Correct field reference
+            "GROUP BY c.candidateId.candidateId, c.candidateId.partyId, c.firstName, c.lastName, c.lastNamePrefix " +
             "ORDER BY c.candidateId.candidateId")
     List<CandidateWithVotes> getCandidateWithVotes(@Param("partyId") int partyId);
 }
