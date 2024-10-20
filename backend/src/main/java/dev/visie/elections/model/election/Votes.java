@@ -27,6 +27,10 @@ public class Votes {
     @JoinColumn(name = "station_id", insertable = false, updatable = false)
     private Station station;
 
+    @ManyToOne
+    @JoinColumn(name = "party_id", referencedColumnName = "party_id", insertable = false, updatable = false)
+    private Party party;
+
     public void setStation(Station station) {
         this.station = station;
     }
