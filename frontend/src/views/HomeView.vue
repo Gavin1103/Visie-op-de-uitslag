@@ -5,17 +5,16 @@ import type { PartyWithVotes } from "@/models/Party";
 import {onMounted, ref} from "vue";
 import type {TotalAmountOfVotes} from "@/models/votes";
 import {VotesService} from "@/services/VotesService";
+import BarChartComponent from "@/components/chart/BarChartComponent.vue";
 
 const partyService = new PartyService();
 const votesService = new VotesService();
 
-const partiesWithVotes = ref<PartyWithVotes[]>([]);
 const electedParty = ref<PartyWithVotes | null>(null);
 const totalAmountOfVotes = ref<TotalAmountOfVotes | null>(null);
 
 const fetchData = async () => {
   try {
-    partiesWithVotes.value = await partyService.getPartiesWithVotes();
     electedParty.value = await partyService.getElectedParty();
     totalAmountOfVotes.value = await votesService.getTotalAmountOfVotes();
 
@@ -51,5 +50,6 @@ const formatNumber = (number: number): string => {
         <p class="text-5xl font-black">{{ totalAmountOfVotes?.electoralQuota ? formatNumber(totalAmountOfVotes.electoralQuota) : '' }}</p>
       </section>
     </section>
+    <BarChartComponent></BarChartComponent>
   </main>
 </template>
