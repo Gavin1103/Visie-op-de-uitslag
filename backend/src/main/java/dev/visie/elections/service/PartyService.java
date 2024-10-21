@@ -38,7 +38,7 @@ public class PartyService {
         List<Object[]> results = votesRepository.getPartiesOrderedByVotes();
 
         if (results != null) {
-            PartyDTO electedParty = PartyDTO.partyMapperDTO(results.get(0));
+            PartyDTO electedParty = PartyDTO.customPartyMapperDTO(results.get(0));
             return new ResponseEntity<>(electedParty, HttpStatus.OK);
         }
         return new ResponseEntity<>("Parties not found", HttpStatus.NOT_FOUND);
@@ -49,7 +49,7 @@ public class PartyService {
         List<Object[]> results = votesRepository.getPartiesOrderedByVotes();
 
         if (results != null) {
-            List<PartyDTO> partyDTOs =  PartyDTO.partiesMapperDTO(results);
+            List<PartyDTO> partyDTOs =  PartyDTO.customPartiesMapperDTO(results);
             return new ResponseEntity<>(partyDTOs, HttpStatus.OK);
         }
         return new ResponseEntity<>("Parties not found", HttpStatus.NOT_FOUND);

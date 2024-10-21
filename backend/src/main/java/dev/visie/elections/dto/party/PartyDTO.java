@@ -2,6 +2,7 @@ package dev.visie.elections.dto.party;
 
 import jakarta.validation.constraints.NotBlank;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,9 @@ public class PartyDTO {
 
     private static final String REQUIRED = "required";
 
+    @NotNull
+    private int partyId;
+
     @NotBlank(message = REQUIRED)
     private String name;
 
@@ -27,20 +31,21 @@ public class PartyDTO {
 
     private int amountOfVotes;
 
-    public static PartyDTO partyMapperDTO(Object[] party) {
+    public static PartyDTO customPartyMapperDTO(Object[] party) {
 
         if (party != null) {
 
             return PartyDTO.builder()
-                    .name((String) party[0])
-                    .logo((String) party[1])
-                    .amountOfVotes(((Number) party[2]).intValue())
+                    .partyId(((Number) party[0]).intValue())
+                    .name((String) party[1])
+                    .logo((String) party[2])
+                    .amountOfVotes(((Number) party[3]).intValue())
                     .build();
         }
         return null;
     }
 
-    public static List<PartyDTO> partiesMapperDTO(List<Object[]> parties) {
+    public static List<PartyDTO> customPartiesMapperDTO(List<Object[]> parties) {
 
         if (parties != null) {
 
@@ -48,9 +53,10 @@ public class PartyDTO {
 
             partyDTOs = parties.stream()
                     .map(result -> PartyDTO.builder()
-                            .name((String) result[0])
-                            .logo((String) result[1])
-                            .amountOfVotes(((Number) result[2]).intValue())
+                            .partyId(((Number) result[0]).intValue())
+                            .name((String) result[1])
+                            .logo((String) result[2])
+                            .amountOfVotes(((Number) result[3]).intValue())
                             .build()
                     )
                     .collect(Collectors.toList());
