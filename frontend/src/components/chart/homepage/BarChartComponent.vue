@@ -40,6 +40,7 @@ const chartOptions = ref({
         text: 'Aantal Stemmen / Zetels',
       },
       beginAtZero: true,
+      suggestedMax: 0,
     },
   },
   onHover(event, elements) {
@@ -64,37 +65,31 @@ const chartOptions = ref({
 const updateChartData = () => {
   let label = '';
   let showData = [];
+  let suggestedMax = 0;
 
   // Show data for seats
   if (props.chartType === 'seats') {
     label = 'Aantal zetels';
     showData = partiesWithVotes.value.map(party => party.amountOfSeats);
-    chartOptions.value = {
-      ...chartOptions.value,
-      scales: {
-        ...chartOptions.value.scales,
-        y: {
-          ...chartOptions.value.scales.y,
-          suggestedMax: Math.max(...showData) * 1.6,
-        },
-      },
-    };
+    suggestedMax = Math.max(...showData) * 1.6;
   }
 
   // Show data for votes
   if (props.chartType === 'votes') {
     label = 'Aantal stemmen';
     showData = partiesWithVotes.value.map(party => party.amountOfVotes);
-    chartOptions.value = {
-      ...chartOptions.value,
-      scales: {
-        ...chartOptions.value.scales,
-        y: {
-          ...chartOptions.value.scales.y,
-          suggestedMax: Math.max(...showData) * 1.2,
-        },
+    suggestedMax = Math.max(...showData) * 1.2;
+  }
+
+  chartOptions.value = {
+    ...chartOptions.value,
+    scales: {
+      ...chartOptions.value.scales,
+      y: {
+        ...chartOptions.value.scales.y,
+        suggestedMax: suggestedMax,
       },
-    };
+    },
   }
 
   chartData.value = {
@@ -129,7 +124,7 @@ onMounted(() => {
 
 <template>
   <section class="w-full flex justify-center">
-    <div class="w-9/12 overflow-x-auto">
+    <div class="w-full overflow-x-auto">
       <div :style="{ width: partiesWithVotes.length * 100 + 'px', height: '700px' }">
         <Bar v-if="chartData" :data="chartData" :options="chartOptions"/>
         <p v-else></p>

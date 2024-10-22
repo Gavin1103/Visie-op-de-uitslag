@@ -40,36 +40,38 @@ function updateBarChartDisplayInfo(value: string) {
 </script>
 
 <template>
-  <main>
-    <section class="w-full h-auto flex flex-col items-center">
-      <section class="mb-2.5 flex flex-col items-center">
-        <p class="text-xl font-black">Winnaar</p>
-        <p class="text-6xl font-black">{{ electedParty?.name }}</p>
-        <img style="height:200px" src="../../../public/pvv-logo.png" alt="elected party logo"/>
+  <main class="flex justify-center">
+    <div class="w-3/4">
+      <section class="w-full h-auto flex flex-col items-center">
+        <section class="mb-2.5 flex flex-col items-center">
+          <p class="text-xl font-black">Winnaar</p>
+          <p class="text-6xl font-black">{{ electedParty?.name }}</p>
+          <img style="height:200px" src="../../../public/pvv-logo.png" alt="elected party logo"/>
+        </section>
+        <section class="mb-3.5 flex flex-col items-center">
+          <p class="text-xl font-black">Totaal aantal stemmen</p>
+          <p class="text-5xl font-black">
+            {{ totalAmountOfVotes?.totalAmountOfVotes ? formatNumber(totalAmountOfVotes.totalAmountOfVotes) : '' }}</p>
+        </section>
+        <section class="mb-3.5 flex flex-col items-center">
+          <p class="text-xl font-black">Kiesdeler</p>
+          <p class="text-5xl font-black">
+            {{ totalAmountOfVotes?.electoralQuota ? formatNumber(totalAmountOfVotes.electoralQuota) : '' }}</p>
+        </section>
       </section>
-      <section class="mb-3.5 flex flex-col items-center">
-        <p class="text-xl font-black">Totaal aantal stemmen</p>
-        <p class="text-5xl font-black">
-          {{ totalAmountOfVotes?.totalAmountOfVotes ? formatNumber(totalAmountOfVotes.totalAmountOfVotes) : '' }}</p>
+      <section class="w-full flex justify-center space-x-4 py-4">
+        <button
+            :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'votes' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+            @click="updateBarChartDisplayInfo('votes')">
+          Stemmen
+        </button>
+        <button
+            :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'seats' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+            @click="updateBarChartDisplayInfo('seats')">
+          Zetels
+        </button>
       </section>
-      <section class="mb-3.5 flex flex-col items-center">
-        <p class="text-xl font-black">Kiesdeler</p>
-        <p class="text-5xl font-black">
-          {{ totalAmountOfVotes?.electoralQuota ? formatNumber(totalAmountOfVotes.electoralQuota) : '' }}</p>
-      </section>
-    </section>
-    <section class="w-full flex justify-center space-x-4 py-4">
-      <button
-          :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'votes' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
-          @click="updateBarChartDisplayInfo('votes')">
-        Stemmen
-      </button>
-      <button
-          :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'seats' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
-          @click="updateBarChartDisplayInfo('seats')">
-        Zetels
-      </button>
-    </section>
-    <BarChartComponent :chartType="barChartDisplayInfo"/>
+      <BarChartComponent :chartType="barChartDisplayInfo"/>
+    </div>
   </main>
 </template>
