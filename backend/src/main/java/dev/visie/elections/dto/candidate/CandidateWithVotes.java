@@ -17,13 +17,13 @@ public class CandidateWithVotes {
 
     public static CandidateWithVotes DTOMapper(Object [] candidate) {
         if (candidate != null) {
-            CandidateId candidateId = new CandidateId(((Number) candidate[0]).intValue(), ((Number) candidate[1]).intValue());
+            CandidateId candidateId = new CandidateId(((Number) candidate[1]).intValue(), ((Number) candidate[0]).intValue());
             String fullName;
             if(candidate[3] != null) {
-               fullName = (String) candidate[2] +  " " + candidate[3] + " " + candidate[4];
+               fullName = candidate[2] +  " " + candidate[3] + " " + candidate[4];
             }
             else {
-                fullName = (String) candidate[2] + " " + candidate[4];
+                fullName = candidate[2] + " " + candidate[4];
             }
             Long votes = ((Number) candidate[5]).longValue();
 
