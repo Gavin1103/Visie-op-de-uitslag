@@ -26,16 +26,18 @@ public class DatabaseSeeder implements CommandLineRunner {
         CreateUserDTO userDto = new CreateUserDTO(
                 "User",
                 "user@user.com",
-                "tester"
+                "tester",
+                RoleEnum.USER
         );
 
-        this.authenticationService.register(userDto, RoleEnum.USER, true);
+        this.authenticationService.register(userDto, userDto.getRoleName(), true);
 
         CreateUserDTO adminDto = new CreateUserDTO(
                 "Admin",
                 "admin@admin.com",
-                "admin"
+                "admin",
+                RoleEnum.ADMIN
         );
-        this.authenticationService.register(adminDto, RoleEnum.ADMIN, true);
+        this.authenticationService.register(adminDto, adminDto.getRoleName(), true);
     }
 }

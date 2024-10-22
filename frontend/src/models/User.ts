@@ -9,7 +9,7 @@ export interface User {
 }
 
 export interface getUser {
-  userId: number;
+  id: number;
   username: string;
   email: string;
   enabled: boolean;
@@ -20,6 +20,14 @@ export interface NewUser {
   username: string;
   email: string;
   password: string;
+  roleName?: Role;
+}
+
+export enum Role {
+  ADMIN,
+  PARTYMEMBER,
+  USER,
+  VERIFIED,
 }
 
 export interface LoginUser {
