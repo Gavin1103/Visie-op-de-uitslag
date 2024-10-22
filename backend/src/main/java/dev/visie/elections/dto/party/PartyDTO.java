@@ -1,5 +1,6 @@
 package dev.visie.elections.dto.party;
 
+import dev.visie.elections.service.VotesService;
 import jakarta.validation.constraints.NotBlank;
 
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +18,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PartyDTO {
 
-
     private static final String REQUIRED = "required";
 
     @NotNull
@@ -29,40 +29,29 @@ public class PartyDTO {
     @NotBlank(message = REQUIRED)
     private String logo;
 
-    private int amountOfVotes;
+    Long amountOfVotes;
 
-    public static PartyDTO customPartyMapperDTO(Object[] party) {
+    private int amountOfSeats;
+
+    public static PartyDTO customPartyMapperDTO(Object[] party, VotesService votesService) {
 
         if (party != null) {
 
+            int partyId = ((Number) party[0]).intValue();
+            String name = (String) party[1];
+            String logo = (String) party[2];
+            long amountOfVotes = ((Number) party[3]).longValue();
+            int amountOfSeats = votesService.calculateAmountOfSeats((int) amountOfVotes);
+
             return PartyDTO.builder()
-                    .partyId(((Number) party[0]).intValue())
-                    .name((String) party[1])
-                    .logo((String) party[2])
-                    .amountOfVotes(((Number) party[3]).intValue())
+                    .partyId(partyId)
+                    .name(name)
+                    .logo(logo)
+                    .amountOfVotes(amountOfVotes)
+                    .amountOfSeats(amountOfSeats)
                     .build();
         }
-        return null;
-    }
 
-    public static List<PartyDTO> customPartiesMapperDTO(List<Object[]> parties) {
-
-        if (parties != null) {
-
-            List<PartyDTO> partyDTOs;
-
-            partyDTOs = parties.stream()
-                    .map(result -> PartyDTO.builder()
-                            .partyId(((Number) result[0]).intValue())
-                            .name((String) result[1])
-                            .logo((String) result[2])
-                            .amountOfVotes(((Number) result[3]).intValue())
-                            .build()
-                    )
-                    .collect(Collectors.toList());
-
-            return partyDTOs;
-        }
         return null;
     }
 }

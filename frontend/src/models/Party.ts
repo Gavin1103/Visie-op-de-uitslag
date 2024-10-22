@@ -9,4 +9,5 @@ export interface PartyWithVotes {
   name: string;
   logo: string;
   amountOfVotes: number;
+  amountOfSeats:number;
 }

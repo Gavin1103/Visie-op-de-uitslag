@@ -18,18 +18,30 @@ public class VotesService {
         this.votesRepository = votesRepository;
     }
 
-    public ResponseEntity<?> getTotalAmountOfVotes() {
+    public TotalAmountOfVotesDTO getTotalAmountOfVotes() {
         int totalAmountOfVotes = votesRepository.getTotalAmountOfVotes();
         if (totalAmountOfVotes != 0) {
 
-            double electoralQuota = (double) totalAmountOfVotes / 150;
-            int roundedElectoralQuota = (int) Math.round(electoralQuota);
+            int electoralQuota = this.calculateElectoralQuota(totalAmountOfVotes);
 
-            return new ResponseEntity<>(TotalAmountOfVotesDTO.builder()
+            return TotalAmountOfVotesDTO.builder()
                     .totalAmountOfVotes(totalAmountOfVotes)
-                    .electoralQuota(roundedElectoralQuota)
-                    .build(), HttpStatus.OK);
+                    .electoralQuota(electoralQuota)
+                    .build();
         }
-        return new ResponseEntity<>("No votes found", HttpStatus.NOT_FOUND);
+        return null;
     }
+
+    public int calculateAmountOfSeats(int amountOfVotes) {
+
+        int electoralQuota = this.getTotalAmountOfVotes().getElectoralQuota();
+        return (int) Math.floor(amountOfVotes / (double) electoralQuota);
+    }
+
+    private int calculateElectoralQuota(int totalAmountOfVotes) {
+
+        double electoralQuota = (double) totalAmountOfVotes / 150;
+        return (int) Math.round(electoralQuota);
+    }
+
 }

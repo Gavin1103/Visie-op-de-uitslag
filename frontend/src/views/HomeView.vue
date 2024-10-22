@@ -1,23 +1,26 @@
 <script setup lang="ts">
 
-import { PartyService } from "@/services/PartyService";
-import type { PartyWithVotes } from "@/models/Party";
+import {PartyService} from "@/services/PartyService";
+import type {PartyWithVotes} from "@/models/Party";
 import {onMounted, ref} from "vue";
 import type {TotalAmountOfVotes} from "@/models/votes";
 import {VotesService} from "@/services/VotesService";
-import BarChartComponent from "@/components/chart/BarChartComponent.vue";
+import BarChartComponent from "@/components/chart/homepage/BarChartComponent.vue";
+
+const barChartDisplayInfo = ref<string>('votes');
 
 const partyService = new PartyService();
 const votesService = new VotesService();
 
 const electedParty = ref<PartyWithVotes | null>(null);
 const totalAmountOfVotes = ref<TotalAmountOfVotes | null>(null);
+const partiesWithVotes = ref<PartyWithVotes[]>([]);
 
 const fetchData = async () => {
   try {
     electedParty.value = await partyService.getElectedParty();
     totalAmountOfVotes.value = await votesService.getTotalAmountOfVotes();
-
+    partiesWithVotes.value = await partyService.getPartiesWithVotes();
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -31,6 +34,9 @@ const formatNumber = (number: number): string => {
   return new Intl.NumberFormat('nl-NL').format(number);
 };
 
+function updateBarChartDisplayInfo(value: string) {
+  barChartDisplayInfo.value = value;
+}
 </script>
 
 <template>
@@ -43,13 +49,27 @@ const formatNumber = (number: number): string => {
       </section>
       <section class="mb-3.5 flex flex-col items-center">
         <p class="text-xl font-black">Totaal aantal stemmen</p>
-        <p class="text-5xl font-black">{{ totalAmountOfVotes?.totalAmountOfVotes ? formatNumber(totalAmountOfVotes.totalAmountOfVotes) : '' }}</p>
+        <p class="text-5xl font-black">
+          {{ totalAmountOfVotes?.totalAmountOfVotes ? formatNumber(totalAmountOfVotes.totalAmountOfVotes) : '' }}</p>
       </section>
       <section class="mb-3.5 flex flex-col items-center">
         <p class="text-xl font-black">Kiesdeler</p>
-        <p class="text-5xl font-black">{{ totalAmountOfVotes?.electoralQuota ? formatNumber(totalAmountOfVotes.electoralQuota) : '' }}</p>
+        <p class="text-5xl font-black">
+          {{ totalAmountOfVotes?.electoralQuota ? formatNumber(totalAmountOfVotes.electoralQuota) : '' }}</p>
       </section>
     </section>
-    <BarChartComponent></BarChartComponent>
+    <section class="w-full flex justify-center space-x-4 py-4">
+      <button
+          :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'votes' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+          @click="updateBarChartDisplayInfo('votes')">
+        Stemmen
+      </button>
+      <button
+          :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'seats' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+          @click="updateBarChartDisplayInfo('seats')">
+        Zetels
+      </button>
+    </section>
+    <BarChartComponent :chartType="barChartDisplayInfo"/>
   </main>
 </template>

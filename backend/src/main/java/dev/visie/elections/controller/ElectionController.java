@@ -1,6 +1,7 @@
 package dev.visie.elections.controller;
 
 import dev.visie.elections.dto.PartyLogoDTO;
+import dev.visie.elections.dto.votes.TotalAmountOfVotesDTO;
 import dev.visie.elections.model.election.Party;
 import dev.visie.elections.service.PartyService;
 import dev.visie.elections.service.VotesService;
@@ -34,20 +35,20 @@ public class ElectionController {
     }
 
     @GetMapping("parties/votes")
-    @Operation(summary = "get all parties ordered by votes (DESC)")
-    public ResponseEntity<?> getPartiesWithVotes() {
-        return partyService.getPartiesWithVotes();
+    @Operation(summary = "get all parties ordered by votes (DESC) and with seats")
+    public ResponseEntity<?> getPartiesWithStatistics() {
+        return partyService.getPartiesWithStatistics();
     }
 
     @GetMapping("/electedParty")
     @Operation(summary = "Get the elected party")
     public ResponseEntity<?> getElectedParty() {
-        return partyService.getPartyWithTheMostVotes();
+        return partyService.getElectedParty();
     }
 
     @GetMapping("/totalAmountOfVotes")
     @Operation(summary = "Get the total amount of votes and electoral quota")
-    public ResponseEntity<?> getTotalAmountOfVotes() {
+    public TotalAmountOfVotesDTO getTotalAmountOfVotes() {
         return votesService.getTotalAmountOfVotes();
     }
 }
