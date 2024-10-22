@@ -52,12 +52,12 @@ const chartOptions = ref({
   },
 });
 
-const updateChartData = (chartType: string) => {
+const updateChartData = () => {
   let label = '';
   let showData = [];
 
   // Show data for seats
-  if (chartType === 'seats') {
+  if (props.chartType === 'seats') {
     label = 'Aantal zetels';
     showData = partiesWithVotes.value.map(party => party.amountOfSeats);
     chartOptions.value = {
@@ -73,7 +73,7 @@ const updateChartData = (chartType: string) => {
   }
 
   // Show data for votes
-  if (chartType === 'votes') {
+  if (props.chartType === 'votes') {
     label = 'Aantal stemmen';
     showData = partiesWithVotes.value.map(party => party.amountOfVotes);
     chartOptions.value = {
@@ -106,12 +106,11 @@ const updateChartData = (chartType: string) => {
 
 const fetchData = async () => {
   partiesWithVotes.value = await partyService.getPartiesWithVotes();
-  updateChartData(props.chartType);
+  updateChartData();
 };
 
 watch(() => props.chartType, () => {
-  updateChartData(props.chartType);
-  console.log(props.chartType);
+  updateChartData();
 });
 
 onMounted(() => {
