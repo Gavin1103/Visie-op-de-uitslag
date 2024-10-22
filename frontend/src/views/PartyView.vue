@@ -46,7 +46,9 @@ export default {
       <img :src="`../../public/partyLogos/${party.logo}.png`" alt="Party Logo" class="party-logo" />
     </section>
     <p class="votes text-xl text-gray-700">Aantal stemmen:</p>
-    <span class="text-5xl font-semibold">{{ party?.totalVotes }}</span>
+    <span class="text-5xl font-semibold">{{ party?.amountOfVotes }}</span>
+    <p class="mt-5 votes text-xl text-gray-700">zetels:</p>
+    <span class="text-5xl font-semibold">{{ party?.amountOfSeats }}</span>
     <h2 class="candidates-title text-2xl mt-6 mb-2 font-semibold">Kandidaten:</h2>
 
     <ul class="w-full space-y-2">

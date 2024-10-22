@@ -1,6 +1,6 @@
 package dev.visie.elections.controller;
 
-import dev.visie.elections.dto.party.PartyPageResponse;
+import dev.visie.elections.dto.party.PartyDTO;
 import dev.visie.elections.dto.party.PartyLogoDTO;
 import dev.visie.elections.dto.votes.TotalAmountOfVotesDTO;
 import dev.visie.elections.model.election.Party;
@@ -55,7 +55,7 @@ public class ElectionController {
 
     @GetMapping("party/{id}")
     @Operation(summary = "get a party for the party page by the id")
-    public PartyPageResponse getPartyById(@PathVariable int id) {
+    public PartyDTO getPartyById(@PathVariable int id) {
         return partyService.getPartyPageInfo(id);
     }
 }

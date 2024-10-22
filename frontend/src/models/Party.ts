@@ -11,8 +11,8 @@ export interface PartyWithCandidates {
   name: string;
   logo: string;
   candidates: CandidateWithVotes[];
-  totalVotes: number;
-  totalSeats: number;
+  amountOfVotes: number;
+  amountOfSeats: number;
 }
 
 export interface PartyWithVotes {
