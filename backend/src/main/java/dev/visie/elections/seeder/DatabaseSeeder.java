@@ -1,14 +1,12 @@
 package dev.visie.elections.seeder;
 
-import dev.visie.elections.dto.CreateUserDTO;
+import dev.visie.elections.dto.user.CreateUserDTO;
 import dev.visie.elections.model.enums.RoleEnum;
 import dev.visie.elections.service.AuthenticationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 @Order(1)

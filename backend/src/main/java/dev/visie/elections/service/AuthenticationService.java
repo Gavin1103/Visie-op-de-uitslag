@@ -1,7 +1,7 @@
 package dev.visie.elections.service;
 
 import dev.visie.elections.dto.AuthenticationResponse;
-import dev.visie.elections.dto.CreateUserDTO;
+import dev.visie.elections.dto.user.CreateUserDTO;
 import dev.visie.elections.dto.ForgotPasswordResponse;
 import dev.visie.elections.dto.JwtRequest;
 import dev.visie.elections.model.ConfirmationToken;
