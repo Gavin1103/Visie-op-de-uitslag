@@ -6,6 +6,7 @@ import {onMounted, ref} from "vue";
 import type {TotalAmountOfVotes} from "@/models/votes";
 import {VotesService} from "@/services/VotesService";
 import BarChartComponent from "@/components/chart/homepage/BarChartComponent.vue";
+import {formatNumber} from "../../helper/formatNumberHelper";
 
 const barChartDisplayInfo = ref<string>('votes');
 
@@ -29,10 +30,6 @@ const fetchData = async () => {
 onMounted(() => {
   fetchData();
 });
-
-const formatNumber = (number: number): string => {
-  return new Intl.NumberFormat('nl-NL').format(number);
-};
 
 function updateBarChartDisplayInfo(value: string) {
   barChartDisplayInfo.value = value;

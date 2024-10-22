@@ -5,8 +5,10 @@ import { onMounted, ref } from 'vue'
 import type { fullParty } from '@/models/Party'
 import { ElectionService } from '@/services/ElectionService'
 import CandidatesListItem from '@/components/partyPage/CandidatesListItem.vue'
+import {formatNumber} from "../../helper/formatNumberHelper";
 
 export default {
+  methods: {formatNumber},
   components: { CandidatesListItem },
   setup() {
     const route = useRoute();
@@ -46,7 +48,7 @@ export default {
       <img :src="`../../public/partyLogos/${party.logo}.png`" alt="Party Logo" class="party-logo" />
     </section>
     <p class="votes text-xl text-gray-700">Aantal stemmen:</p>
-    <span class="text-5xl font-semibold">{{ party?.totalVotes }}</span>
+    <span class="text-5xl font-semibold">{{ formatNumber(party?.totalVotes) }}</span>
     <h2 class="candidates-title text-2xl mt-6 mb-2 font-semibold">Kandidaten:</h2>
 
     <ul class="w-full space-y-2">
