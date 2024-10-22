@@ -1,7 +1,7 @@
 package dev.visie.elections.controller;
 
 import dev.visie.elections.dto.party.PartyPageResponse;
-import dev.visie.elections.dto.PartyLogoDTO;
+import dev.visie.elections.dto.party.PartyLogoDTO;
 import dev.visie.elections.dto.votes.TotalAmountOfVotesDTO;
 import dev.visie.elections.model.election.Party;
 import dev.visie.elections.service.PartyService;

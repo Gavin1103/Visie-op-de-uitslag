@@ -1,8 +1,10 @@
 package dev.visie.elections.repository;
 
+import dev.visie.elections.dto.candidate.CandidateWithVotes;
 import dev.visie.elections.model.election.Votes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 

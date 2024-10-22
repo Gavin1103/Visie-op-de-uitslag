@@ -19,8 +19,6 @@ public class PartyService {
     private final PartyRepository partyRepository;
     private final VotesRepository votesRepository;
 
-    private final VotesRepository votesRepository;
-
     private final VotesService votesService;
 
     public PartyService(PartyRepository partyRepository, VotesRepository votesRepository, VotesService votesService) {
