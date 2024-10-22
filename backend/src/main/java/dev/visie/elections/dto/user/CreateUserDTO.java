@@ -1,4 +1,4 @@
-package dev.visie.elections.dto;
+package dev.visie.elections.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
