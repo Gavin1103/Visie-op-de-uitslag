@@ -21,7 +21,6 @@ export default {
     onMounted(() => {
       fetchParties();
     });
-
     return {
       parties
     }

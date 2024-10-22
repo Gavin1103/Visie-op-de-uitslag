@@ -16,4 +16,13 @@ public interface VotesRepository extends JpaRepository<Votes, Long> {
             "GROUP BY p.name, p.logo, p.partyId " +
             "ORDER BY SUM(v.amount) DESC")
     List<Object[]> getPartiesOrderedByVotes();
+
+    @Query("SELECT new dev.visie.elections.dto.candidate.CandidateWithVotes(c.candidateId, " +
+            "CONCAT(CONCAT(CONCAT(c.firstName, ' '), COALESCE(c.lastNamePrefix, '')), ' ', c.lastName), SUM(v.amount)) " +
+            "FROM Votes v " +
+            "JOIN v.candidate c " +
+            "WHERE v.votesId.candidateId.partyId = :partyId " +
+            "GROUP BY c.candidateId.candidateId, c.candidateId.partyId, c.firstName, c.lastName, c.lastNamePrefix " +
+            "ORDER BY SUM(v.amount) DESC")
+    List<CandidateWithVotes> getCandidateWithVotes(@Param("partyId") int partyId);
 }
