@@ -1,5 +1,8 @@
 import { DatabaseService } from './DatabaseService';
-import type { getUser, LoginUser, NewUser, User } from '@/models/User'
+import type { NewUser } from '@/models/NewUser'
+import type { GetUser } from '@/models/GetUser'
+import type { LoginUser } from '@/models/LoginUser'
+import type { User } from '@/models/User'
 
 export class UserService {
   private dbService: DatabaseService;
@@ -8,8 +11,8 @@ export class UserService {
     this.dbService = new DatabaseService();
   }
 
-  async getUsers(): Promise<getUser[]> {
-    return await this.dbService.get<getUser[]>('auth/');
+  async getUsers(): Promise<GetUser[]> {
+    return await this.dbService.get<GetUser[]>('user/');
   }
 
   async createUser(user: NewUser): Promise<NewUser> {
@@ -20,8 +23,8 @@ export class UserService {
     return await this.dbService.post<NewUser>('auth/create-user', user);
   }
 
-  async updateUser(user: User): Promise<User> {
-    return await this.dbService.put<User>(`user/${user.id}`, user);
+  async updateUser(user: NewUser): Promise<NewUser> {
+    return await this.dbService.put<NewUser>(`user/${user.id}`, user);
   }
 
   async deleteUser(userId: string): Promise<void> {

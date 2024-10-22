@@ -28,6 +28,18 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
+    @PreAuthorizeAdmin()
+    @GetMapping("/")
+    @Operation(summary = "Get all users", description = "Get all users from the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Users retrieved successfully"),
+            @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @GetMapping("/{email}")
     @Operation(summary = "Get user by email", description = "Get a user by email address")
     @ApiResponses(value = {

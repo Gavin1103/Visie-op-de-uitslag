@@ -109,16 +109,4 @@ public class AuthenticationController {
     public boolean isAdmin(){
         return true;
     }
-
-    @PreAuthorizeAdmin()
-    @GetMapping("/")
-    @Operation(summary = "Get all users", description = "Get all users from the database")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Users retrieved successfully"),
-            @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
-    })
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
 }

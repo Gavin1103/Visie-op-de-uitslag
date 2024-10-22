@@ -1,17 +1,19 @@
 <script lang="ts">
 import { onMounted, ref } from 'vue';
 import { UserService } from '@/services/UserService';
-import { type getUser, type NewUser, Role, type User } from '@/models/User'
+import type { NewUser } from '@/models/NewUser'
+import { Role } from '@/models/enum/Role'
+import type { GetUser } from '@/models/GetUser'
+import type { User } from '@/models/User'
 
 export default {
   setup() {
-    const users = ref<getUser[]>([]);
+    const users = ref<GetUser[]>([]);
     const userService = new UserService();
     const newUser = ref<NewUser>({
       username: '',
       email: '',
       password: '',
-      roleName: Role.USER
     });
 
     const selectedRole = ref('USER');
@@ -34,13 +36,12 @@ export default {
     };
 
     const updateUser = async (user: User) => {
-      try {
-        user.roles[0].name = selectedRole.value;
-        await userService.updateUser(user);
+        const updatedUser: NewUser = NewUser.fromUser(user);
+
+        updatedUser.roleName = selectedRole.value;
+
+        await userService.updateUser(updatedUser);
         fetchUsers();
-      } catch (error) {
-        console.error('Error updating user:', error);
-      }
     };
 
     const deleteUser = async (userId: string) => {
