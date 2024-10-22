@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PartyService {
@@ -17,39 +18,48 @@ public class PartyService {
 
     private final VotesRepository votesRepository;
 
-    public PartyService(PartyRepository partyRepository, VotesRepository votesRepository) {
+    private final VotesService votesService;
+
+    public PartyService(PartyRepository partyRepository, VotesRepository votesRepository, VotesService votesService) {
         this.partyRepository = partyRepository;
         this.votesRepository = votesRepository;
+        this.votesService = votesService;
     }
 
-    public List<Party> getParties(){
+    public List<Party> getParties() {
         return partyRepository.findAll();
     }
 
-    public void savePartyLogo(String logo, int id){
-        Party party = partyRepository.findById(id).orElseThrow(() -> new RuntimeException("no id found"));;
+    public void savePartyLogo(String logo, int id) {
+        Party party = partyRepository.findById(id).orElseThrow(() -> new RuntimeException("no id found"));
+        ;
 
         party.setLogo(logo);
         partyRepository.save(party);
     }
 
-    public ResponseEntity<?> getPartyWithTheMostVotes() {
+    public ResponseEntity<?> getElectedParty() {
 
         List<Object[]> results = votesRepository.getPartiesOrderedByVotes();
 
         if (results != null) {
-            PartyDTO electedParty = PartyDTO.partyMapperDTO(results.get(0));
+
+            PartyDTO electedParty = PartyDTO.customPartyMapperDTO(results.get(0), votesService);
             return new ResponseEntity<>(electedParty, HttpStatus.OK);
         }
         return new ResponseEntity<>("Parties not found", HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<?> getPartiesWithVotes() {
+    public ResponseEntity<?> getPartiesWithStatistics() {
 
         List<Object[]> results = votesRepository.getPartiesOrderedByVotes();
 
-        if (results != null) {
-            List<PartyDTO> partyDTOs =  PartyDTO.partiesMapperDTO(results);
+        if (results != null && !results.isEmpty()) {
+
+            List<PartyDTO> partyDTOs = results.stream()
+                    .map(result -> PartyDTO.customPartyMapperDTO(result, votesService))
+                    .collect(Collectors.toList());
+
             return new ResponseEntity<>(partyDTOs, HttpStatus.OK);
         }
         return new ResponseEntity<>("Parties not found", HttpStatus.NOT_FOUND);
