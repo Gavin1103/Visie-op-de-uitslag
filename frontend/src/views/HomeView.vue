@@ -61,12 +61,12 @@ function updateBarChartDisplayInfo(value: string) {
       </section>
       <section class="w-full flex justify-center space-x-4 py-4">
         <button
-            :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'votes' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+            :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'votes' ? 'bg-[#5564c8] text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
             @click="updateBarChartDisplayInfo('votes')">
           Stemmen
         </button>
         <button
-            :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'seats' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+            :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', barChartDisplayInfo === 'seats' ? 'bg-[#5564c8] text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
             @click="updateBarChartDisplayInfo('seats')">
           Zetels
         </button>
