@@ -44,7 +44,7 @@ function updateBarChartDisplayInfo(value: string) {
     <div class="w-3/4">
       <section class="w-full h-auto flex flex-col items-center">
         <section class="mb-2.5 flex flex-col items-center">
-          <p class="text-xl font-black">Winnaar</p>
+          <p class="mt-4 text-xl font-black">Winnaar</p>
           <p class="text-6xl font-black">{{ electedParty?.name }}</p>
           <img style="height:200px" src="../../../public/pvv-logo.png" alt="elected party logo"/>
         </section>
