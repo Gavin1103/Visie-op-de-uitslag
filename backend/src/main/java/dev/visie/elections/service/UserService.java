@@ -75,7 +75,7 @@ public class UserService {
             user.setRoles(existingUser.getRoles());
         }
 
-        user.setEnabled(existingUser.isEnabled());
+        user.setEnabled(userDto.isEnabled());
         user.setId(existingUser.getId());
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }

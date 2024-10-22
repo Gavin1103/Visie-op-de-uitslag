@@ -6,23 +6,21 @@ export class NewUser {
   email: string;
   password: string;
   roleName?: string;
+  enabled?: boolean;
 
   constructor(
     username: string,
     email: string,
     password: string,
     roleName: string = 'USER',
-    id?: number
+    id?: number,
+    enabled: boolean = false
   ) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
     this.roleName = roleName;
-  }
-
-  static fromUser(user: User): NewUser {
-    const roleName = user.roles?.[0]?.name ?? 'USER';
-    return new NewUser(user.username, user.email, user.password, roleName, user.id);
+    this.enabled = enabled;
   }
 }

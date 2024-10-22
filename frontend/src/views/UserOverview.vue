@@ -1,71 +1,71 @@
 <script lang="ts">
-import { onMounted, ref } from 'vue';
-import { UserService } from '@/services/UserService';
+import { onMounted, ref } from 'vue'
+import { UserService } from '@/services/UserService'
 import type { NewUser } from '@/models/NewUser'
-import { Role } from '@/models/enum/Role'
 import type { GetUser } from '@/models/GetUser'
 import type { User } from '@/models/User'
 
 export default {
   setup() {
-    const users = ref<GetUser[]>([]);
-    const userService = new UserService();
+    const users = ref<GetUser[]>([])
+    const userService = new UserService()
     const newUser = ref<NewUser>({
       username: '',
       email: '',
-      password: '',
-    });
-
-    const selectedRole = ref('USER');
+      password: ''
+    })
 
     const fetchUsers = async () => {
       try {
-        users.value = await userService.getUsers();
+        users.value = await userService.getUsers()
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching users:', error)
       }
-    };
+    }
 
     const createUser = async () => {
       try {
-        await userService.createAsAdmin(newUser.value!);
-        fetchUsers();
+        await userService.createAsAdmin(newUser.value!)
+        fetchUsers()
       } catch (error) {
-        console.error('Error creating user:', error);
+        console.error('Error creating user:', error)
       }
-    };
+    }
 
     const updateUser = async (user: User) => {
-        const updatedUser: NewUser = NewUser.fromUser(user);
+      const updatedUser: NewUser = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        roleName: user.roles[0].name,
+      }
 
-        updatedUser.roleName = selectedRole.value;
-
-        await userService.updateUser(updatedUser);
-        fetchUsers();
-    };
+      await userService.updateUser(updatedUser)
+      fetchUsers()
+    }
 
     const deleteUser = async (userId: string) => {
       try {
-        await userService.deleteUser(userId);
-        fetchUsers();
+        await userService.deleteUser(userId)
+        fetchUsers()
       } catch (error) {
-        console.error('Error deleting user:', error);
+        console.error('Error deleting user:', error)
       }
-    };
+    }
 
     onMounted(() => {
-      fetchUsers();
-    });
+      fetchUsers()
+    })
 
     return {
       users,
       newUser,
-      selectedRole,
       fetchUsers,
       createUser,
       updateUser,
-      deleteUser,
-    };
+      deleteUser
+    }
   }
 }
 </script>
@@ -107,11 +107,17 @@ export default {
       <tbody>
       <tr v-for="user in users" :key="user.id">
         <td class="border px-4 py-2">{{ user.id }}</td>
-        <td class="border px-4 py-2">{{ user.username }}</td>
-        <td class="border px-4 py-2">{{ user.email }}</td>
-        <td class="border px-4 py-2">{{ user.enabled }}</td>
         <td class="border px-4 py-2">
-          <select v-model="user.roles[0].name" class="border p-2 rounded">
+          <input v-model="user.username" type="text" class="border p-2 rounded w-full" />
+        </td>
+        <td class="border px-4 py-2">
+          <input v-model="user.email" type="email" class="border p-2 rounded w-full" />
+        </td>
+        <td class="border px-4 py-2">
+          <input v-model="user.enabled" type="checkbox" class="border p-2 rounded w-full" />
+        </td>
+        <td class="border px-4 py-2">
+          <select v-model="user.roles[0].name" class="border p-2 rounded w-full">
             <option value="ADMIN">ADMIN</option>
             <option value="PARTYMEMBER">PARTYMEMBER</option>
             <option value="USER">USER</option>
