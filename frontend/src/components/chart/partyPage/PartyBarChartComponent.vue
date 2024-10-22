@@ -19,6 +19,7 @@ const props = defineProps({
   },
 });
 
+const searchInput = ref<String | undefined>(undefined)
 const candidatesWithVotes = ref<CandidateWithVotes[]>(props.candidates);
 const chartData = ref(null);
 
@@ -105,7 +106,7 @@ const fetchData = async () => {
   updateChartData();
 };
 
-watch(() => props.chartType, () => {
+watch(() => candidatesWithVotes, () => {
   updateChartData();
 });
 
