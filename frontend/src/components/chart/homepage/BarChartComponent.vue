@@ -18,7 +18,6 @@ const partyService = new PartyService();
 const partiesWithVotes = ref<PartyWithVotes[]>([]);
 const chartData = ref(null);
 
-
 const chartOptions = ref({
   responsive: true,
   maintainAspectRatio: false,
@@ -42,6 +41,10 @@ const chartOptions = ref({
       beginAtZero: true,
       suggestedMax: 0,
     },
+  },
+  animation: {
+    duration: 3000,
+    loop: false,
   },
   onHover(event, elements) {
     const chartCanvas = event.native?.target?.style;
@@ -100,8 +103,8 @@ const updateChartData = () => {
         data: showData,
         backgroundColor: 'rgba(22, 31, 64, 0.7)',
         borderColor: 'rgba(22, 31, 64, 1)',
-        hoverBackgroundColor: 'rgba(126, 34, 206, 1)',
-        hoverBorderColor: 'rgba(126, 34, 206, 1)',
+        hoverBackgroundColor: '#5564c8',
+        hoverBorderColor: '#5564c8',
         borderWidth: 1,
       },
     ],
