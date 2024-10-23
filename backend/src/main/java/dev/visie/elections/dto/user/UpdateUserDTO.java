@@ -15,4 +15,5 @@ public class UpdateUserDTO {
     private String email;
     private RoleEnum roleName;
     private String password;
+    private boolean enabled;
 }

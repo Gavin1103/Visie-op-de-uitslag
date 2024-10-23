@@ -79,7 +79,7 @@ public class UserService {
             user.setRoles(existingUser.getRoles());
         }
 
-        user.setEnabled(existingUser.isEnabled());
+        user.setEnabled(userDto.isEnabled());
         user.setId(existingUser.getId());
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
@@ -106,7 +106,15 @@ public class UserService {
      */
     public User deleteUserByEmail(String email) {
         User user = userRepository.findByEmail(email);
+        return deleteUser(user);
+    }
 
+    public User deleteUserById(long id) {
+        User user = userRepository.getUserById(id);
+        return deleteUser(user);
+    }
+
+    private User deleteUser(User user) {
         if(user != null) {
             tokenRepository.deleteByUser_Id(user.getId());
             confirmationToken.deleteByUser_Id(user.getId());
