@@ -5,6 +5,7 @@ import { CookieService } from '@/services/CookieService'
 import { useRouter } from 'vue-router'
 import type { LoginUser } from '@/models/LoginUser'
 import IftaLabel from 'primevue/iftalabel'
+import Password from 'primevue/password'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { useToast } from 'primevue/usetoast'
@@ -79,11 +80,11 @@ const onSubmit = async () => {
       </IftaLabel>
 
       <IftaLabel>
-        <InputText id="password" class="w-full" v-model="password" variant="filled" required />
+        <Password id="password" class="w-full" v-model="password" variant="filled" required />
         <label for="password">Password</label>
       </IftaLabel>
 
-      <Button label="Create User" icon="pi pi-user" :loading="loading" type="submit" class="p-mt-3" />
+      <Button label="Login" icon="pi pi-user" :loading="loading" type="submit" class="p-mt-3" />
       </form>
   </div>
 </template>
