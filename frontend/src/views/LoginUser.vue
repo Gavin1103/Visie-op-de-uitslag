@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { UserService } from '@/services/UserService';
-import type { LoginUser, NewUser } from '@/models/User'
 import { CookieService } from '@/services/CookieService'
 import { useRouter } from 'vue-router'
+import type { LoginUser } from '@/models/LoginUser'
+import IftaLabel from 'primevue/iftalabel'
+import Password from 'primevue/password'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
+import { useToast } from 'primevue/usetoast'
 
 
 
@@ -15,6 +20,8 @@ const successMessage = ref<string>('');
 
 const userService = new UserService();
 const cookieService = new CookieService();
+const toast = useToast()
+
 const router = useRouter();
 
 const onSubmit = async () => {
@@ -33,21 +40,30 @@ const onSubmit = async () => {
   } catch (error: any) {
     switch (error.status) {
       case 403:
-        errorMessage.value = 'This account has not yet been confirmed';
+        toast.add({ severity: 'warn', summary: 'Warning', detail: 'This account has not yet been confirmed', life: 3000 })
         break;
       case 401:
-        errorMessage.value = 'Invalid email or password';
+        toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Invalid email or password.',
+          life: 3000
+        })
         break;
       default:
-        errorMessage.value = 'Failed to login user. Please try again.';
+        toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to login user. Please try again.',
+          life: 3000
+        })
     }
   } finally {
     if(result) {
       cookieService.setTokenCookies(result.access_token, result.refresh_token);
       await router.push({name: 'home'}).then(() => {
         window.location.reload(); // Force full page reload after navigation
-      });
-
+        });
     }
     loading.value = false;
   }
@@ -58,28 +74,25 @@ const onSubmit = async () => {
     <h2 class="create-title">Login</h2>
 
     <form class="create-form" @submit.prevent="onSubmit">
-      <div>
-        <input class="create-input" placeholder="Email" type="email" v-model="email" id="email" required />
-      </div>
+      <IftaLabel>
+        <InputText id="Email" class="w-full" v-model="email" variant="filled" required />
+        <label for="Email">Email</label>
+      </IftaLabel>
 
-      <div>
-        <input class="create-input" placeholder="Password" type="password" v-model="password" id="password" required />
-      </div>
+      <IftaLabel>
+        <Password id="password" class="w-full" v-model="password" variant="filled" required />
+        <label for="password">Password</label>
+      </IftaLabel>
 
-      <button class="create-submit" type="submit" :disabled="loading">
-        {{ loading ? 'Logging in...' : 'Login' }}
-      </button>
-
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-      <p v-if="successMessage" class="success">{{ successMessage }}</p>
-    </form>
+      <Button label="Login" icon="pi pi-user" :loading="loading" type="submit" class="p-mt-3" />
+      </form>
   </div>
 </template>
 
 <style scoped>
 .create-user {
   max-width: 300px;
-  margin: 0 auto;
+  margin: 10% auto;
   border: solid 1px rgb(22 31 64);
   border-radius: 25px;
   padding: 1rem;
