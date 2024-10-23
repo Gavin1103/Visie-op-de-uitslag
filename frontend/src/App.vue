@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import MainNavbar from "@/components/nav/MainNavbar.vue";
 import MainFooter from "@/components/footer/MainFooter.vue";
+import ConfirmDialog from 'primevue/confirmdialog';
 import Toast from 'primevue/toast';
 
 </script>
@@ -10,6 +11,7 @@ import Toast from 'primevue/toast';
   <main>
     <RouterView />
     <Toast />
+    <ConfirmDialog></ConfirmDialog>
   </main>
   <MainFooter />
 
