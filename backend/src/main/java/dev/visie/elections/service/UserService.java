@@ -2,6 +2,7 @@ package dev.visie.elections.service;
 
 import dev.visie.elections.dto.user.UserDTO;
 import dev.visie.elections.dto.user.UpdateUserDTO;
+import dev.visie.elections.dto.user.UserProfileResponse;
 import dev.visie.elections.model.Role;
 import dev.visie.elections.model.User;
 import dev.visie.elections.repository.ConfirmationTokenRepository;
@@ -64,8 +65,7 @@ public class UserService {
 
         if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        }
-        else {
+        } else {
             user.setPassword(existingUser.getPassword());
         }
 
@@ -74,8 +74,7 @@ public class UserService {
             role.setName(userDto.getRoleName());
             role.setUser(user);
             user.setRoles(Set.of(role));
-        }
-        else {
+        } else {
             user.setRoles(existingUser.getRoles());
         }
 
@@ -115,7 +114,7 @@ public class UserService {
     }
 
     private User deleteUser(User user) {
-        if(user != null) {
+        if (user != null) {
             tokenRepository.deleteByUser_Id(user.getId());
             confirmationToken.deleteByUser_Id(user.getId());
         }
@@ -124,22 +123,20 @@ public class UserService {
         return user;
     }
 
-    /**
-     * Retrieves a user by their ID.
-     *
-     * @param id the ID of the user
-     * @return the user with the specified ID
-     */
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User getUserByToken(String token) {
+    public UserProfileResponse getUserByToken(String token) {
+        //TODO: fix findyByEmail/extractUsername function
+
         String userEmail = jwtService.extractUsername(token);
         User user = userRepository.findByEmail(userEmail);
+
         if (user == null) {
             throw new RuntimeException("User not found for the given token");
         }
-        return user;
+        return modelMapper.map(user, UserProfileResponse.class);
     }
+
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { UserService } from '@/services/UserService';
-import type { NewUser, User } from '@/models/User'
+import type { NewUser, User } from '@/models/user/User'
 
 
 

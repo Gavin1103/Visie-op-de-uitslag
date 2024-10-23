@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { UserService } from '@/services/UserService';
-import type { LoginUser, NewUser } from '@/models/User'
+import type { LoginUser, NewUser } from '@/models/user/User'
 import { CookieService } from '@/services/CookieService'
 import { useRouter } from 'vue-router'
 
