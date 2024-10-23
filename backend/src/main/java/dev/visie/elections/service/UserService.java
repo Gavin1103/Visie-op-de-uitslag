@@ -1,5 +1,6 @@
 package dev.visie.elections.service;
 
+import dev.visie.elections.dto.user.UserDTO;
 import dev.visie.elections.dto.user.UpdateUserDTO;
 import dev.visie.elections.model.Role;
 import dev.visie.elections.model.User;
@@ -24,19 +25,22 @@ public class UserService {
 
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+    private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
     private final ConfirmationTokenRepository confirmationToken;
     private final RoleRepository roleRepository;
 
+
     @Autowired
-    public UserService(ModelMapper modelMapper, UserRepository userRepository, PasswordEncoder passwordEncoder, TokenRepository tokenRepository, ConfirmationTokenRepository confirmationToken, RoleRepository roleRepository) {
+    public UserService(ModelMapper modelMapper, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, TokenRepository tokenRepository, ConfirmationTokenRepository confirmationToken, RoleRepository roleRepository) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenRepository = tokenRepository;
         this.confirmationToken = confirmationToken;
         this.roleRepository = roleRepository;
+        this.jwtService = jwtService;
     }
 
     /**
@@ -75,7 +79,7 @@ public class UserService {
             user.setRoles(existingUser.getRoles());
         }
 
-        user.setEnabled(existingUser.isEnabled());
+        user.setEnabled(userDto.isEnabled());
         user.setId(existingUser.getId());
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
@@ -102,13 +106,40 @@ public class UserService {
      */
     public User deleteUserByEmail(String email) {
         User user = userRepository.findByEmail(email);
+        return deleteUser(user);
+    }
 
+    public User deleteUserById(long id) {
+        User user = userRepository.getUserById(id);
+        return deleteUser(user);
+    }
+
+    private User deleteUser(User user) {
         if(user != null) {
             tokenRepository.deleteByUser_Id(user.getId());
             confirmationToken.deleteByUser_Id(user.getId());
         }
 
         userRepository.delete(user);
+        return user;
+    }
+
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param id the ID of the user
+     * @return the user with the specified ID
+     */
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public User getUserByToken(String token) {
+        String userEmail = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(userEmail);
+        if (user == null) {
+            throw new RuntimeException("User not found for the given token");
+        }
         return user;
     }
 }

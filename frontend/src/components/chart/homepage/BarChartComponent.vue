@@ -18,7 +18,6 @@ const partyService = new PartyService();
 const partiesWithVotes = ref<PartyWithVotes[]>([]);
 const chartData = ref(null);
 
-
 const chartOptions = ref({
   responsive: true,
   maintainAspectRatio: false,
@@ -40,7 +39,12 @@ const chartOptions = ref({
         text: 'Aantal Stemmen / Zetels',
       },
       beginAtZero: true,
+      suggestedMax: 0,
     },
+  },
+  animation: {
+    duration: 3000,
+    loop: false,
   },
   onHover(event, elements) {
     const chartCanvas = event.native?.target?.style;
@@ -64,37 +68,31 @@ const chartOptions = ref({
 const updateChartData = () => {
   let label = '';
   let showData = [];
+  let suggestedMax = 0;
 
   // Show data for seats
   if (props.chartType === 'seats') {
     label = 'Aantal zetels';
     showData = partiesWithVotes.value.map(party => party.amountOfSeats);
-    chartOptions.value = {
-      ...chartOptions.value,
-      scales: {
-        ...chartOptions.value.scales,
-        y: {
-          ...chartOptions.value.scales.y,
-          suggestedMax: Math.max(...showData) * 1.6,
-        },
-      },
-    };
+    suggestedMax = Math.max(...showData) * 1.6;
   }
 
   // Show data for votes
   if (props.chartType === 'votes') {
     label = 'Aantal stemmen';
     showData = partiesWithVotes.value.map(party => party.amountOfVotes);
-    chartOptions.value = {
-      ...chartOptions.value,
-      scales: {
-        ...chartOptions.value.scales,
-        y: {
-          ...chartOptions.value.scales.y,
-          suggestedMax: Math.max(...showData) * 1.2,
-        },
+    suggestedMax = Math.max(...showData) * 1.2;
+  }
+
+  chartOptions.value = {
+    ...chartOptions.value,
+    scales: {
+      ...chartOptions.value.scales,
+      y: {
+        ...chartOptions.value.scales.y,
+        suggestedMax: suggestedMax,
       },
-    };
+    },
   }
 
   chartData.value = {
@@ -105,8 +103,8 @@ const updateChartData = () => {
         data: showData,
         backgroundColor: 'rgba(22, 31, 64, 0.7)',
         borderColor: 'rgba(22, 31, 64, 1)',
-        hoverBackgroundColor: 'rgba(126, 34, 206, 1)',
-        hoverBorderColor: 'rgba(126, 34, 206, 1)',
+        hoverBackgroundColor: '#5564c8',
+        hoverBorderColor: '#5564c8',
         borderWidth: 1,
       },
     ],
@@ -129,7 +127,7 @@ onMounted(() => {
 
 <template>
   <section class="w-full flex justify-center">
-    <div class="w-9/12 overflow-x-auto">
+    <div class="w-full overflow-x-auto">
       <div :style="{ width: partiesWithVotes.length * 100 + 'px', height: '700px' }">
         <Bar v-if="chartData" :data="chartData" :options="chartOptions"/>
         <p v-else></p>

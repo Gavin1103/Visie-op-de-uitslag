@@ -6,7 +6,6 @@ import router from '@/router'
 
 let cookieService = new CookieService();
 
-
 let isUserLoggedIn = ref(cookieService.tokenExists());
 
 function logout() {
@@ -24,10 +23,10 @@ function logout() {
       <icon-logo height="h-20" width="w-32"/>
     </section>
     <ul class="flex ml-4 list-none gap-6 text-2xl font-bold flex-grow">
-      <li><router-link class="text-white" to="/">Home</router-link></li>
-      <li><router-link class="text-white" to="/about">About</router-link></li>
-      <li><router-link class="text-white" to="/parties">Parties</router-link></li>
-      <li><router-link class="text-white" to="/forum">Forum</router-link></li>
+      <li><router-link class="text-white font-bold" to="/">Home</router-link></li>
+      <li><router-link class="text-white font-bold" to="/about">About</router-link></li>
+      <li><router-link class="text-white font-bold" to="/parties">Parties</router-link></li>
+      <li><router-link class="text-white font-bold" to="/forum">Forum</router-link></li>
 
     </ul>
     <router-link v-if="!isUserLoggedIn" class="text-white text-2xl font-bold mr-6" to="/login">Login</router-link>
