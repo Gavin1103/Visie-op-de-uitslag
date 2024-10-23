@@ -1,10 +1,12 @@
 package dev.visie.elections.controller;
 
+import dev.visie.elections.dto.AreaDTO;
 import dev.visie.elections.dto.candidate.CandidateWithVotes;
 import dev.visie.elections.dto.party.PartyDTO;
 import dev.visie.elections.dto.party.PartyLogoDTO;
 import dev.visie.elections.dto.votes.TotalAmountOfVotesDTO;
 import dev.visie.elections.model.election.Party;
+import dev.visie.elections.service.AreaService;
 import dev.visie.elections.service.CandidateService;
 import dev.visie.elections.service.PartyService;
 import dev.visie.elections.service.VotesService;
@@ -20,11 +22,13 @@ public class ElectionController {
     private final PartyService partyService;
     private final VotesService votesService;
     private final CandidateService candidateService;
+    private final AreaService areaService;
 
-    public ElectionController(PartyService partyService, VotesService votesService, CandidateService candidateService) {
+    public ElectionController(PartyService partyService, VotesService votesService, CandidateService candidateService, AreaService areaService) {
         this.partyService = partyService;
         this.votesService = votesService;
         this.candidateService = candidateService;
+        this.areaService = areaService;
     }
 
     @GetMapping("parties")
@@ -68,4 +72,8 @@ public class ElectionController {
     public ResponseEntity<?> getCandidatesWithArea(@PathVariable int partyId, @PathVariable String area, @PathVariable String searchInput) {
         return candidateService.getCandidatesWithArea(partyId, area, searchInput);
     }
+
+    @GetMapping("areas")
+    @Operation(summary = "get all the municipalities and constituencies")
+    public AreaDTO getElectionAreas() { return areaService.getAllAreas(); }
 }

@@ -1,6 +1,7 @@
 package dev.visie.elections.model.election;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Constituency {
     private String name;
 
     @OneToMany(mappedBy = "constituency", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Municipality> municipality = new ArrayList<>();
 
     @Override

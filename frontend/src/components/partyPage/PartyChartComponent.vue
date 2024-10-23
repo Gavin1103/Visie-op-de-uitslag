@@ -4,6 +4,7 @@ import PartyBarChartComponent from '@/components/chart/partyPage/PartyBarChartCo
 import type { CandidateWithVotes } from '@/models/Candidate'
 import { ref } from 'vue'
 import { CandidateService } from '@/services/CandidateService'
+import AreaSearchbar from '@/components/partyPage/AreaSearchbar.vue'
 const props = defineProps({
   candidates: {
     type: Array as () => CandidateWithVotes[],
@@ -34,13 +35,13 @@ function updateArea(changedArea: String, changedPlaceholder: String) {
   }
 }
 
-const updateCandidates = async () => {
+const updateCandidates = async (Area) => {
   switch(area.value) {
     case "constituency":
-      candidatesWithVotes.value = await candidateService.getCandidatesByArea("constituency", props.partyId, searchInput.value)
+      candidatesWithVotes.value = await candidateService.getCandidatesByArea("constituency", props.partyId, Area)
       break
     case "municipality":
-      candidatesWithVotes.value = await candidateService.getCandidatesByArea("municipality", props.partyId, searchInput.value)
+      candidatesWithVotes.value = await candidateService.getCandidatesByArea("municipality", props.partyId, Area)
       break
   }
 }
@@ -65,15 +66,11 @@ const updateCandidates = async () => {
       Per gemeente
     </button>
   </section>
-  <section class="flex items-center" v-if="searchAvailable">
-  <input
-    type="text"
-    :placeholder="'Zoek ' + placeholder"
-    v-model="searchInput"
-    class=" h-12 m-3 p-4 font-bold text-white bg-NavBlue border border-amber-50 rounded-lg shadow-lg transition-all duration-300 bg-opacity-90 ease-in-out placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-800 focus:bg-opacity-90"
-  >
-    <button @click="updateCandidates()" class=" h-11 m-3 px-5 font-bold text-white bg-NavBlue rounded-lg shadow-lg transition-all hover:bg-opacity-80">zoeken</button>
-  </section>
+
+  <AreaSearchbar v-if="searchAvailable"
+    @select-option="updateCandidates"
+    :area="area"
+  />
 
   <PartyBarChartComponent :label="placeholder" :candidates="candidatesWithVotes"></PartyBarChartComponent>
 
