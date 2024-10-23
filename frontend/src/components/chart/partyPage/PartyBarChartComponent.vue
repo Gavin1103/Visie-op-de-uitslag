@@ -107,10 +107,10 @@ const fetchData = async () => {
   updateChartData();
 };
 
-watch(() => candidatesWithVotes, () => {
-  updateChartData();
+watch(() => props.candidates, (newCandidates) => {
+  candidatesWithVotes.value = [...newCandidates]; // Reassign to trigger reactivity
+  updateChartData()
 });
-
 
 onMounted(() => {
   fetchData();

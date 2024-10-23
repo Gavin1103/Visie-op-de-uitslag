@@ -43,7 +43,6 @@ const updateCandidates = async () => {
       candidatesWithVotes.value = await candidateService.getCandidatesByArea("municipality", props.partyId, searchInput.value)
       break
   }
-
 }
 </script>
 

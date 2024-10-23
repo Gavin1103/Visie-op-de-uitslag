@@ -1,9 +1,11 @@
 package dev.visie.elections.controller;
 
+import dev.visie.elections.dto.candidate.CandidateWithVotes;
 import dev.visie.elections.dto.party.PartyDTO;
 import dev.visie.elections.dto.party.PartyLogoDTO;
 import dev.visie.elections.dto.votes.TotalAmountOfVotesDTO;
 import dev.visie.elections.model.election.Party;
+import dev.visie.elections.service.CandidateService;
 import dev.visie.elections.service.PartyService;
 import dev.visie.elections.service.VotesService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,10 +19,12 @@ import java.util.List;
 public class ElectionController {
     private final PartyService partyService;
     private final VotesService votesService;
+    private final CandidateService candidateService;
 
-    public ElectionController(PartyService partyService, VotesService votesService) {
+    public ElectionController(PartyService partyService, VotesService votesService, CandidateService candidateService) {
         this.partyService = partyService;
         this.votesService = votesService;
+        this.candidateService = candidateService;
     }
 
     @GetMapping("parties")
@@ -57,5 +61,11 @@ public class ElectionController {
     @Operation(summary = "get a party for the party page by the id")
     public PartyDTO getPartyById(@PathVariable int id) {
         return partyService.getPartyPageInfo(id);
+    }
+
+    @GetMapping("candidates/{partyId}/{area}/{searchInput}")
+    @Operation(summary = "get a list of candidates for a party with the amount of votes they got for a municipality or constutuency")
+    public ResponseEntity<?> getCandidatesWithArea(@PathVariable int partyId, @PathVariable String area, @PathVariable String searchInput) {
+        return candidateService.getCandidatesWithArea(partyId, area, searchInput);
     }
 }
