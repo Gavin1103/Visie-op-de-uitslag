@@ -101,3 +101,33 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
+    /**
+     * Endpoint to get a user by their token.
+     *
+     * @param token the token of the user
+     * @return the user associated with the token, or 404 if not found
+     */
+    @GetMapping("/token/{token}")
+    public ResponseEntity<User> getUserByToken(@PathVariable String token) {
+        User user = userService.getUserByToken(token);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    /**
+     * Endpoint to get a user by their ID.
+     *
+     * @param id the ID of the user
+     * @return the user with the specified ID, or 404 if not found
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user != null) {
+        } else {
+            return ResponseEntity.ok(user);
+            return ResponseEntity.notFound().build();
+        }
+    }
