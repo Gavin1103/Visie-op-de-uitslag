@@ -6,6 +6,7 @@ export class User {
   email: string;
   password: string;
   roles: Role[];
+  enabled?: boolean;
 
   constructor(id: number, username: string, email: string, password: string, roles: Role[]) {
     this.id = id;

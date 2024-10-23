@@ -39,6 +39,7 @@ export default {
         email: user.email,
         password: user.password,
         roleName: user.roles[0].name,
+        enabled: user.enabled,
       }
 
       await userService.updateUser(updatedUser)
