@@ -31,8 +31,6 @@ public class PartyService {
 
     public void savePartyLogo(String logo, int id) {
         Party party = partyRepository.findById(id).orElseThrow(() -> new RuntimeException("no id found"));
-        ;
-
         party.setLogo(logo);
         partyRepository.save(party);
     }
