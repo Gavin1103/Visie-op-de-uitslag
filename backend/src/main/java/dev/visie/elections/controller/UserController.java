@@ -100,7 +100,7 @@ public class UserController {
         User users = userService.deleteUserByEmail(email);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-}
+
     /**
      * Endpoint to get a user by their token.
      *
@@ -126,8 +126,13 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         if (user != null) {
-        } else {
             return ResponseEntity.ok(user);
+
+
+        } else {
             return ResponseEntity.notFound().build();
+
         }
+    }
+
     }
