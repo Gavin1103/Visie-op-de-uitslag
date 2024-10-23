@@ -5,7 +5,7 @@ import { onMounted, ref } from 'vue'
 import type { fullParty } from '@/models/Party'
 import { ElectionService } from '@/services/ElectionService'
 import CandidatesListItem from '@/components/partyPage/CandidatesListItem.vue'
-import {formatNumber} from "../../helper/formatNumberHelper";
+import {formatNumber} from "@/helper/formatNumberHelpers";
 
 export default {
   methods: {formatNumber},
