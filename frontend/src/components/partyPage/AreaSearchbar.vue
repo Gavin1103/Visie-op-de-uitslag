@@ -7,9 +7,14 @@ import { ElectionService } from '@/services/ElectionService'
     area: {
       type: String,
       required: true,
-    }
+    },
+    chartLabel: {
+      type: String,
+      required: true,
+    },
+
   })
-  const emits = defineEmits( ['select-option'],) 
+  const emits = defineEmits( ['select-option'],)
 
   const searchQuery = ref('');
   const selectedOption = ref("");
@@ -81,6 +86,7 @@ import { ElectionService } from '@/services/ElectionService'
         </option>
       </select>
     </div>
+    <p class="text-2xl">{{chartLabel}}</p>
   </div>
 </template>
 

@@ -22,11 +22,13 @@ const searchInput = ref<String | undefined>(undefined)
 const candidatesWithVotes = ref<CandidateWithVotes[]>(props.candidates);
 const searchAvailable = ref(false)
 const area = ref("national")
+const chartLabel = ref("landelijk")
 
 function updateArea(changedArea: String, changedPlaceholder: String) {
   area.value = changedArea
   if(changedArea === "constituency" || changedArea === "municipality"){
     searchAvailable.value = true
+    chartLabel.value = "Landelijk"
     placeholder.value = changedPlaceholder
   }
   else{
@@ -38,10 +40,24 @@ function updateArea(changedArea: String, changedPlaceholder: String) {
 const updateCandidates = async (Area) => {
   switch(area.value) {
     case "constituency":
-      candidatesWithVotes.value = await candidateService.getCandidatesByArea("constituency", props.partyId, Area)
+      try{
+        candidatesWithVotes.value = await candidateService.getCandidatesByArea("constituency", props.partyId, Area)
+        chartLabel.value = Area
+      }
+      catch (error) {
+        chartLabel.value = "geen stemmen in dit gebied gevonden"
+        console.error("no votes in aera", error)
+      }
       break
     case "municipality":
-      candidatesWithVotes.value = await candidateService.getCandidatesByArea("municipality", props.partyId, Area)
+      try{
+        candidatesWithVotes.value = await candidateService.getCandidatesByArea("municipality", props.partyId, Area)
+        chartLabel.value = Area
+      }
+      catch (error) {
+        chartLabel.value = "geen stemmen in dit gebied gevonden"
+        console.error("no votes in aera", error)
+      }
       break
   }
 }
@@ -70,6 +86,7 @@ const updateCandidates = async (Area) => {
   <AreaSearchbar v-if="searchAvailable"
     @select-option="updateCandidates"
     :area="area"
+                 :chart-label="chartLabel"
   />
 
   <PartyBarChartComponent :label="placeholder" :candidates="candidatesWithVotes"></PartyBarChartComponent>
