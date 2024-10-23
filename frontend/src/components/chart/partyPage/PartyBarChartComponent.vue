@@ -5,6 +5,7 @@ import {Bar} from 'vue-chartjs';
 import {PartyWithVotes} from "@/models/Party";
 import {PartyService} from "@/services/PartyService";
 import type { CandidateWithVotes } from '@/models/Candidate'
+import placeholder from 'cypress/types/lodash/fp/placeholder'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
@@ -13,13 +14,13 @@ const props = defineProps({
     type: Array as () => CandidatesWithVotes[],
     required: true,
   },
-  area: {
+  label: {
     type: String,
     required: true,
   },
 });
 
-const searchInput = ref<String | undefined>(undefined)
+const newLabel = ref(props.label)
 const candidatesWithVotes = ref<CandidateWithVotes[]>(props.candidates);
 const chartData = ref(null);
 
@@ -71,7 +72,7 @@ const chartOptions = ref({
 });
 
 const updateChartData = () => {
-  let label = props.area;
+  let label = newLabel;
   let showData = candidatesWithVotes.value.map(candidate => candidate.votes);
   let suggestedMax = Math.max(...showData) * 1.6;
 
@@ -109,6 +110,7 @@ const fetchData = async () => {
 watch(() => candidatesWithVotes, () => {
   updateChartData();
 });
+
 
 onMounted(() => {
   fetchData();
