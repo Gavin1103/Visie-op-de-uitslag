@@ -1,18 +1,17 @@
 import type { Role } from '@/models/Role'
 
-export class User {
+export class GetUser {
   id: number;
   username: string;
   email: string;
-  password: string;
+  enabled: boolean;
   roles: Role[];
-  enabled?: boolean;
 
-  constructor(id: number, username: string, email: string, password: string, roles: Role[]) {
+  constructor(id: number, username: string, email: string, enabled: boolean, roles: Role[]) {
     this.id = id;
     this.username = username;
     this.email = email;
-    this.password = password;
+    this.enabled = enabled;
     this.roles = roles;
   }
 }

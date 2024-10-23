@@ -40,6 +40,18 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/{email}")
+    @Operation(summary = "Get user by email", description = "Get a user by email address")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+        User users = userService.getUserByEmail(email);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @PreAuthorizeAdmin()
     @PutMapping("/{id}")
     @Operation(summary = "Edit a user", description = "Edit a user in the database")
@@ -76,28 +88,16 @@ public class UserController {
         return userService.editUser(userDto, existingUser, false);
     }
 
-    @GetMapping("/{email}")
-    @Operation(summary = "Get user by email", description = "Get a user by email address")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found"),
-            @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
-    })
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        User users = userService.getUserByEmail(email);
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
     @PreAuthorizeAdmin
-    @DeleteMapping("/{email}")
-    @Operation(summary = "Delete user by email", description = "Delete a user by email address")
+    @DeleteMapping("/{userId}")
+    @Operation(summary = "Delete user by email", description = "Delete a user by an id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<User> deleteUserByEmail(@PathVariable String email) {
-        User users = userService.deleteUserByEmail(email);
+    public ResponseEntity<User> deleteUserById(@PathVariable long userId) {
+        User users = userService.deleteUserById(userId);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
