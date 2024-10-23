@@ -15,12 +15,14 @@ export default {
     const route = useRoute();
     const id = route.params.id;
     const party = ref<PartyWithCandidates | undefined>(undefined);
+    const seats = ref<number | undefined>(undefined)
 
     const electionService = new ElectionService();
 
     const fetchParty = async () => {
       try{
         party.value = await electionService.getPartyById(id);
+        seats.value = party.value.amountOfSeats
       }
       catch (error){
         console.error("no party found:", error);
@@ -34,7 +36,8 @@ export default {
 
     return {
       party,
-      id
+      id,
+      seats
     }
   }
 }
@@ -59,9 +62,13 @@ export default {
     <PartyChartComponent :candidates="party?.candidates" :partyId="party?.partyId"></PartyChartComponent>
 
     <h2 class="candidates-title text-2xl mt-6 mb-2 font-semibold">Kandidaten:</h2>
-
+    <div class="flex items-center my-3">
+      <div class="w-4 h-4 bg-amber-300 rounded-full mr-2"></div>
+      <span class="text-sm text-black">krijgen een zetel</span>
+    </div>
     <ul class="w-full space-y-2">
-      <li v-for="candidate in party.candidates" :key="candidate.candidateId" class="candidate-item p-4 bg-gray-100 rounded-md shadow-sm">
+      <li v-for="candidate in party.candidates" :key="candidate.candidateId" :class="['candidate-item p-4  rounded-md shadow-sm',
+        candidate.candidateId.candidateId <= seats ? 'bg-amber-300' : 'bg-gray-100']">
         <CandidatesListItem :candidate="candidate"></CandidatesListItem>
       </li>
     </ul>

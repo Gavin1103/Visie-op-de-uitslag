@@ -60,7 +60,7 @@ const chartOptions = ref({
       chartCanvas.cursor = 'default';
     }
   },
-  
+
 });
 
 const updateChartData = () => {
