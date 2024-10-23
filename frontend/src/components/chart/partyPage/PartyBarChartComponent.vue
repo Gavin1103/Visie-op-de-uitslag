@@ -60,15 +60,7 @@ const chartOptions = ref({
       chartCanvas.cursor = 'default';
     }
   },
-  onClick(event, elements) {
-    if (elements.length > 0) {
-      const chartElement = elements[0];
-      const index = chartElement.index;
-      const party = partiesWithVotes.value[index].partyId;
-
-      window.location.href = `/party/${party}`;
-    }
-  },
+  
 });
 
 const updateChartData = () => {

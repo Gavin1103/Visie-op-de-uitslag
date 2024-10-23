@@ -46,7 +46,7 @@ export default {
   <div class="p-6 flex flex-col items-center bg-white shadow-md rounded-md" v-if="party">
     <p class="votes text-xl text-gray-700">Partij</p>
     <h1 class="party-name text-5xl font-bold mb-4">{{ party?.name }}</h1>
-    <section class="w-80 h-72">
+    <section class="w-80 h-72 flex items-center justify-center">
       <img :src="`../../public/partyLogos/${party.logo}.png`" alt="Party Logo" class="party-logo" />
     </section>
     <p class="votes text-xl text-gray-700">Aantal stemmen:</p>
