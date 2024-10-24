@@ -1,6 +1,7 @@
 package dev.visie.elections.service;
 
 import dev.visie.elections.dto.candidate.CandidateWithVotes;
+import dev.visie.elections.model.enums.AreaEnum;
 import dev.visie.elections.repository.VotesRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,13 @@ public class CandidateService {
         this.votesRepository = votesRepository;
     }
 
-    public ResponseEntity<?> getCandidatesWithArea(int partyId, String area, String searchInput) {
+    public ResponseEntity<?> getCandidatesWithArea(int partyId, AreaEnum area, String searchInput) {
         List<Object[]> candidates = new ArrayList<>();
         switch(area) {
-            case "municipality":
+            case MUNICIPALITY:
                     candidates = votesRepository.getCandidateWithVotesAndMunicipality(partyId, searchInput);
                     break;
-                case "constituency":
+            case CONSTITUENCY:
                     candidates = votesRepository.getCandidateWithVotesAndConstituency(partyId, searchInput);
                     break;
                 default:

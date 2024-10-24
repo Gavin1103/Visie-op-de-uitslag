@@ -44,7 +44,7 @@ const updateCandidates = async (Area) => {
   switch(area.value) {
     case AreaEnum.CONSTITUENCY:
       try{
-        candidatesWithVotes.value = await candidateService.getCandidatesByArea("constituency", props.partyId, Area)
+        candidatesWithVotes.value = await candidateService.getCandidatesByArea(AreaEnum.CONSTITUENCY, props.partyId, Area)
         chartLabel.value = Area
       }
       catch (error) {

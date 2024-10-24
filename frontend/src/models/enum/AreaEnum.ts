@@ -1,5 +1,5 @@
 export enum AreaEnum {
-  MUNICIPALITY = "municipality",
-  CONSTITUENCY = "constituency",
-  NATIONAL = "national"
+  MUNICIPALITY = "MUNICIPALITY",
+  CONSTITUENCY = "CONSTITUENCY",
+  NATIONAL = "NATIONAL"
 }

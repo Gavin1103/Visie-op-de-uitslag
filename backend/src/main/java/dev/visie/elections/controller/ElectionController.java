@@ -6,6 +6,7 @@ import dev.visie.elections.dto.party.PartyDTO;
 import dev.visie.elections.dto.party.PartyLogoDTO;
 import dev.visie.elections.dto.votes.TotalAmountOfVotesDTO;
 import dev.visie.elections.model.election.Party;
+import dev.visie.elections.model.enums.AreaEnum;
 import dev.visie.elections.service.AreaService;
 import dev.visie.elections.service.CandidateService;
 import dev.visie.elections.service.PartyService;
@@ -69,7 +70,7 @@ public class ElectionController {
 
     @GetMapping("candidates/{partyId}/{area}/{searchInput}")
     @Operation(summary = "get a list of candidates for a party with the amount of votes they got for a municipality or constutuency")
-    public ResponseEntity<?> getCandidatesWithArea(@PathVariable int partyId, @PathVariable String area, @PathVariable String searchInput) {
+    public ResponseEntity<?> getCandidatesWithArea(@PathVariable int partyId, @PathVariable AreaEnum area, @PathVariable String searchInput) {
         return candidateService.getCandidatesWithArea(partyId, area, searchInput);
     }
 
