@@ -5,6 +5,8 @@ import type { CandidateWithVotes } from '@/models/Candidate'
 import { ref } from 'vue'
 import { CandidateService } from '@/services/CandidateService'
 import AreaSearchbar from '@/components/partyPage/AreaSearchbar.vue'
+import { emptyCandidateList } from '@/stores/EmptyCandidateList'
+import { AreaEnum } from '@/models/enum/AreaEnum'
 const props = defineProps({
   candidates: {
     type: Array as () => CandidateWithVotes[],
@@ -18,44 +20,47 @@ const props = defineProps({
 
 const candidateService = new CandidateService();
 const placeholder = ref("nationaal")
-const searchInput = ref<String | undefined>(undefined)
 const candidatesWithVotes = ref<CandidateWithVotes[]>(props.candidates);
 const searchAvailable = ref(false)
-const area = ref("national")
+const area = ref(AreaEnum.NATIONAL)
 const chartLabel = ref("landelijk")
 
 function updateArea(changedArea: String, changedPlaceholder: String) {
   area.value = changedArea
-  if(changedArea === "constituency" || changedArea === "municipality"){
+  if(changedArea === AreaEnum.CONSTITUENCY || changedArea === AreaEnum.MUNICIPALITY){
     searchAvailable.value = true
-    chartLabel.value = "Landelijk"
+    chartLabel.value = "Amsterdam"
+    updateCandidates("Amsterdam")
     placeholder.value = changedPlaceholder
   }
   else{
     searchAvailable.value = false
     candidatesWithVotes.value = props.candidates
+    placeholder.value = changedPlaceholder
   }
 }
 
 const updateCandidates = async (Area) => {
   switch(area.value) {
-    case "constituency":
+    case AreaEnum.CONSTITUENCY:
       try{
         candidatesWithVotes.value = await candidateService.getCandidatesByArea("constituency", props.partyId, Area)
         chartLabel.value = Area
       }
       catch (error) {
         chartLabel.value = "geen stemmen in dit gebied gevonden"
+        candidatesWithVotes.value = emptyCandidateList
         console.error("no votes in aera", error)
       }
       break
-    case "municipality":
+    case AreaEnum.MUNICIPALITY:
       try{
-        candidatesWithVotes.value = await candidateService.getCandidatesByArea("municipality", props.partyId, Area)
+        candidatesWithVotes.value = await candidateService.getCandidatesByArea(AreaEnum.MUNICIPALITY, props.partyId, Area)
         chartLabel.value = Area
       }
       catch (error) {
         chartLabel.value = "geen stemmen in dit gebied gevonden"
+        candidatesWithVotes.value = emptyCandidateList
         console.error("no votes in aera", error)
       }
       break
@@ -67,18 +72,18 @@ const updateCandidates = async (Area) => {
 
   <section class="w-full flex justify-center space-x-4 py-4">
     <button
-      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === 'national' ? 'bg-[#5564c8]' : 'bg-NavBlue text-white hover:bg-opacity-80']"
-      @click="updateArea('national', 'nationaal')">
+      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === AreaEnum.NATIONAL ? 'bg-[#5564c8]' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+      @click="updateArea(AreaEnum.NATIONAL, 'nationaal')">
       Landelijk
     </button>
     <button
-      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === 'constituency' ? 'bg-[#5564c8]' : 'bg-NavBlue text-white hover:bg-opacity-80']"
-      @click="updateArea('constituency', 'kieskring')">
+      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === AreaEnum.CONSTITUENCY ? 'bg-[#5564c8]' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+      @click="updateArea(AreaEnum.CONSTITUENCY, 'kieskring')">
       Per kieskring
     </button>
     <button
-      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === 'municipality' ? 'bg-[#5564c8]' : 'bg-NavBlue text-white hover:bg-opacity-80']"
-      @click="updateArea('municipality', 'gemeente')">
+      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === AreaEnum.MUNICIPALITY ? 'bg-[#5564c8]' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+      @click="updateArea(AreaEnum.MUNICIPALITY, 'gemeente')">
       Per gemeente
     </button>
   </section>

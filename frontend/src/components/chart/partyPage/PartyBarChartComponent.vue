@@ -64,7 +64,7 @@ const chartOptions = ref({
 });
 
 const updateChartData = () => {
-  let label = newLabel;
+  let label = newLabel.value;
   let showData = candidatesWithVotes.value.map(candidate => candidate.votes);
   let suggestedMax = Math.max(...showData) * 1.6;
 
@@ -100,7 +100,8 @@ const fetchData = async () => {
 };
 
 watch(() => props.candidates, (newCandidates) => {
-  candidatesWithVotes.value = [...newCandidates]; // Reassign to trigger reactivity
+  candidatesWithVotes.value = [...newCandidates];
+  newLabel.value = props.label
   updateChartData()
 });
 
