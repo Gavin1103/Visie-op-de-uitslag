@@ -19,12 +19,34 @@ public interface VotesRepository extends JpaRepository<Votes, Long> {
             "ORDER BY SUM(v.amount) DESC")
     List<Object[]> getPartiesOrderedByVotes();
 
-    @Query("SELECT new dev.visie.elections.dto.candidate.CandidateWithVotes(c.candidateId, " +
-            "CONCAT(CONCAT(CONCAT(c.firstName, ' '), COALESCE(c.lastNamePrefix, '')), ' ', c.lastName), SUM(v.amount)) " +
+    @Query("SELECT c.candidateId.candidateId, c.candidateId.partyId,  c.firstName, c.lastNamePrefix, c.lastName, SUM(v.amount) " +
             "FROM Votes v " +
             "JOIN v.candidate c " +
             "WHERE v.votesId.candidateId.partyId = :partyId " +
-            "GROUP BY c.candidateId.candidateId, c.candidateId.partyId, c.firstName, c.lastName, c.lastNamePrefix " +
+            "GROUP BY c.candidateId.candidateId, c.candidateId.partyId, c.firstName, c.lastNamePrefix, c.lastName " +
             "ORDER BY SUM(v.amount) DESC")
-    List<CandidateWithVotes> getCandidateWithVotes(@Param("partyId") int partyId);
+    List<Object[]> getCandidateWithVotes(@Param("partyId") int partyId);
+
+    @Query("SELECT c.candidateId.candidateId, c.candidateId.partyId,  c.firstName, c.lastNamePrefix, c.lastName, SUM(v.amount) " +
+            "FROM Votes v " +
+            "JOIN v.candidate c " +
+            "JOIN v.station s " +
+            "JOIN s.municipality m " +
+            "JOIN m.constituency t " +
+            "WHERE v.votesId.candidateId.partyId = :partyId " +
+            "AND t.name = :searchInput " +
+            "GROUP BY c.candidateId.candidateId, c.candidateId.partyId, c.firstName, c.lastNamePrefix, c.lastName " +
+            "ORDER BY SUM(v.amount) DESC")
+    List<Object[]> getCandidateWithVotesAndConstituency(@Param("partyId") int partyId, @Param("searchInput") String searchInput);
+
+    @Query("SELECT c.candidateId.candidateId, c.candidateId.partyId,  c.firstName, c.lastNamePrefix, c.lastName, SUM(v.amount) " +
+            "FROM Votes v " +
+            "JOIN v.candidate c " +
+            "JOIN v.station s " +
+            "JOIN s.municipality m " +
+            "WHERE v.votesId.candidateId.partyId = :partyId " +
+            "AND m.name = :searchInput " +
+            "GROUP BY c.candidateId.candidateId, c.candidateId.partyId, c.firstName, c.lastNamePrefix, c.lastName " +
+            "ORDER BY SUM(v.amount) DESC")
+    List<Object[]> getCandidateWithVotesAndMunicipality(@Param("partyId") int partyId, @Param("searchInput") String searchInput);
 }

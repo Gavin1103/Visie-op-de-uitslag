@@ -1,6 +1,7 @@
 package dev.visie.elections.model.election;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,9 +21,11 @@ public class Municipality {
 
      @ManyToOne
     @JoinColumn(name = "constituency_id", nullable = false)
+     @JsonIgnore
     private Constituency constituency;
 
     @OneToMany(mappedBy = "municipality", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Station> stations = new ArrayList<>();
 
     public void setMunicipalityId(String municipalityId) {
