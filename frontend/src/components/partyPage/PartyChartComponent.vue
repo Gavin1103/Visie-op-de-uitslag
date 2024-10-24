@@ -67,17 +67,17 @@ const updateCandidates = async (Area) => {
 
   <section class="w-full flex justify-center space-x-4 py-4">
     <button
-      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === 'national' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === 'national' ? 'bg-[#5564c8]' : 'bg-NavBlue text-white hover:bg-opacity-80']"
       @click="updateArea('national', 'nationaal')">
       Landelijk
     </button>
     <button
-      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === 'constituency' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === 'constituency' ? 'bg-[#5564c8]' : 'bg-NavBlue text-white hover:bg-opacity-80']"
       @click="updateArea('constituency', 'kieskring')">
       Per kieskring
     </button>
     <button
-      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === 'municipality' ? 'bg-purple-800 text-white' : 'bg-NavBlue text-white hover:bg-opacity-80']"
+      :class="['w-32 h-12 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out', area === 'municipality' ? 'bg-[#5564c8]' : 'bg-NavBlue text-white hover:bg-opacity-80']"
       @click="updateArea('municipality', 'gemeente')">
       Per gemeente
     </button>
