@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { ElectionService } from '@/services/ElectionService'
+import { AreaEnum } from '@/models/enum/AreaEnum'
 
 
   const props = defineProps({
@@ -16,6 +17,7 @@ import { ElectionService } from '@/services/ElectionService'
   })
   const emits = defineEmits( ['select-option'],)
 
+  const isDropdownVisible= ref(false)
   const searchQuery = ref('');
   const selectedOption = ref("");
   const optionsMunicipality = ref([]);
@@ -30,10 +32,10 @@ import { ElectionService } from '@/services/ElectionService'
         optionsConstituency.value = areas.constituencies.map(item => ({ value: item.constituencyId, label: item.name }));
         let options = []
         switch(props.area){
-          case "municipality":
+          case AreaEnum.MUNICIPALITY:
             options = optionsMunicipality
             break;
-          case "constituency":
+          case AreaEnum.CONSTITUENCY:
             options = optionsConstituency
             break;
         }
@@ -42,15 +44,18 @@ import { ElectionService } from '@/services/ElectionService'
           console.error('Error fetching options:', error);
       }
     };
+  const toggleDropdown = (visible) => {
+      isDropdownVisible.value = visible;
+  }
 
   const fetchFilteredOptions = () => {
       const query = searchQuery.value.toLowerCase();
       let options = [];
       switch(props.area){
-        case "municipality":
+        case AreaEnum.MUNICIPALITY:
           options = optionsMunicipality
           break;
-        case "constituency":
+        case AreaEnum.CONSTITUENCY:
           options = optionsConstituency
           break;
       }
@@ -59,8 +64,9 @@ import { ElectionService } from '@/services/ElectionService'
       );
     };
 
-    const updateParent = () => {
-      emits('select-option', selectedOption.value);
+    const updateParent = (option) => {
+      isDropdownVisible.value = false
+      emits('select-option', option.label);
     };
 
     fetchOptions();
@@ -71,20 +77,28 @@ import { ElectionService } from '@/services/ElectionService'
 <template>
   <div class="w-full flex flex-col items-center">
     <input
-      type="text"
-      v-model="searchQuery"
-      @input="fetchFilteredOptions"
-      placeholder="zoeken..."
-      class="h-12 m-2 p-4 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out text-white bg-NavBlue border border-amber-50 bg-opacity-90 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-800 focus:bg-opacity-90 w-72"
+    type="text"
+    v-model="searchQuery"
+    @input="fetchFilteredOptions"
+    @focus="toggleDropdown(true)"
+    placeholder="zoeken..."
+    class="h-12 m-2 p-4 font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out text-white bg-NavBlue border border-amber-50 bg-opacity-90 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-800 focus:bg-opacity-90 w-72"
     />
 
     <div class="relative w-72 m-3">
-      <select v-model="selectedOption" @change="updateParent" class="h-14 p-3 font-bold rounded-lg shadow-lg text-white bg-NavBlue border border-amber-50 bg-opacity-90 placeholder-white w-full">
-        <option value="" disabled selected>klik om te zoeken</option>
-        <option v-for="option in filteredOptions" :key="option.value" :value="option.label">
+      <ul
+        v-show="isDropdownVisible"
+        class="absolute w-full bg-white shadow-lg max-h-60 rounded-lg overflow-y-auto z-10"
+      >
+        <li
+          v-for="option in filteredOptions"
+          :key="option.value"
+          @click="updateParent(option)"
+          class="p-3 cursor-pointer hover:bg-gray-200"
+        >
           {{ option.label }}
-        </option>
-      </select>
+        </li>
+      </ul>
     </div>
     <p class="text-2xl">{{chartLabel}}</p>
   </div>
