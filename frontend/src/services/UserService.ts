@@ -36,7 +36,7 @@ export class UserService {
   }
 
   async getUserById(userId: number): Promise<User> {
-    return await this.dbService.get<User>(`users/${userId}`);
+    return await this.dbService.get<User>(`user/${userId}`);
   }
 
   async currentUserIsAdmin(): Promise<boolean> {
