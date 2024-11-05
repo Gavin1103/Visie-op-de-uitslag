@@ -39,7 +39,7 @@ const rightMenuItems = ref([
     visible: !isUserLoggedIn.value
   },
   { label: 'Profile', icon: 'pi pi-user', command: () => router.push('/profile'), visible: isUserLoggedIn.value },
-  { label: 'Admin', icon: 'pi pi-briefcase', command: () => router.push('/cms/dashboard'), visible: isUserAdmin.value }
+  { label: 'Admin', icon: 'pi pi-briefcase', command: () => router.push('/cms/dashboard'), visible: isUserLoggedIn.value && isUserAdmin.value }
 ])
 </script>
 
