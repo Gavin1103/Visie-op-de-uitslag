@@ -28,6 +28,10 @@ export class UserService {
     return await this.dbService.put<NewUser>(`user/${user.id}`, user);
   }
 
+  async updateUserSelf(user: NewUser): Promise<NewUser> {
+    return await this.dbService.put<NewUser>(`user/self`, user);
+  }
+
   async deleteUser(userId: string): Promise<void> {
     await this.dbService.delete(`user/${userId}`);
   }

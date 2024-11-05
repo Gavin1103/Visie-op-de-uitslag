@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -78,6 +79,8 @@ public class UserService {
             user.setRoles(existingUser.getRoles());
         }
 
+        user.setCreatedAt(existingUser.getCreatedAt());
+        user.setUpdatedAt(new Date());
         user.setEnabled(userDto.isEnabled());
         user.setId(existingUser.getId());
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
