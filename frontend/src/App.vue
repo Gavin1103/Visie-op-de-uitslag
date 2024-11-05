@@ -8,33 +8,38 @@ import Toast from 'primevue/toast';
 </script>
 
 <template>
-  <main-navbar />
-  <main class="flex-container">
-    <SideBar />
-    <RouterView />
-    <Toast />
-    <ConfirmDialog></ConfirmDialog>
-  </main>
-  <MainFooter />
+  <div class="app-container"> <!-- Main container for the app -->
+    <main-navbar />
+    <div class="layout-container">
+      <SideBar />
+      <div class="content-area">
+        <RouterView />
+        <Toast />
+        <ConfirmDialog />
+      </div>
+    </div>
+    <MainFooter />
+  </div>
 </template>
 
 <style scoped>
-.flex-container {
+.app-container {
   display: flex;
-  flex-direction: row; /* Aligns children in a row */
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-main {
-  flex: 1; /* Allows main to take the remaining space */
-  display: flex; /* Makes sure the RouterView and Toast are also flex items */
-  flex-direction: column; /* Stack items vertically */
+.layout-container {
+  display: flex;
+  flex: 1;
+}
+
+.content-area {
+  flex: 1;
+  padding: 5px;
 }
 
 .sidebar {
-  width: 200px; /* Fixed width for the sidebar */
-}
-
-.router-view {
-  flex: 1; /* Allows RouterView to take the remaining space */
+  width: 200px;
 }
 </style>
