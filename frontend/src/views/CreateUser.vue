@@ -6,7 +6,6 @@ import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Divider from 'primevue/divider'
 import IftaLabel from 'primevue/iftalabel'
-import Message from 'primevue/message'
 import type { NewUser } from '@/models/NewUser'
 import { useToast } from 'primevue/usetoast'
 

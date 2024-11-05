@@ -3,15 +3,11 @@ import { ref, watch } from 'vue'
 import IconLogo from '@/components/icons/IconLogo.vue'
 import { CookieService } from '@/services/CookieService'
 import router from '@/router'
-import { useRoute } from 'vue-router'
 import Menubar from 'primevue/menubar'
-import PanelMenu from 'primevue/panelmenu' // Import PanelMenu
 import { UserService } from '@/services/UserService'
 
-let cookieService = new CookieService()
-let userService = new UserService()
-
-const route = useRoute()
+const cookieService = new CookieService()
+const userService = new UserService()
 
 let isUserLoggedIn = ref(cookieService.tokenExists())
 let isUserAdmin = ref(userService.currentUserIsAdmin())
@@ -22,11 +18,6 @@ function logout() {
     window.location.reload()
   })
 }
-
-const isCmsRoute = ref(route.path.startsWith('/cms'))
-watch(route, (newRoute) => {
-  isCmsRoute.value = newRoute.path.startsWith('/cms')
-})
 
 const leftMenuItems = ref([
   { label: 'Home', icon: 'pi pi-home', command: () => router.push('/') },
@@ -50,25 +41,6 @@ const rightMenuItems = ref([
   { label: 'Profile', icon: 'pi pi-user', command: () => router.push('/profile'), visible: isUserLoggedIn.value },
   { label: 'Admin', icon: 'pi pi-briefcase', command: () => router.push('/cms/dashboard'), visible: isUserAdmin.value }
 ])
-
-// Define vertical CMS menu items
-const cmsMenuItems = ref([
-  {
-    label: 'Dashboard',
-    icon: 'pi pi-fw pi-home',
-    command: () => router.push('/cms/dashboard')
-  },
-  {
-    label: 'Users',
-    icon: 'pi pi-fw pi-users',
-    command: () => router.push('/cms/userOverview')
-  },
-  {
-    label: 'Settings',
-    icon: 'pi pi-fw pi-cog',
-    command: () => router.push('/cms/settings')
-  }
-])
 </script>
 
 <template>
@@ -84,19 +56,11 @@ const cmsMenuItems = ref([
       </Menubar>
     </div>
   </div>
-
-  <template v-if="isCmsRoute">
-    <PanelMenu :model="cmsMenuItems" class="vertical-menu" />
-  </template>
 </template>
 
 <style scoped>
 .flex {
   display: flex;
-}
-
-.vertical-menu {
-  width: 200px;
 }
 
 .content-area {
