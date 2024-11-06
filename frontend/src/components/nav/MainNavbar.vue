@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import IconLogo from '@/components/icons/IconLogo.vue'
 import { CookieService } from '@/services/CookieService'
 import router from '@/router'
@@ -9,8 +9,13 @@ import { UserService } from '@/services/UserService'
 const cookieService = new CookieService()
 const userService = new UserService()
 
-let isUserLoggedIn = ref(cookieService.tokenExists())
-let isUserAdmin = ref(userService.currentUserIsAdmin())
+const isUserLoggedIn = ref<boolean | null>(null)
+const isUserAdmin = ref<boolean | null>(null)
+
+onBeforeMount(async () => {
+  isUserAdmin.value = await userService.currentUserIsAdmin()
+  isUserLoggedIn.value = cookieService.tokenExists()
+})
 
 function logout() {
   cookieService.removeTokenCookies()
@@ -26,21 +31,28 @@ const leftMenuItems = ref([
   { label: 'Forum', icon: 'pi pi-comments', command: () => router.push('/forum') }
 ])
 
-const rightMenuItems = ref([
-  {
-    label: isUserLoggedIn.value ? 'Logout' : 'Login',
-    icon: isUserLoggedIn.value ? 'pi pi-sign-out' : 'pi pi-sign-in',
-    command: () => isUserLoggedIn.value ? logout() : router.push('/login')
-  },
-  {
-    label: 'Register',
-    icon: 'pi pi-user-plus',
-    command: () => router.push('/register'),
-    visible: !isUserLoggedIn.value
-  },
-  { label: 'Profile', icon: 'pi pi-user', command: () => router.push('/profile'), visible: isUserLoggedIn.value },
-  { label: 'Admin', icon: 'pi pi-briefcase', command: () => router.push('/cms/dashboard'), visible: isUserLoggedIn.value && isUserAdmin.value }
-])
+// Define a function to update the rightMenuItems based on login status and admin role
+const rightMenuItems = ref([])
+
+watch([isUserLoggedIn, isUserAdmin], () => {
+  if (isUserLoggedIn.value !== null && isUserAdmin.value !== null) {
+    rightMenuItems.value = [
+      {
+        label: isUserLoggedIn.value ? 'Logout' : 'Login',
+        icon: isUserLoggedIn.value ? 'pi pi-sign-out' : 'pi pi-sign-in',
+        command: () => isUserLoggedIn.value ? logout() : router.push('/login')
+      },
+      {
+        label: 'Register',
+        icon: 'pi pi-user-plus',
+        command: () => router.push('/register'),
+        visible: !isUserLoggedIn.value
+      },
+      { label: 'Profile', icon: 'pi pi-user', command: () => router.push('/profile'), visible: isUserLoggedIn.value },
+      { label: 'Admin', icon: 'pi pi-briefcase', command: () => router.push('/cms/dashboard'), visible: isUserLoggedIn.value && isUserAdmin.value }
+    ]
+  }
+}, { immediate: true })
 </script>
 
 <template>
@@ -51,7 +63,7 @@ const rightMenuItems = ref([
           <icon-logo height="h-20" width="w-32" />
         </template>
         <template #end>
-          <Menubar :model="rightMenuItems" />
+          <Menubar v-if="isUserLoggedIn !== null && isUserAdmin !== null" :model="rightMenuItems" />
         </template>
       </Menubar>
     </div>
