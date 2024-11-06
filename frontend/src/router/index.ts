@@ -8,6 +8,7 @@ import Unauthorized from '@/components/Unauthorized.vue'
 import PartyOverview from '@/views/PartyOverview.vue'
 import PartyView from '@/views/PartyView.vue'
 import UserOverview from '@/views/UserOverview.vue'
+import Dashboard from '@/views/Dashboard.vue'
 
 
 const userService = new UserService();
@@ -61,6 +62,12 @@ const router = createRouter({
       path: '/cms/userOverview',
       name: 'userOverview',
       component: UserOverview,
+      meta: { requiresAdmin: true }
+    },
+    {
+      path: '/cms/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
       meta: { requiresAdmin: true }
     },
     {
