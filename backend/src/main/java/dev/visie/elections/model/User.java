@@ -42,7 +42,7 @@ public class User extends BaseModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override
