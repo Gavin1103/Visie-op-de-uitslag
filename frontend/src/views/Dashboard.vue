@@ -14,7 +14,7 @@
 import { onMounted, ref } from 'vue'
 import Chart from 'primevue/chart'
 import { UserService } from '@/services/UserService'
-import { GetUser } from '@/models/GetUser'
+import { GetUser } from '@/models/user/GetUser'
 
 onMounted(async () => {
   userData.value = await loadUserData()

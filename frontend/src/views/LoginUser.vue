@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { UserService } from '@/services/UserService';
-import type { LoginUser, NewUser } from '@/models/user/User'
 import { CookieService } from '@/services/CookieService'
 import { useRouter } from 'vue-router'
-import type { LoginUser } from '@/models/LoginUser'
 import IftaLabel from 'primevue/iftalabel'
 import Password from 'primevue/password'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { useToast } from 'primevue/usetoast'
+import type {LoginUser} from "@/models/user/LoginUser";
 
 
 
