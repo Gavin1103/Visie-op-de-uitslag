@@ -37,6 +37,7 @@ import Toast from 'primevue/toast';
 .content-area {
   flex: 1;
   padding: 5px;
+  width: 100%;
 }
 
 .sidebar {
