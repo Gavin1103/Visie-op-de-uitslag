@@ -8,11 +8,12 @@ export class User {
   roles: Role[];
   enabled?: boolean;
 
-  constructor(id: number, username: string, email: string, password: string, roles: Role[]) {
+  constructor(id: number, username: string, email: string, password: string, roles: Role[], enabled?: boolean) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
     this.roles = roles;
+    this.enabled = enabled;
   }
 }

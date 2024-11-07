@@ -258,7 +258,7 @@ public class AuthenticationService {
             confirmationTokenRepository.save(confirmationToken);
 
             return new ResponseEntity<>(ForgotPasswordResponse.builder()
-                    .username(user.getUsername())
+                    .username(user.getEmail())
                     .confirmationToken(confirmationToken.getConfirmationToken())
                     .build(), HttpStatus.OK);
         }

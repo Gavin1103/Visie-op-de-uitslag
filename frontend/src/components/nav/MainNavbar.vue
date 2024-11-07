@@ -1,38 +1,82 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue' // Import ref
-import IconLogo from "@/components/icons/IconLogo.vue";
-import { CookieService } from '@/services/CookieService';
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
+import IconLogo from '@/components/icons/IconLogo.vue'
+import { CookieService } from '@/services/CookieService'
 import router from '@/router'
+import Menubar from 'primevue/menubar'
+import { UserService } from '@/services/UserService'
 
-let cookieService = new CookieService();
+const cookieService = new CookieService()
+const userService = new UserService()
 
-let isUserLoggedIn = ref(cookieService.tokenExists());
+const isUserLoggedIn = ref<boolean | null>(null)
+const isUserAdmin = ref<boolean | null>(null)
+
+onBeforeMount(async () => {
+  isUserAdmin.value = await userService.currentUserIsAdmin()
+  isUserLoggedIn.value = cookieService.tokenExists()
+})
 
 function logout() {
-  cookieService.removeTokenCookies();
+  cookieService.removeTokenCookies()
   router.push('/login').then(() => {
-    window.location.reload(); // Force full page reload after navigation
-  });
+    window.location.reload()
+  })
 }
 
+const leftMenuItems = ref([
+  { label: 'Home', icon: 'pi pi-home', command: () => router.push('/') },
+  { label: 'About', icon: 'pi pi-info', command: () => router.push('/about') },
+  { label: 'Parties', icon: 'pi pi-users', command: () => router.push('/parties') },
+  { label: 'Forum', icon: 'pi pi-comments', command: () => router.push('/forum') }
+])
+
+// Define a function to update the rightMenuItems based on login status and admin role
+const rightMenuItems = ref([])
+
+watch([isUserLoggedIn, isUserAdmin], () => {
+  if (isUserLoggedIn.value !== null && isUserAdmin.value !== null) {
+    rightMenuItems.value = [
+      {
+        label: isUserLoggedIn.value ? 'Logout' : 'Login',
+        icon: isUserLoggedIn.value ? 'pi pi-sign-out' : 'pi pi-sign-in',
+        command: () => isUserLoggedIn.value ? logout() : router.push('/login')
+      },
+      {
+        label: 'Register',
+        icon: 'pi pi-user-plus',
+        command: () => router.push('/register'),
+        visible: !isUserLoggedIn.value
+      },
+      { label: 'Profile', icon: 'pi pi-user', command: () => router.push('/profile'), visible: isUserLoggedIn.value },
+      { label: 'Admin', icon: 'pi pi-briefcase', command: () => router.push('/cms/dashboard'), visible: isUserLoggedIn.value && isUserAdmin.value }
+    ]
+  }
+}, { immediate: true })
 </script>
 
 <template>
-  <nav class="w-full gap-6 bg-NavBlue m-0 flex items-center h-20">
-    <section class="ml-4">
-      <icon-logo height="h-20" width="w-32"/>
-    </section>
-    <ul class="flex ml-4 list-none gap-6 text-2xl font-bold flex-grow">
-      <li><router-link class="text-white font-bold" to="/">Home</router-link></li>
-      <li><router-link class="text-white font-bold" to="/about">About</router-link></li>
-      <li><router-link class="text-white font-bold" to="/parties">Parties</router-link></li>
-      <li><router-link class="text-white font-bold" to="/forum">Forum</router-link></li>
-
-    </ul>
-    <router-link v-if="!isUserLoggedIn" class="text-white text-2xl font-bold mr-6" to="/login">Login</router-link>
-    <router-link v-if="!isUserLoggedIn" class="text-white text-2xl font-bold mr-6" to="/register">Register</router-link>
-    <button v-else @click="logout" class="text-white text-2xl font-bold mr-6">Logout</button>
-    <router-link v-if="isUserLoggedIn" class="text-white text-2xl font-bold mr-6" to="/profile">Profile</router-link>
-
-  </nav>
+  <div class="flex">
+    <div class="content-area">
+      <Menubar :model="leftMenuItems" class="custom-menubar">
+        <template #start>
+          <icon-logo height="h-20" width="w-32" />
+        </template>
+        <template #end>
+          <Menubar v-if="isUserLoggedIn !== null && isUserAdmin !== null" :model="rightMenuItems" />
+        </template>
+      </Menubar>
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.flex {
+  display: flex;
+}
+
+.content-area {
+  flex: 1;
+  padding: 5px;
+}
+</style>

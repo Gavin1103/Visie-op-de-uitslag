@@ -1,5 +1,6 @@
 package dev.visie.elections.service;
 
+import dev.visie.elections.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -56,7 +57,7 @@ public class JwtService {
      * @param userDetails the user details
      * @return the JWT token
      */
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
@@ -69,7 +70,7 @@ public class JwtService {
      */
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
+            User userDetails
     ) {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
@@ -81,7 +82,7 @@ public class JwtService {
      * @return the refresh token
      */
     public String generateRefreshToken(
-            UserDetails userDetails
+            User userDetails
     ) {
         return buildToken(new HashMap<>(), userDetails, refreshExpiration);
     }
@@ -96,13 +97,13 @@ public class JwtService {
      */
     private String buildToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails,
+            User userDetails,
             long expiration
     ) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetails.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
@@ -116,9 +117,9 @@ public class JwtService {
      * @param userDetails the user details
      * @return true if the token is valid, false otherwise
      */
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, User userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (username.equals(userDetails.getEmail())) && !isTokenExpired(token);
     }
 
     /**
