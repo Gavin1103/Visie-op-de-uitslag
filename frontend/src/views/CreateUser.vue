@@ -8,6 +8,8 @@ import Divider from 'primevue/divider'
 import IftaLabel from 'primevue/iftalabel'
 import type { NewUser } from '@/models/NewUser'
 import { useToast } from 'primevue/usetoast'
+import { UserService } from '@/services/UserService';
+import type { NewUser, User } from '@/models/user/User'
 
 const name = ref<string>('')
 const email = ref<string>('')

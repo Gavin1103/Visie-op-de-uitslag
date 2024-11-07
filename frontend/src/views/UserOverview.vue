@@ -1,9 +1,9 @@
 <script lang="ts">
 import { onMounted, ref } from 'vue'
 import { UserService } from '@/services/UserService'
-import type { NewUser } from '@/models/NewUser'
-import type { GetUser } from '@/models/GetUser'
-import type { User } from '@/models/User'
+import type { NewUser } from '@/models/user/NewUser'
+import type { GetUser } from '@/models/user/GetUser'
+import type { User } from '@/models/user/User'
 
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
