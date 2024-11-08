@@ -8,6 +8,7 @@ import { UserService } from '@/services/UserService'
 import Unauthorized from '@/components/Unauthorized.vue'
 import PartyOverview from '@/views/PartyOverview.vue'
 import PartyView from '@/views/PartyView.vue'
+import ForumView from '@/views/ForumView.vue'
 
 
 const userService = new UserService();
@@ -50,7 +51,7 @@ const router = createRouter({
     {
       path: '/forum',
       name: 'forum',
-      component: () => import('../views/AboutView.vue')
+      component: ForumView
     },
     {
       path: '/register',
