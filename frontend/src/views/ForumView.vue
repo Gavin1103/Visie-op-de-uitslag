@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import {WebSocketService} from '@/services/WebSocketService.ts'
+import InputText from 'primevue/inputtext'
+
 
 const webSocketService = new WebSocketService();
 
@@ -21,16 +23,25 @@ function disconnect() {
 </script>
 
 <template>
-  <input v-model="chatMessage" type="text">
-  <button @click="sendMessage">send message</button>
+  <div class="flex justify-center m-16 items-center w-full h-full">
+    <div class="flex gap-6">
+      <section class="flex flex-col gap-6">
+        <InputText v-model="chatMessage" type="text"></InputText>
+        <button class="border" @click="sendMessage">send message</button>
+        <ul>
+          <li v-for="(msg, index) in messages" :key="index">
+            {{ msg.name }}: {{ msg.message }}
+          </li>
+        </ul>
+      </section>
+      <section class="flex flex-col">
+  <button class="border" @click="connect">connect</button>
+  <button class="border" @click="disconnect">disconnect</button>
+      </section>
 
-  <button @click="connect">connect</button>
-  <button @click="disconnect">disconnect</button>
-  <ul>
-    <li v-for="(msg, index) in messages" :key="index">
-      {{ msg.name }}: {{ msg.message }}
-    </li>
-  </ul>
+
+    </div>
+  </div>
 </template>
 
 <style scoped>
