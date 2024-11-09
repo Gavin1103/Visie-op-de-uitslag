@@ -1,69 +1,36 @@
 <script setup>
-import {Client} from '@stomp/stompjs';
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import {WebSocketService} from '@/services/WebSocketService.ts'
 
+const webSocketService = new WebSocketService();
 
-
-
-const chat = ref("")
-
-let socket = null
-let stompClient
-function connect() {
-  // Create a WebSocket connection
-  socket = new WebSocket('ws://localhost:8080/api/ws');
-
-  // Create a STOMP client using the WebSocket
-  stompClient = new Client({
-    brokerURL: 'ws://localhost:8080/api/ws',  // The URL to the WebSocket server
-    onConnect: function(frame) {
-      console.log('Connected: ' + frame);
-
-      // Subscribe to a topic
-      stompClient.subscribe('/topic/messages', function(messageOutput) {
-        console.log("Received message: ", messageOutput.body);
-      });
-
-      // Send a message to the server
-      stompClient.publish({
-        destination: "/app/chat",  // Correct destination for the backend endpoint
-        body: JSON.stringify({
-          'nickname': 'User',
-          'content': 'someone joined',
-          'timestamp': new Date().toISOString()
-        })
-      });
-    },
-    onStompError: function(error) {
-      console.error('STOMP error: ', error);
-    }
-  });
-
-  stompClient.activate();
+const messages = computed(() => webSocketService.messages.value);
+const chatMessage = ref("")
+function connect(){
+  webSocketService.connect(1);
 }
-
 function sendMessage() {
-  stompClient.publish({
-    destination: "/app/chat",  // Correct destination for the backend endpoint
-    body: JSON.stringify({
-      'nickname': 'User',
-      'content': chat.value,
-      'timestamp': new Date().toISOString()
-    })
-  });
+  webSocketService.sendMessage(1, chatMessage.value);
 }
 
 function disconnect() {
-  stompClient.deactivate();
+  webSocketService.disconnect(1);
 }
+
+
 </script>
 
 <template>
-  <input v-model="chat" type="text">
+  <input v-model="chatMessage" type="text">
   <button @click="sendMessage">send message</button>
 
   <button @click="connect">connect</button>
   <button @click="disconnect">disconnect</button>
+  <ul>
+    <li v-for="(msg, index) in messages" :key="index">
+      {{ msg.name }}: {{ msg.message }}
+    </li>
+  </ul>
 </template>
 
 <style scoped>

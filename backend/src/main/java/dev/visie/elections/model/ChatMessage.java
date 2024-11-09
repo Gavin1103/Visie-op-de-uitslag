@@ -1,24 +1,21 @@
 package dev.visie.elections.model;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.visie.elections.model.base.BaseModel;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
-@Table(name = "topic")
+@Table(name = "chat_message")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Topic extends BaseModel {
+@NoArgsConstructor
+public class ChatMessage extends BaseModel {
 
     @Column(length = 1000)
     private String message;
@@ -27,10 +24,8 @@ public class Topic extends BaseModel {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "topic", fetch = FetchType.EAGER)
-    private List<Answer> answers;
-
-    @OneToOne(mappedBy = "topic")
+    @ManyToOne
+    @JoinColumn(name = "livechat_id", nullable = false)
     @JsonBackReference
     private LiveChat livechat;
 }

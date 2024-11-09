@@ -1,6 +1,6 @@
 package dev.visie.elections.controller;
 
-import dev.visie.elections.dto.ChatMessage;
+import dev.visie.elections.dto.ChatMessageDTO;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -11,9 +11,9 @@ import java.util.Date;
 @Controller
 public class WebSocketController {
 
-    @MessageMapping("/chat")
-    @SendTo("/topic/messages")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+    @MessageMapping("/chat/{id}")
+    @SendTo("/topic/messages/{id}")
+    public ChatMessageDTO sendMessage(@Payload ChatMessageDTO chatMessage) {
         chatMessage.setTimestamp(new Date());
         return chatMessage;
     }
