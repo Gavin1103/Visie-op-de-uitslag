@@ -8,6 +8,7 @@ import { UserService } from '@/services/UserService'
 import Unauthorized from '@/components/Unauthorized.vue'
 import PartyOverview from '@/views/PartyOverview.vue'
 import PartyView from '@/views/PartyView.vue'
+import MapView from "@/views/MapView.vue";
 
 
 const userService = new UserService();
@@ -82,6 +83,11 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/map',
+      name: '/map',
+      component: () => import('../views/MapView.vue')
     }
   ]
 })

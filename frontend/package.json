@@ -19,6 +19,7 @@
     "autoprefixer": "^10",
     "chart.js": "^4.4.5",
     "install": "^0.13.0",
+    "leaflet": "^1.9.4",
     "npm": "^10.9.0",
     "pinia": "^2.1.7",
     "postcss": "^8",
