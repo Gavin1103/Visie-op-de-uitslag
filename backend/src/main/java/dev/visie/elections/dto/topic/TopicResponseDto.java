@@ -26,5 +26,5 @@ public class TopicResponseDto {
 
     private int dislikes;
 
-    private int answerAmount;
+    private int amountOfAnswers;
 }
