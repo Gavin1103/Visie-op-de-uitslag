@@ -1,10 +1,14 @@
 package dev.visie.elections.seeder;
 
 import dev.visie.elections.dto.party.PartyLogoDTO;
+import dev.visie.elections.dto.topic.CreateTopicDto;
 import dev.visie.elections.dto.user.CreateUserDTO;
+import dev.visie.elections.model.User;
 import dev.visie.elections.model.enums.RoleEnum;
 import dev.visie.elections.service.AuthenticationService;
 import dev.visie.elections.service.PartyService;
+import dev.visie.elections.service.TopicService;
+import dev.visie.elections.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,13 +24,22 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     private final AuthenticationService authenticationService;
     private final PartyService partyService;
-
     private final PasswordEncoder passwordEncoder;
+    private final TopicService topicService;
 
-    public DatabaseSeeder(AuthenticationService authenticationService, PasswordEncoder passwordEncoder, PartyService partyService) {
+    private final UserService userService;
+
+    public DatabaseSeeder(AuthenticationService authenticationService,
+                          PasswordEncoder passwordEncoder,
+                          PartyService partyService,
+                          TopicService topicService,
+                          UserService userService
+    ) {
         this.authenticationService = authenticationService;
         this.passwordEncoder = passwordEncoder;
         this.partyService = partyService;
+        this.topicService = topicService;
+        this.userService = userService;
     }
 
     @Override
@@ -77,6 +90,23 @@ public class DatabaseSeeder implements CommandLineRunner {
                 new PartyLogoDTO("partijvoorbasisinkomen", 26));
         for (PartyLogoDTO logo : partyLogos) {
             partyService.savePartyLogo(logo.getLogo(), logo.getId());
+        }
+
+        this.createTopics();
+    }
+
+    private void createTopics() {
+        User user1 = userService.getUserByEmail("user@user.com");
+        User user2 = userService.getUserByEmail("admin@admin.com");
+
+        List<CreateTopicDto> createTopicDtos = Arrays.asList(
+                new CreateTopicDto(1,"Ik wil kaas", "Ik ben ook een klant", user1.getId()),
+                new CreateTopicDto(2,"Ik hou van pizza", "Dit is mijn favoriete eten", user1.getId()),
+                new CreateTopicDto(3,"Technologie en ik", "Laten we praten over technologie", user1.getId())
+        );
+
+        for (CreateTopicDto topicDto : createTopicDtos) {
+            topicService.createTopic(topicDto);
         }
     }
 }

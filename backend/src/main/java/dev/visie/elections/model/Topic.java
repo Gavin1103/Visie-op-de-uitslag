@@ -18,11 +18,13 @@ import java.util.List;
 @AllArgsConstructor
 public class Topic extends BaseModel {
 
+    private String statement;
+
     @Column(length = 1000)
     private String message;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "topic", fetch = FetchType.EAGER)
