@@ -1,6 +1,7 @@
 package dev.visie.elections.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.visie.elections.model.base.BaseModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class Topic extends BaseModel {
     @JoinColumn(nullable = false)
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "topic", fetch = FetchType.EAGER)
     private List<Answer> answers;
 }
