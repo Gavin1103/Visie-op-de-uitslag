@@ -3,12 +3,19 @@
     <div class="popup-content">
       <button class="close-btn" @click="closePopup">X</button>
       <h2>{{ title }}</h2>
+      <ul>
+        <li v-for="region in filteredRegions" :key="region.regionNumber">
+          {{ region.regionName }}
+        </li>
+      </ul>
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
+import {kieskringenData} from '@/components/map/kieskringData';
+
 export default {
   name: "PopupMap",
   props: {
@@ -17,7 +24,25 @@ export default {
       required: true,
     },
   },
+  computed: {
+    filteredRegions() {
+      // Normalize the title and region names by trimming spaces, converting to lowercase, and normalizing characters
+      const normalizedTitle = this.normalizeString(this.title);
+
+      return kieskringenData.filter(region => {
+        const normalizedProvince = this.normalizeString(region.province);
+        return normalizedProvince === normalizedTitle;
+      });
+    },
+  },
   methods: {
+    normalizeString(str) {
+      return str
+          .trim()  // Remove leading/trailing spaces
+          .toLowerCase()  // Convert to lowercase
+          .normalize('NFD')  // Normalize characters
+          .replace(/[\u0300-\u036f]/g, ""); // Remove any diacritical marks (like accents)
+    },
     closePopup() {
       this.$emit('close');
     },
@@ -37,6 +62,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 .popup-content {
   background: white;
   padding: 20px;
@@ -45,6 +71,7 @@ export default {
   width: 100%;
   position: relative;
 }
+
 .close-btn {
   position: absolute;
   top: 10px;
@@ -53,5 +80,13 @@ export default {
   border: none;
   font-size: 18px;
   cursor: pointer;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 5px;
 }
 </style>

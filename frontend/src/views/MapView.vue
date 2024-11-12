@@ -16,6 +16,7 @@
 import ProvinceMap from '@/components/map/ProvinceMap.vue';
 import PopupMap from '@/components/map/PopupMap.vue';
 
+
 export default {
   name: 'NetherlandsMap',
   components: {
