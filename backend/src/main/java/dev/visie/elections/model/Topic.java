@@ -29,6 +29,7 @@ public class Topic extends BaseModel {
 
     @ManyToOne
     @JoinColumn(nullable = false)
+    @JsonBackReference
     private User user;
 
     @JsonIgnore
