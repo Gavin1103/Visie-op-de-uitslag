@@ -3,12 +3,12 @@ import { ref } from 'vue'
 import { UserService } from '@/services/UserService';
 import { CookieService } from '@/services/CookieService'
 import { useRouter } from 'vue-router'
-import type { LoginUser } from '@/models/LoginUser'
 import IftaLabel from 'primevue/iftalabel'
 import Password from 'primevue/password'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { useToast } from 'primevue/usetoast'
+import type {LoginUser} from "@/models/user/LoginUser";
 
 
 
@@ -80,7 +80,7 @@ const onSubmit = async () => {
       </IftaLabel>
 
       <IftaLabel>
-        <Password id="password" class="w-full" v-model="password" variant="filled" required />
+        <Password id="password" class="w-full" :feedback="false" v-model="password" variant="filled" required />
         <label for="password">Password</label>
       </IftaLabel>
 

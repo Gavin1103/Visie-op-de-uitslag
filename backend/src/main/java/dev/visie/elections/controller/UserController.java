@@ -2,6 +2,8 @@ package dev.visie.elections.controller;
 
 import dev.visie.elections.config.PreAuthorizeAdmin;
 import dev.visie.elections.dto.user.UpdateUserDTO;
+import dev.visie.elections.dto.user.UserDTO;
+import dev.visie.elections.dto.user.UserProfileResponse;
 import dev.visie.elections.model.User;
 import dev.visie.elections.service.JwtService;
 import dev.visie.elections.service.UserService;
@@ -108,14 +110,11 @@ public class UserController {
      * @return the user associated with the token, or 404 if not found
      */
     @GetMapping("/token/{token}")
-    public ResponseEntity<User> getUserByToken(@PathVariable String token) {
-        User user = userService.getUserByToken(token);
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<UserProfileResponse> getUserByToken(@PathVariable String token) {
+        UserProfileResponse user = userService.getUserByToken(token);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
     /**
      * Endpoint to get a user by their ID.
      *
@@ -128,11 +127,8 @@ public class UserController {
         if (user != null) {
             return ResponseEntity.ok(user);
 
-
         } else {
             return ResponseEntity.notFound().build();
-
         }
     }
-
-    }
+}

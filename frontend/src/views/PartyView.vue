@@ -6,7 +6,7 @@ import type { PartyWithCandidates } from '@/models/Party'
 import { ElectionService } from '@/services/ElectionService'
 import CandidatesListItem from '@/components/partyPage/CandidatesListItem.vue'
 import PartyChartComponent from '@/components/partyPage/PartyChartComponent.vue'
-import {formatNumber} from "../../helper/formatNumberHelper";
+import {formatNumber} from "@/helper/formatNumberHelpers";
 
 export default {
   methods: {formatNumber},

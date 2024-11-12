@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CreateUser from '../views/CreateUser.vue'
-import UserOverview from '../views/UserOverview.vue'
 import LoginUser from '../views/LoginUser.vue'
 import EmailConfirmation from '../views/EmailConfirmation.vue'
 import { UserService } from '@/services/UserService'
@@ -9,6 +8,8 @@ import Unauthorized from '@/components/Unauthorized.vue'
 import PartyOverview from '@/views/PartyOverview.vue'
 import PartyView from '@/views/PartyView.vue'
 import LivechatView from '@/views/LivechatView.vue'
+import UserOverview from '@/views/UserOverview.vue'
+import Dashboard from '@/views/Dashboard.vue'
 
 
 const userService = new UserService();
@@ -59,18 +60,22 @@ const router = createRouter({
       component: CreateUser
     },
     {
-      path: '/userOverview',
+      path: '/cms/userOverview',
       name: 'userOverview',
       component: UserOverview,
       meta: { requiresAdmin: true }
     },
-
+    {
+      path: '/cms/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
+      meta: { requiresAdmin: true }
+    },
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('../views/ProfileView.vue') // Assuming you'll create ProfileView.vue in the views folder
+      component: () => import('../views/ProfileView.vue')
     },
-
     {
       path: '/unauthorized',
       name: 'unauthorized',
@@ -79,9 +84,6 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     }
   ]
