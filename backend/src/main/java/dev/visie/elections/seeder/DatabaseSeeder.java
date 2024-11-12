@@ -10,7 +10,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,13 +19,18 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     private final AuthenticationService authenticationService;
     private final PartyService partyService;
+    private final LiveChatService liveChatService;
 
     private final PasswordEncoder passwordEncoder;
 
-    public DatabaseSeeder(AuthenticationService authenticationService, PasswordEncoder passwordEncoder, PartyService partyService) {
+    public DatabaseSeeder(AuthenticationService authenticationService,
+                          PasswordEncoder passwordEncoder,
+                          PartyService partyService,
+                          LiveChatService liveChatService) {
         this.authenticationService = authenticationService;
         this.passwordEncoder = passwordEncoder;
         this.partyService = partyService;
+        this.liveChatService = liveChatService;
     }
 
     @Override
@@ -78,5 +82,6 @@ public class DatabaseSeeder implements CommandLineRunner {
         for (PartyLogoDTO logo : partyLogos) {
             partyService.savePartyLogo(logo.getLogo(), logo.getId());
         }
+
     }
 }

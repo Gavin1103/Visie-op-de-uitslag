@@ -3,6 +3,7 @@ import { ChatMessageType } from '@/models/enum/ChatMessageType'
 import { ref } from 'vue'
 import type { ChatMessage } from '@/models/ChatMessage'
 import { CookieService } from '@/services/CookieService'
+import { DatabaseService } from '@/services/DatabaseService'
 
 
 export class WebSocketService {
@@ -13,13 +14,13 @@ export class WebSocketService {
 
   private token: string | null;
   private cookieService = new CookieService();
+  private dbService: DatabaseService;
 
   constructor() {
     this.wsURL = import.meta.env.VITE_API_WS_URL;
     this.token = this.cookieService.getCookie(this.cookieService.accessTokenAlias);
+    this.dbService = new DatabaseService();
   }
-
-
 
   public connect(id: number) {
 
@@ -29,8 +30,11 @@ export class WebSocketService {
       },
       brokerURL: `${this.wsURL}/ws?access_token=${this.token}`,
 
-      onConnect: (frame) => {
+      onConnect: async (frame) => {
         console.log('Connected: ' + frame);
+
+        const livechat: ChatMessage[] = await this.dbService.get<ChatMessage[]>(`chat/topic/${id}`)
+        this.messages.value = livechat || []
 
         this.stompClient.subscribe(`/topic/messages/${id}`, (messageOutput) => {
           console.log("Received message: ", messageOutput.body);
@@ -45,12 +49,15 @@ export class WebSocketService {
     });
 
     this.stompClient.activate();
+
   }
 
   public disconnect(id: number) {
-
-    this.sendMessage(id, "", ChatMessageType.LEAVE)
-    this.stompClient.deactivate();
+    if(this.stompClient) {
+      this.sendMessage(id, "", ChatMessageType.LEAVE);
+      this.stompClient.deactivate();
+      this.messages.value = [];
+    }
   }
 
   public sendMessage(id: number, message: String, type: ChatMessageType) {

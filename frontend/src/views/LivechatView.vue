@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import {WebSocketService} from '@/services/WebSocketService.ts'
 import InputText from 'primevue/inputtext'
@@ -8,12 +8,13 @@ import { ChatMessageType } from '@/models/enum/ChatMessageType.ts'
 const webSocketService = new WebSocketService();
 
 const messages = computed(() => webSocketService.messages.value);
-const chatMessage = ref("")
+const chatMessage = ref("");
 function connect(){
-  webSocketService.connect(1);
+ webSocketService.connect(1);
 }
 function sendMessage() {
   webSocketService.sendMessage(1, chatMessage.value, ChatMessageType.CHAT);
+  chatMessage.value = "";
 }
 
 function disconnect() {

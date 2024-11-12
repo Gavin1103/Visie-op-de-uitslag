@@ -29,8 +29,4 @@ public class Topic extends BaseModel {
 
     @OneToMany(mappedBy = "topic", fetch = FetchType.EAGER)
     private List<Answer> answers;
-
-    @OneToOne(mappedBy = "topic")
-    @JsonBackReference
-    private LiveChat livechat;
 }
