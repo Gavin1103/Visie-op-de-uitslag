@@ -37,15 +37,7 @@ export class WebSocketService {
           this.messages.value.push(JSON.parse(messageOutput.body));
         });
 
-        this.stompClient.publish({
-          destination: `/app/chat/${id}`,
-          body: JSON.stringify({
-            'name': 'User',
-            'message': 'someone joined',
-            'type': ChatMessageType.JOIN,
-            'timestamp': new Date().toISOString()
-          })
-        });
+        this.sendMessage(id, "", ChatMessageType.JOIN)
       },
       onStompError: (error) => {
         console.error('STOMP error: ', error);
@@ -57,34 +49,26 @@ export class WebSocketService {
 
   public disconnect(id: number) {
 
-    const body: ChatMessage = {
-      id: '1',
-      name: 'User',
-      message: 'someone left',
-      type: ChatMessageType.LEAVE,
-      timestamp: new Date().toISOString()
-    }
-
-    this.stompClient.publish({
-      destination: `/app/chat/${id}`,
-      body: JSON.stringify(body)
-    });
+    this.sendMessage(id, "", ChatMessageType.LEAVE)
     this.stompClient.deactivate();
   }
 
-  public sendMessage(id: number, message: String) {
+  public sendMessage(id: number, message: String, type: ChatMessageType) {
 
     const body: ChatMessage = {
       id: '1',
       name: 'User',
       message: message,
-      type: ChatMessageType.CHAT,
+      type: type,
       timestamp: new Date().toISOString()
     }
 
   this.stompClient.publish({
     destination: `/app/chat/${id}`,
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    headers: {
+      Authorization: `${this.token}`
+    }
   });
 }
 }

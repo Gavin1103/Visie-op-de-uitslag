@@ -45,6 +45,10 @@ public class User extends BaseModel implements UserDetails {
         return email;
     }
 
+    public String getName() {
+        return username;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
