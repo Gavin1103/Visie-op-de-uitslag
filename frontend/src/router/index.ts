@@ -7,6 +7,7 @@ import { UserService } from '@/services/UserService'
 import Unauthorized from '@/components/Unauthorized.vue'
 import PartyOverview from '@/views/PartyOverview.vue'
 import PartyView from '@/views/PartyView.vue'
+import LivechatView from '@/views/LivechatView.vue'
 import UserOverview from '@/views/UserOverview.vue'
 import Dashboard from '@/views/Dashboard.vue'
 
@@ -51,7 +52,7 @@ const router = createRouter({
     {
       path: '/forum',
       name: 'forum',
-      component: () => import('../views/AboutView.vue')
+      component: LivechatView
     },
     {
       path: '/register',
