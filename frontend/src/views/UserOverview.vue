@@ -1,9 +1,9 @@
 <script lang="ts">
 import { onMounted, ref } from 'vue'
 import { UserService } from '@/services/UserService'
-import type { NewUser } from '@/models/NewUser'
-import type { GetUser } from '@/models/GetUser'
-import type { User } from '@/models/User'
+import type { NewUser } from '@/models/user/NewUser'
+import type { GetUser } from '@/models/user/GetUser'
+import type { User } from '@/models/user/User'
 
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
@@ -11,7 +11,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import Dropdown from 'primevue/dropdown'
+import Select from 'primevue/Select'
 import Checkbox from 'primevue/checkbox'
 import Divider from 'primevue/divider'
 import IftaLabel from 'primevue/iftalabel'
@@ -27,7 +27,7 @@ export default {
     Dialog,
     DataTable,
     Column,
-    Dropdown,
+    Select,
     Checkbox
   },
   setup() {
@@ -167,7 +167,7 @@ export default {
           toast.add({ severity: 'error', summary: 'Success', detail: 'You have deleted the user', life: 3000 });
           try {
             await userService.deleteUser(userId)
-            fetchUsers()
+            await fetchUsers()
           } catch (error) {
             console.error('Error deleting user:', error)
           }
@@ -199,7 +199,7 @@ export default {
 
       <Button label="Create New User" icon="pi pi-user-plus" @click="dialogVisible = true" class="mb-4" />
 
-    <Dialog v-model:visible="dialogVisible" :position="top" header="Create New User" modal>
+    <Dialog v-model:visible="dialogVisible" header="Create New User" modal>
       <form @submit.prevent="createUser" class="flex flex-col space-y-4 ">
         <IftaLabel>
           <InputText id="username" class="w-full" v-model="newUser.username" variant="filled" required />
@@ -236,7 +236,7 @@ export default {
           <label for="confirmPassword">Confirm Password</label>
         </IftaLabel>
 
-        <Dropdown v-model="newUser.roleName" :options="['ADMIN', 'PARTYMEMBER', 'USER', 'VERIFIED']" placeholder="Select Role" />
+        <Select v-model="newUser.roleName" :options="['ADMIN', 'PARTYMEMBER', 'USER', 'VERIFIED']" placeholder="Select Role" />
 
         <Button label="Create" type="submit" class="bg-blue-500 text-white p-2 rounded" />
       </form>
@@ -261,7 +261,7 @@ export default {
       </Column>
       <Column header="Role">
         <template #body="slotProps">
-          <Dropdown v-model="slotProps.data.roles[0].name" :options="['ADMIN', 'PARTYMEMBER', 'USER', 'VERIFIED']" class="w-full" />
+          <Select v-model="slotProps.data.roles[0].name" :options="['ADMIN', 'PARTYMEMBER', 'USER', 'VERIFIED']" class="w-full" />
         </template>
       </Column>
       <Column header="Actions">

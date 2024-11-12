@@ -1,5 +1,3 @@
-import type { User } from '@/models/User';
-
 export class NewUser {
   id?: number;
   username: string;

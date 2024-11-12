@@ -6,7 +6,7 @@ import {onMounted, ref} from "vue";
 import type {TotalAmountOfVotes} from "@/models/votes";
 import {VotesService} from "@/services/VotesService";
 import BarChartComponent from "@/components/chart/homepage/BarChartComponent.vue";
-import {formatNumber} from "../../helper/formatNumberHelper";
+import {formatNumber} from "@/helper/formatNumberHelpers";
 
 const barChartDisplayInfo = ref<string>('votes');
 
