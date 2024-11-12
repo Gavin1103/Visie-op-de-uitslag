@@ -131,7 +131,6 @@ public class UserService {
     }
 
     public UserProfileResponse getUserByToken(String token) {
-        //TODO: fix findyByEmail/extractUsername function
 
         String userEmail = jwtService.extractUsername(token);
         User user = userRepository.findByEmail(userEmail);
