@@ -2,10 +2,7 @@
 import {ref, onMounted, watch} from 'vue';
 import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale} from 'chart.js';
 import {Bar} from 'vue-chartjs';
-import {PartyWithVotes} from "@/models/Party";
-import {PartyService} from "@/services/PartyService";
 import type { CandidateWithVotes } from '@/models/Candidate'
-import placeholder from 'cypress/types/lodash/fp/placeholder'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 

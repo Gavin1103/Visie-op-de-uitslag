@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.1.1",
+    "@stomp/stompjs": "^7.0.0",
     "autoprefixer": "^10",
     "chart.js": "^4.4.6",
     "install": "^0.13.0",
