@@ -28,7 +28,7 @@ export class WebSocketService {
       connectHeaders: {
         Authorization: this.token ? `Bearer ${this.token}` : '',
       },
-      brokerURL: `${this.wsURL}/ws?access_token=${this.token}`,
+      brokerURL: `${this.wsURL}/ws`,
 
       onConnect: async (frame) => {
         console.log('Connected: ' + frame);
@@ -40,9 +40,9 @@ export class WebSocketService {
           console.log("Received message: ", messageOutput.body);
           this.messages.value = [...this.messages.value, JSON.parse(messageOutput.body)];
         });
-
-        this.sendMessage(id, "", ChatMessageType.JOIN)
-
+        if(this.token) {
+          this.sendMessage(id, "", ChatMessageType.JOIN)
+        }
         window.addEventListener('beforeunload', this.handleWindowClose.bind(this, id));
       },
 
@@ -61,7 +61,9 @@ export class WebSocketService {
 
   public disconnect(id: number) {
     if(this.stompClient) {
-      this.sendMessage(id, "", ChatMessageType.LEAVE);
+      if(this.token) {
+        this.sendMessage(id, "", ChatMessageType.LEAVE);
+      }
       this.stompClient.deactivate();
       this.messages.value = [];
 
@@ -70,22 +72,23 @@ export class WebSocketService {
   }
 
   public sendMessage(id: number, message: String, type: ChatMessageType) {
-
-    const body: ChatMessage = {
-      id: '1',
-      name: 'User',
-      chatId: id,
-      message: message,
-      type: type,
-      timestamp: new Date().toISOString()
-    }
-
-    this.stompClient.publish({
-      destination: `/app/chat/${id}`,
-      body: JSON.stringify(body),
-      headers: {
-        Authorization: `${this.token}`
+    if(this.token) {
+      const body: ChatMessage = {
+        id: '1',
+        name: 'User',
+        chatId: id,
+        message: message,
+        type: type,
+        timestamp: new Date().toISOString()
       }
-    });
+
+      this.stompClient.publish({
+        destination: `/app/chat/${id}`,
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `${this.token}`
+        }
+      });
+    }
   }
 }

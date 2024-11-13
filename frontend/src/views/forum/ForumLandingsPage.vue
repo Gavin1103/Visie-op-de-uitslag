@@ -10,8 +10,6 @@ import { CookieService } from '@/services/CookieService'
 import type { UserProfile } from '@/models/user/UserProfile'
 
 const topicService = new TopicService();
-const userService = new UserService();
-const cookieService = new CookieService();
 
 const topics = ref<TopicResponse[]>([]);
 const currentPage = ref(0);
@@ -21,8 +19,6 @@ const isMoreAvailable = ref(true);
 const isChatModalVisible = ref(false);
 const selectedTopic = ref<TopicResponse | null>(null);
 
-const userId = ref<Number | undefined>(undefined)
-
 const fetchData = async (page: number = 0) => {
   try {
     const response = await topicService.getTopics(page, pageSize, 'createdAt,asc');
@@ -31,9 +27,6 @@ const fetchData = async (page: number = 0) => {
     if (topics.value.length >= response.totalElements) {
       isMoreAvailable.value = false;
     }
-
-    const user: UserProfile = await userService.getUserByToken(cookieService.getCookie(cookieService.accessTokenAlias));
-    userId.value = user.id
 
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -101,8 +94,7 @@ const closeChatModal = () => {
           <p><strong>Username: {{ topic.username }}</strong></p>
         </div>
 
-        <div v-bind:class="{ 'pointer-events-none': !userId }"
-             @click="joinLiveChat(topic)"
+        <div @click="joinLiveChat(topic)"
              class="h-full w-1/6 flex flex-col justify-center items-center hover:cursor-pointer">
           <img
               class="w-16 h-16 object-cover"
@@ -124,7 +116,7 @@ const closeChatModal = () => {
     </section>
     <div v-if="isChatModalVisible" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
       <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl h-5/6 overflow-y-auto relative">
-        <LivechatView :topic="selectedTopic" :user="userId" @close="closeChatModal" />
+        <LivechatView :topic="selectedTopic" @close="closeChatModal" />
       </div>
     </div>
   </section>

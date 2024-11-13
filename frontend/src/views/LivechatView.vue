@@ -6,22 +6,29 @@ import { ChatMessageType } from '@/models/enum/ChatMessageType'
 import JoinLeaveMessage from '@/components/livechat/JoinLeaveMessage.vue'
 import MyChatMessage from '@/components/livechat/MyChatMessage.vue'
 import OtherChatMessage from '@/components/livechat/OtherChatMessage.vue'
+import type { UserProfile } from '@/models/user/UserProfile'
+import { UserService } from '@/services/UserService'
+import { CookieService } from '@/services/CookieService'
 
 
 const props = defineProps({
   topic: Object,
-  user: Number
 });
 
 const emit = defineEmits(['close']);
 
 const webSocketService = new WebSocketService();
+const userService = new UserService();
+const cookieService = new CookieService();
 
 const messages = computed(() => webSocketService.messages.value);
 const chatMessage = ref("");
 const activeUsers = ref(0);
 const messagesContainer = ref(null);
 let isUserScrolledUp = false;
+
+const userId = ref<Number | null>(null)
+
 
 const handleScroll = () => {
   const container = messagesContainer.value;
@@ -62,9 +69,11 @@ watch(messages, async (newMessages) => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
   connect();
-  nextTick(scrollToBottom);
+  await nextTick(scrollToBottom);
+  const user: UserProfile = await userService.getUserByToken(cookieService.getCookie(cookieService.accessTokenAlias));
+  userId.value = user.id
 })
 </script>
 
@@ -81,13 +90,13 @@ onMounted(() => {
       <ul>
         <template v-for="(msg, index) in messages" :key="index">
           <JoinLeaveMessage v-if="msg.type === ChatMessageType.JOIN || msg.type === ChatMessageType.LEAVE" :message="msg" />
-          <MyChatMessage v-else-if="msg.userId === user" :message="msg" />
+          <MyChatMessage v-else-if="msg.userId === userId" :message="msg" />
           <OtherChatMessage v-else :message="msg" />
         </template>
       </ul>
     </div>
 
-    <div class="mt-4 flex items-center space-x-4">
+    <div v-if="userId" class="mt-4 flex items-center space-x-4">
       <InputText
         v-model="chatMessage"
         type="text"
