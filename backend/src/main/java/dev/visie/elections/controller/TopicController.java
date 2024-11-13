@@ -36,10 +36,9 @@ public class TopicController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created topic"),
     })
-    public ResponseEntity<String> createTopic(@Valid @RequestBody CreateTopicDto createTopicDto, HttpServletRequest request) {
+    public ResponseEntity<Topic> createTopic(@Valid @RequestBody CreateTopicDto createTopicDto, HttpServletRequest request) {
         String id = this.jwtService.extractUserData(request, "sub");
-        topicService.createTopic(createTopicDto, id);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Successfully created topic");
+        return topicService.createTopic(createTopicDto, id);
     }
 
     @GetMapping("/")

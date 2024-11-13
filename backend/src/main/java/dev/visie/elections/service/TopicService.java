@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -30,7 +32,7 @@ public class TopicService {
         this.userService = userService;
     }
 
-    public void createTopic(CreateTopicDto createTopicDto, String userEmail) {
+    public ResponseEntity<Topic> createTopic(CreateTopicDto createTopicDto, String userEmail) {
         Topic topic = modelMapper.map(createTopicDto, Topic.class);
         topic.setCreatedAt(new Date());
         topic.setUpdatedAt(new Date());
@@ -41,7 +43,7 @@ public class TopicService {
             topic.setUser(userService.getUserByEmail(userEmail));
         }
 
-        topicRepository.save(topic);
+        return new ResponseEntity<>(topicRepository.save(topic), HttpStatus.CREATED);
     }
 
     public Page<TopicResponseDto> getTopics(Pageable pageable) {
