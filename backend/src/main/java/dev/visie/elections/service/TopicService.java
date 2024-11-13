@@ -3,6 +3,7 @@ package dev.visie.elections.service;
 import dev.visie.elections.dto.topic.CreateTopicDto;
 import dev.visie.elections.dto.topic.TopicResponseDto;
 import dev.visie.elections.model.Topic;
+import dev.visie.elections.model.User;
 import dev.visie.elections.repository.TopicRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +21,25 @@ public class TopicService {
 
     private final TopicRepository topicRepository;
     private final ModelMapper modelMapper;
+    private final UserService userService;
 
     @Autowired
-    public TopicService(TopicRepository topicRepository, ModelMapper modelMapper) {
+    public TopicService(TopicRepository topicRepository, ModelMapper modelMapper, UserService userService) {
         this.topicRepository = topicRepository;
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
-    public void createTopic(CreateTopicDto createTopicDto) {
-
+    public void createTopic(CreateTopicDto createTopicDto, String userEmail) {
         Topic topic = modelMapper.map(createTopicDto, Topic.class);
         topic.setCreatedAt(new Date());
         topic.setUpdatedAt(new Date());
+
+        User user = userService.getUserByEmail(userEmail);
+
+        if(user != null) {
+            topic.setUser(userService.getUserByEmail(userEmail));
+        }
 
         topicRepository.save(topic);
     }

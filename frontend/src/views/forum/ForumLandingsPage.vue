@@ -107,6 +107,7 @@ const submitForm = () => {
 
     <Dialog v-model:visible="isDialogVisible" header="New Topic" :style="{ width: '50vw' }" @hide="closeDialog">
 
+      <h1>Statement</h1>
       <Editor v-model="newStatement" editorStyle="height: 100px">
         <template v-slot:toolbar>
         <span class="ql-formats">
@@ -116,6 +117,8 @@ const submitForm = () => {
         </span>
         </template>
       </Editor>
+
+      <h1>Content</h1>
       <Editor v-model="newTopicContent" editorStyle="height: 320px" />
       <div class="flex justify-end mt-4">
         <button @click="closeDialog" class="mr-2 px-4 py-2 bg-gray-400 rounded text-white">Cancel</button>

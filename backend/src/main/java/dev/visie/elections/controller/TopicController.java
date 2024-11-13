@@ -3,10 +3,13 @@ package dev.visie.elections.controller;
 import dev.visie.elections.dto.topic.CreateTopicDto;
 import dev.visie.elections.dto.topic.TopicResponseDto;
 import dev.visie.elections.model.Topic;
+import dev.visie.elections.service.JwtService;
 import dev.visie.elections.service.TopicService;
+import io.jsonwebtoken.Jwt;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,13 +22,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/topic")
 public class TopicController {
-
     private final TopicService topicService;
+    private final JwtService jwtService;
 
     @Autowired
-    public TopicController(TopicService topicService) {
-
+    public TopicController(TopicService topicService, JwtService jwtService) {
         this.topicService = topicService;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/create-topic")
@@ -33,9 +36,9 @@ public class TopicController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created topic"),
     })
-    public ResponseEntity<String> createTopic(@Valid @RequestBody CreateTopicDto createTopicDto) {
-
-        topicService.createTopic(createTopicDto);
+    public ResponseEntity<String> createTopic(@Valid @RequestBody CreateTopicDto createTopicDto, HttpServletRequest request) {
+        String id = this.jwtService.extractUserData(request, "sub");
+        topicService.createTopic(createTopicDto, id);
         return ResponseEntity.status(HttpStatus.CREATED).body("Successfully created topic");
     }
 

@@ -101,32 +101,32 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         List<CreateTopicDto> createTopicDtos = Arrays.asList(
                 // Topics for user1
-                new CreateTopicDto(1, "Ik wil kaas", "Ik ben ook een klant", user1.getId()),
-                new CreateTopicDto(2, "Ik hou van pizza", "Dit is mijn favoriete eten", user1.getId()),
-                new CreateTopicDto(3, "Technologie en ik", "Laten we praten over technologie", user1.getId()),
-                new CreateTopicDto(4, "Reizen in Europa", "Wat zijn de beste plekken om te bezoeken?", user1.getId()),
-                new CreateTopicDto(5, "Sporten is gezond", "Ik probeer dagelijks te sporten", user1.getId()),
-                new CreateTopicDto(6, "Favoriete films", "Wat is jouw favoriete film?", user1.getId()),
-                new CreateTopicDto(7, "Leer een nieuwe taal", "Waarom zou je een nieuwe taal leren?", user1.getId()),
-                new CreateTopicDto(8, "Boeken lezen", "Ik hou van lezen", user1.getId()),
-                new CreateTopicDto(9, "Favoriete seizoen", "Wat is jouw favoriete seizoen?", user1.getId()),
-                new CreateTopicDto(10, "Favoriete dier", "Welk dier vind je het leukst?", user1.getId()),
+                new CreateTopicDto( "Ik wil kaas", "Ik ben ook een klant"),
+                new CreateTopicDto("Ik hou van pizza", "Dit is mijn favoriete eten"),
+                new CreateTopicDto("Technologie en ik", "Laten we praten over technologie"),
+                new CreateTopicDto( "Reizen in Europa", "Wat zijn de beste plekken om te bezoeken?"),
+                new CreateTopicDto("Sporten is gezond", "Ik probeer dagelijks te sporten"),
+                new CreateTopicDto( "Favoriete films", "Wat is jouw favoriete film?"),
+                new CreateTopicDto( "Leer een nieuwe taal", "Waarom zou je een nieuwe taal leren?"),
+                new CreateTopicDto( "Boeken lezen", "Ik hou van lezen"),
+                new CreateTopicDto( "Favoriete seizoen", "Wat is jouw favoriete seizoen?"),
+                new CreateTopicDto( "Favoriete dier", "Welk dier vind je het leukst?"),
 
                 // Topics for user2
-                new CreateTopicDto(11, "Console vs PC", "Liever console of PC", user2.getId()),
-                new CreateTopicDto(12, "Mouse and keyboard vs controller", "I think that aim assist is overpowerd", user2.getId()),
-                new CreateTopicDto(13, "Beste game van het jaar", "Wat vind jij?", user2.getId()),
-                new CreateTopicDto(14, "Wereldreis maken", "Een droom voor velen", user2.getId()),
-                new CreateTopicDto(15, "Fietsen vs autorijden", "Wat is beter voor het milieu?", user2.getId()),
-                new CreateTopicDto(16, "Favoriete eten", "Wat eet je het liefst?", user2.getId()),
-                new CreateTopicDto(17, "Katten of honden", "Wat is jouw favoriete huisdier?", user2.getId()),
-                new CreateTopicDto(18, "Studeren in het buitenland", "Wat zijn de voordelen?", user2.getId()),
-                new CreateTopicDto(19, "Fitness doelen", "Wat zijn jouw doelen voor dit jaar?", user2.getId()),
-                new CreateTopicDto(20, "Zonsondergangen", "De mooiste zonsondergang die ik heb gezien was in...", user2.getId())
+                new CreateTopicDto( "Console vs PC", "Liever console of PC"),
+                new CreateTopicDto( "Mouse and keyboard vs controller", "I think that aim assist is overpowerd"),
+                new CreateTopicDto("Beste game van het jaar", "Wat vind jij?"),
+                new CreateTopicDto( "Wereldreis maken", "Een droom voor velen"),
+                new CreateTopicDto( "Fietsen vs autorijden", "Wat is beter voor het milieu?"),
+                new CreateTopicDto( "Favoriete eten", "Wat eet je het liefst?"),
+                new CreateTopicDto( "Katten of honden", "Wat is jouw favoriete huisdier?"),
+                new CreateTopicDto("Studeren in het buitenland", "Wat zijn de voordelen?"),
+                new CreateTopicDto( "Fitness doelen", "Wat zijn jouw doelen voor dit jaar?"),
+                new CreateTopicDto( "Zonsondergangen", "De mooiste zonsondergang die ik heb gezien was in...")
         );
 
         for (CreateTopicDto topicDto : createTopicDtos) {
-            topicService.createTopic(topicDto);
+            topicService.createTopic(topicDto, user1.getEmail());
         }
 
     }
