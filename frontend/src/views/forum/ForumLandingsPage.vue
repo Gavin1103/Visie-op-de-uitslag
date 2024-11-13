@@ -1,14 +1,29 @@
 <script setup lang="ts">
 
-import {onMounted, ref} from "vue";
-import type {TopicResponse} from "@/models/forum/TopicResponse";
-import {TopicService} from "@/services/TopicService";
-import {formatDate} from "../../helper/formatDateHelper";
+import { onBeforeMount, onMounted, ref } from 'vue'
+import type { TopicResponse } from '@/models/forum/TopicResponse'
+import { formatDate } from '../../helper/formatDateHelper'
+import { useToast } from 'primevue/usetoast'
+import { TopicService } from '@/services/TopicService'
+import { CookieService } from '@/services/CookieService'
+import type { CreateTopic } from '@/models/topic/CreateTopic'
+import LivechatView from '@/views/LivechatView.vue'
+import Dialog from 'primevue/dialog'
+import Editor from 'primevue/editor'
 
-// State variables for the modal and Quill editor content
+
+const topicService = new TopicService()
+const cookieService = new CookieService()
+const toast = useToast()
+
 const isDialogVisible = ref(false)
 const newTopicContent = ref('')
 const newStatement = ref('')
+
+const topics = ref<TopicResponse[]>([])
+const currentPage = ref(0)
+const pageSize = 5
+const isMoreAvailable = ref(true)
 
 const isUserLoggedIn = ref<boolean | null>(null)
 
@@ -16,8 +31,8 @@ onBeforeMount(async () => {
   isUserLoggedIn.value = cookieService.tokenExists()
 })
 
-const isChatModalVisible = ref(false);
-const selectedTopic = ref<TopicResponse | null>(null);
+const isChatModalVisible = ref(false)
+const selectedTopic = ref<TopicResponse | null>(null)
 
 const fetchData = async (page: number = 0) => {
   try {
@@ -41,7 +56,6 @@ const loadMore = () => {
   fetchData(currentPage.value)
 }
 
-// Open and close the modal
 const openDialog = () => {
   isDialogVisible.value = true
 }
@@ -50,18 +64,19 @@ const closeDialog = () => {
   isDialogVisible.value = false
 }
 
-const validateForm = async () => {
-  let error = false
-
 const joinLiveChat = (topic: TopicResponse) => {
-  selectedTopic.value = topic;
-  isChatModalVisible.value = true;
-};
+  console.log(topic);
+  selectedTopic.value = topic
+  isChatModalVisible.value = true
+}
 
 const closeChatModal = () => {
-  isChatModalVisible.value = false;
-  selectedTopic.value = null;
-};
+  isChatModalVisible.value = false
+  selectedTopic.value = null
+}
+
+const validateForm = async () => {
+  let error = false
 
   if (!newTopicContent.value.length > 0) {
     toast.add({
@@ -148,20 +163,16 @@ const submitNewTopic = async () => {
                alt="profile-img" />
           <p><strong>Username: {{ topic.username }}</strong></p>
         </div>
-        <div class="h-full w-1/6 flex flex-col justify-center items-center">
-          <img class="w-16 h-16 object-cover" src="../../../public/live-chat-icon.png" alt="profile-img" />
-
         <div @click="joinLiveChat(topic)"
              class="h-full w-1/6 flex flex-col justify-center items-center hover:cursor-pointer">
           <img
-              class="w-16 h-16 object-cover"
-              src="../../../public/live-chat-icon.png"
-              alt="profile-img"
+            class="w-16 h-16 object-cover"
+            src="../../../public/live-chat-icon.png"
+            alt="profile-img"
           />
           <p><strong>Live chat</strong></p>
         </div>
       </div>
-
       <p
         v-if="isMoreAvailable"
         @click="loadMore"
