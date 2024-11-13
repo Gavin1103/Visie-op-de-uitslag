@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
 
-    @Query("SELECT new dev.visie.elections.dto.ChatMessageDTO(c.id, c.user.id, c.user.username, c.message, c.createdAt) " +
+    @Query("SELECT new dev.visie.elections.dto.ChatMessageDTO(c.id, c.user.id, c.topic.id, c.user.username, c.message, c.createdAt) " +
             "FROM ChatMessage c " +
             "WHERE c.topic.id = :chatId")
     List<ChatMessageDTO> findAllByChatId(@Param("chatId") Long chatId);

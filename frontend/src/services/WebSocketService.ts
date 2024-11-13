@@ -38,11 +38,12 @@ export class WebSocketService {
 
         this.stompClient.subscribe(`/topic/messages/${id}`, (messageOutput) => {
           console.log("Received message: ", messageOutput.body);
-          this.messages.value.push(JSON.parse(messageOutput.body));
+          this.messages.value = [...this.messages.value, JSON.parse(messageOutput.body)];
         });
 
         this.sendMessage(id, "", ChatMessageType.JOIN)
       },
+
       onStompError: (error) => {
         console.error('STOMP error: ', error);
       }
@@ -65,6 +66,7 @@ export class WebSocketService {
     const body: ChatMessage = {
       id: '1',
       name: 'User',
+      chatId: id,
       message: message,
       type: type,
       timestamp: new Date().toISOString()

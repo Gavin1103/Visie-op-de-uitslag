@@ -1,51 +1,109 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import {WebSocketService} from '@/services/WebSocketService.ts'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { WebSocketService } from '@/services/WebSocketService.ts'
 import InputText from 'primevue/inputtext'
-import { ChatMessageType } from '@/models/enum/ChatMessageType.ts'
+import { ChatMessageType } from '@/models/enum/ChatMessageType'
 
+
+const props = defineProps({
+  topic: Object,
+});
+
+const emit = defineEmits(['close']);
 
 const webSocketService = new WebSocketService();
 
 const messages = computed(() => webSocketService.messages.value);
 const chatMessage = ref("");
-function connect(){
- webSocketService.connect(1);
+const activeUsers = ref(0);
+const messagesContainer = ref(null);
+let isUserScrolledUp = false;
+
+const handleScroll = () => {
+  const container = messagesContainer.value;
+  const nearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 10;
+  isUserScrolledUp = !nearBottom;
+};
+
+const scrollToBottom = () => {
+  const container = messagesContainer.value;
+  container.scrollTop = container.scrollHeight;
+};
+
+function connect() {
+  webSocketService.connect(props.topic.id)
 }
-function sendMessage() {
-  webSocketService.sendMessage(1, chatMessage.value, ChatMessageType.CHAT);
+
+async function sendMessage() {
+  webSocketService.sendMessage(props.topic.id, chatMessage.value, ChatMessageType.CHAT);
   chatMessage.value = "";
 }
 
 function disconnect() {
-  webSocketService.disconnect(1);
+  webSocketService.disconnect(props.topic.id);
+  emit('close');
+
 }
 
+watch(messages, async (newMessages) => {
+  const lastMessageIndex = newMessages.findLastIndex((msg) => msg.type == ChatMessageType.JOIN || msg.type == ChatMessageType.LEAVE);
+  if (lastMessageIndex !== -1) {
+    const lastMessage = newMessages[lastMessageIndex];
+    activeUsers.value = lastMessage.activeUsers;
+  }
+  if (!isUserScrolledUp) {
+    await nextTick();
+    scrollToBottom();
 
+  }
+});
+
+onMounted(() => {
+  connect();
+  nextTick(scrollToBottom);
+})
 </script>
 
 <template>
-  <div class="flex justify-center m-16 items-center w-full h-full">
-    <div class="flex gap-6">
-      <section class="flex flex-col gap-6">
-        <InputText v-model="chatMessage" type="text"></InputText>
-        <button class="border" @click="sendMessage">send message</button>
-        <ul>
-          <li v-for="(msg, index) in messages" :key="index">
-            {{ msg.name }}: {{ msg.message }}
-          </li>
-        </ul>
-      </section>
-      <section class="flex flex-col">
-  <button class="border" @click="connect">connect</button>
-  <button class="border" @click="disconnect">disconnect</button>
-      </section>
-
-
+  <div class="bg-white shadow-xl rounded-lg p-4 max-w-2xl w-full h-full flex flex-col mx-auto">
+    <div>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Live chat: {{ topic.statement }}</h2>
+      <div>actieve chatters: {{activeUsers}}</div>
     </div>
+    <div ref="messagesContainer"
+         class="overflow-y-auto flex-grow border rounded-lg p-6 bg-gray-50 space-y-4"
+         @scroll="handleScroll"
+         >
+      <ul>
+        <li v-for="(msg, index) in messages" :key="index" class="flex items-start space-x-3">
+          <span class="font-semibold text-indigo-700 text-lg">{{ msg.name }}:</span>
+          <p class="text-gray-800 text-lg">{{ msg.message }}</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="mt-4 flex items-center space-x-4">
+      <InputText
+        v-model="chatMessage"
+        type="text"
+        class="flex-1 border rounded-lg px-5 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-lg"
+        placeholder="Type bericht..."
+      />
+      <button
+        @click="sendMessage"
+        class="px-5 py-3 bg-indigo-600 text-white text-lg font-semibold rounded-lg hover:bg-indigo-700 transition"
+      >
+        verzend
+      </button>
+    </div>
+
+
+    <button
+      @click="disconnect"
+      class="px-2 w-32 m-3 py-3 bg-red-500 text-white text-lg font-semibold rounded-lg hover:bg-red-700 transition"
+    >
+      verlaat chat
+    </button>
   </div>
+
 </template>
-
-<style scoped>
-
-</style>
