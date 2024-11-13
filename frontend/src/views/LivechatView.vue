@@ -3,9 +3,6 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { WebSocketService } from '@/services/WebSocketService.ts'
 import InputText from 'primevue/inputtext'
 import { ChatMessageType } from '@/models/enum/ChatMessageType'
-import { UserService } from '@/services/UserService'
-import type { UserProfile } from '@/models/user/UserProfile'
-import { CookieService } from '@/services/CookieService'
 import JoinLeaveMessage from '@/components/livechat/JoinLeaveMessage.vue'
 import MyChatMessage from '@/components/livechat/MyChatMessage.vue'
 import OtherChatMessage from '@/components/livechat/OtherChatMessage.vue'
@@ -13,21 +10,18 @@ import OtherChatMessage from '@/components/livechat/OtherChatMessage.vue'
 
 const props = defineProps({
   topic: Object,
+  user: Number
 });
 
 const emit = defineEmits(['close']);
 
 const webSocketService = new WebSocketService();
-const userService = new UserService();
-const cookieService = new CookieService();
-
 
 const messages = computed(() => webSocketService.messages.value);
 const chatMessage = ref("");
 const activeUsers = ref(0);
 const messagesContainer = ref(null);
 let isUserScrolledUp = false;
-const userProfile = ref<UserProfile | undefined>(undefined)
 
 const handleScroll = () => {
   const container = messagesContainer.value;
@@ -68,10 +62,9 @@ watch(messages, async (newMessages) => {
   }
 });
 
-onMounted(async () => {
+onMounted(() => {
   connect();
-  await nextTick(scrollToBottom);
-  userProfile.value = await userService.getUserByToken(cookieService.getCookie(cookieService.accessTokenAlias))
+  nextTick(scrollToBottom);
 })
 </script>
 
@@ -88,7 +81,7 @@ onMounted(async () => {
       <ul>
         <template v-for="(msg, index) in messages" :key="index">
           <JoinLeaveMessage v-if="msg.type === ChatMessageType.JOIN || msg.type === ChatMessageType.LEAVE" :message="msg" />
-          <MyChatMessage v-else-if="msg.userId === userProfile.id" :message="msg" />
+          <MyChatMessage v-else-if="msg.userId === user" :message="msg" />
           <OtherChatMessage v-else :message="msg" />
         </template>
       </ul>
