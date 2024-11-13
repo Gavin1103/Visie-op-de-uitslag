@@ -59,7 +59,5 @@ public interface VotesRepository extends JpaRepository<Votes, Long> {
             "GROUP BY p.partyId, p.name, t.name, m.name " +
             "ORDER BY SUM(v.amount) DESC")
     List<Object[]> getTotalVotesByPartyPerConstituencyAndMunicipality();
-
-
-
+    
 }
