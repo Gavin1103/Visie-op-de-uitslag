@@ -42,6 +42,8 @@ export class WebSocketService {
         });
 
         this.sendMessage(id, "", ChatMessageType.JOIN)
+
+        window.addEventListener('beforeunload', this.handleWindowClose.bind(this, id));
       },
 
       onStompError: (error) => {
@@ -53,11 +55,17 @@ export class WebSocketService {
 
   }
 
+  private handleWindowClose(id: number) {
+    this.disconnect(id);
+  }
+
   public disconnect(id: number) {
     if(this.stompClient) {
       this.sendMessage(id, "", ChatMessageType.LEAVE);
       this.stompClient.deactivate();
       this.messages.value = [];
+
+      window.removeEventListener('beforeunload', this.handleWindowClose.bind(this, id));
     }
   }
 
@@ -72,12 +80,12 @@ export class WebSocketService {
       timestamp: new Date().toISOString()
     }
 
-  this.stompClient.publish({
-    destination: `/app/chat/${id}`,
-    body: JSON.stringify(body),
-    headers: {
-      Authorization: `${this.token}`
-    }
-  });
-}
+    this.stompClient.publish({
+      destination: `/app/chat/${id}`,
+      body: JSON.stringify(body),
+      headers: {
+        Authorization: `${this.token}`
+      }
+    });
+  }
 }
