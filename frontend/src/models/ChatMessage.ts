@@ -8,5 +8,5 @@ export interface ChatMessage {
   message: String
   type: ChatMessageType
   activeUsers: number
-  timestamp: Date
+  timestamp: string
 }

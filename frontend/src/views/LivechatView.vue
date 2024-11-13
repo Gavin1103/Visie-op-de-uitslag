@@ -3,6 +3,12 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { WebSocketService } from '@/services/WebSocketService.ts'
 import InputText from 'primevue/inputtext'
 import { ChatMessageType } from '@/models/enum/ChatMessageType'
+import { UserService } from '@/services/UserService'
+import type { UserProfile } from '@/models/user/UserProfile'
+import { CookieService } from '@/services/CookieService'
+import JoinLeaveMessage from '@/components/livechat/JoinLeaveMessage.vue'
+import MyChatMessage from '@/components/livechat/MyChatMessage.vue'
+import OtherChatMessage from '@/components/livechat/OtherChatMessage.vue'
 
 
 const props = defineProps({
@@ -12,12 +18,16 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 
 const webSocketService = new WebSocketService();
+const userService = new UserService();
+const cookieService = new CookieService();
+
 
 const messages = computed(() => webSocketService.messages.value);
 const chatMessage = ref("");
 const activeUsers = ref(0);
 const messagesContainer = ref(null);
 let isUserScrolledUp = false;
+const userProfile = ref<UserProfile | undefined>(undefined)
 
 const handleScroll = () => {
   const container = messagesContainer.value;
@@ -58,9 +68,10 @@ watch(messages, async (newMessages) => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
   connect();
-  nextTick(scrollToBottom);
+  await nextTick(scrollToBottom);
+  userProfile.value = await userService.getUserByToken(cookieService.getCookie(cookieService.accessTokenAlias))
 })
 </script>
 
@@ -68,17 +79,18 @@ onMounted(() => {
   <div class="bg-white shadow-xl rounded-lg p-4 max-w-2xl w-full h-full flex flex-col mx-auto">
     <div>
     <h2 class="text-3xl font-bold text-gray-800 mb-6">Live chat: {{ topic.statement }}</h2>
-      <div>actieve chatters: {{activeUsers}}</div>
+      <div class="m-3"><i class="pi pi-eye" style="color: blue"></i> {{activeUsers}}</div>
     </div>
     <div ref="messagesContainer"
-         class="overflow-y-auto flex-grow border rounded-lg p-6 bg-gray-50 space-y-4"
+         class="overflow-y-auto flex-grow border overflow-x-hidden rounded-lg p-6 bg-gray-50 space-y-4"
          @scroll="handleScroll"
          >
       <ul>
-        <li v-for="(msg, index) in messages" :key="index" class="flex items-start space-x-3">
-          <span class="font-semibold text-indigo-700 text-lg">{{ msg.name }}:</span>
-          <p class="text-gray-800 text-lg">{{ msg.message }}</p>
-        </li>
+        <template v-for="(msg, index) in messages" :key="index">
+          <JoinLeaveMessage v-if="msg.type === ChatMessageType.JOIN || msg.type === ChatMessageType.LEAVE" :message="msg" />
+          <MyChatMessage v-else-if="msg.userId === userProfile.id" :message="msg" />
+          <OtherChatMessage v-else :message="msg" />
+        </template>
       </ul>
     </div>
 

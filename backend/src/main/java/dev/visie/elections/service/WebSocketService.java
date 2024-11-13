@@ -34,6 +34,7 @@ public class WebSocketService {
         if (!dbResponse) {
             message.setMessage(message.getMessage() + " (message not saved)");
         }
+        message.setUserId(user.getId());
         message.setName(user.getUsername());
         return message;
     }
@@ -42,7 +43,6 @@ public class WebSocketService {
         UserProfileResponse user = userService.getUserByToken(Token);
         message.setName(user.getUsername());
         message.setMessage("joined the chat.");
-        System.out.println(message);
         activeUsers.computeIfAbsent(message.getChatId(), k -> new HashSet<>()).add(message.getName());
         message.setActiveUsers(getUserCount(message.getChatId()));
         return message;
