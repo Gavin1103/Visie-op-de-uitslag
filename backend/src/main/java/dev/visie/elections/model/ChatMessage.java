@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import dev.visie.elections.model.base.BaseModel;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "chat_message")
@@ -15,6 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class ChatMessage extends BaseModel {
 
     @Column(length = 1000)
@@ -25,7 +23,7 @@ public class ChatMessage extends BaseModel {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "livechat_id", nullable = false)
+    @JoinColumn(name = "topic_id", nullable = false)
     @JsonBackReference
-    private LiveChat livechat;
+    private Topic topic;
 }

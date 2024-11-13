@@ -1,22 +1,9 @@
 <script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from 'vue'
-import Dialog from 'primevue/dialog'
-import Editor from 'primevue/editor'
-import type { TopicResponse } from '@/models/forum/TopicResponse'
-import { TopicService } from '@/services/TopicService'
-import { formatDate } from '../../helper/formatDateHelper'
-import { CookieService } from '@/services/CookieService'
-import type { CreateTopic } from '@/models/topic/CreateTopic'
-import { useToast } from 'primevue/usetoast'
 
-const topicService = new TopicService()
-const cookieService = new CookieService()
-const toast = useToast()
-
-const topics = ref<TopicResponse[]>([])
-const currentPage = ref(0)
-const pageSize = 5
-const isMoreAvailable = ref(true)
+import {onMounted, ref} from "vue";
+import type {TopicResponse} from "@/models/forum/TopicResponse";
+import {TopicService} from "@/services/TopicService";
+import {formatDate} from "../../helper/formatDateHelper";
 
 // State variables for the modal and Quill editor content
 const isDialogVisible = ref(false)
@@ -29,8 +16,10 @@ onBeforeMount(async () => {
   isUserLoggedIn.value = cookieService.tokenExists()
 })
 
+const isChatModalVisible = ref(false);
+const selectedTopic = ref<TopicResponse | null>(null);
+
 const fetchData = async (page: number = 0) => {
-  topics.value = []
   try {
     const response = await topicService.getTopics(page, pageSize, 'createdAt,asc')
     topics.value = [...topics.value, ...response.content]
@@ -63,6 +52,16 @@ const closeDialog = () => {
 
 const validateForm = async () => {
   let error = false
+
+const joinLiveChat = (topic: TopicResponse) => {
+  selectedTopic.value = topic;
+  isChatModalVisible.value = true;
+};
+
+const closeChatModal = () => {
+  isChatModalVisible.value = false;
+  selectedTopic.value = null;
+};
 
   if (!newTopicContent.value.length > 0) {
     toast.add({
@@ -130,11 +129,11 @@ const submitNewTopic = async () => {
       </button>
     </section>
 
-    <!-- Topics List -->
     <section class="w-full flex flex-col space-y-4 pb-20">
       <div v-for="(topic, index) in topics"
            :key="topic.id"
            class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
+
         <div class="left-container w-7/12 flex flex-col justify-center">
           <h3 class="text-lg font-semibold" v-html="topic.statement"></h3>
           <section class="flex">
@@ -151,11 +150,18 @@ const submitNewTopic = async () => {
         </div>
         <div class="h-full w-1/6 flex flex-col justify-center items-center">
           <img class="w-16 h-16 object-cover" src="../../../public/live-chat-icon.png" alt="profile-img" />
+
+        <div @click="joinLiveChat(topic)"
+             class="h-full w-1/6 flex flex-col justify-center items-center hover:cursor-pointer">
+          <img
+              class="w-16 h-16 object-cover"
+              src="../../../public/live-chat-icon.png"
+              alt="profile-img"
+          />
           <p><strong>Live chat</strong></p>
         </div>
       </div>
 
-      <!-- Load More Button -->
       <p
         v-if="isMoreAvailable"
         @click="loadMore"
@@ -183,6 +189,10 @@ const submitNewTopic = async () => {
         <button @click="submitNewTopic" class="px-4 py-2 bg-blue-600 rounded text-white">Submit</button>
       </div>
     </Dialog>
+    <div v-if="isChatModalVisible" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl h-5/6 overflow-y-auto relative">
+        <LivechatView :topic="selectedTopic" @close="closeChatModal" />
+      </div>
+    </div>
   </section>
 </template>
-
