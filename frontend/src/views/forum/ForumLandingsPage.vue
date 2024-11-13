@@ -4,6 +4,10 @@ import {onMounted, ref} from "vue";
 import type {TopicResponse} from "@/models/forum/TopicResponse";
 import {TopicService} from "@/services/TopicService";
 import {formatDate} from "../../helper/formatDateHelper";
+import LivechatView from '@/views/LivechatView.vue'
+import { UserService } from '@/services/UserService'
+import { CookieService } from '@/services/CookieService'
+import type { UserProfile } from '@/models/user/UserProfile'
 
 const topicService = new TopicService();
 
@@ -11,6 +15,9 @@ const topics = ref<TopicResponse[]>([]);
 const currentPage = ref(0);
 const pageSize = 5;
 const isMoreAvailable = ref(true);
+
+const isChatModalVisible = ref(false);
+const selectedTopic = ref<TopicResponse | null>(null);
 
 const fetchData = async (page: number = 0) => {
   try {
@@ -20,6 +27,7 @@ const fetchData = async (page: number = 0) => {
     if (topics.value.length >= response.totalElements) {
       isMoreAvailable.value = false;
     }
+
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -32,6 +40,16 @@ onMounted(() => {
 const loadMore = () => {
   currentPage.value += 1;
   fetchData(currentPage.value);
+};
+
+const joinLiveChat = (topic: TopicResponse) => {
+  selectedTopic.value = topic;
+  isChatModalVisible.value = true;
+};
+
+const closeChatModal = () => {
+  isChatModalVisible.value = false;
+  selectedTopic.value = null;
 };
 
 </script>
@@ -76,7 +94,8 @@ const loadMore = () => {
           <p><strong>Username: {{ topic.username }}</strong></p>
         </div>
 
-        <div class="h-full w-1/6 flex flex-col justify-center items-center">
+        <div @click="joinLiveChat(topic)"
+             class="h-full w-1/6 flex flex-col justify-center items-center hover:cursor-pointer">
           <img
               class="w-16 h-16 object-cover"
               src="../../../public/live-chat-icon.png"
@@ -95,6 +114,11 @@ const loadMore = () => {
       </p>
 
     </section>
-
+    <div v-if="isChatModalVisible" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl h-5/6 overflow-y-auto relative">
+        <LivechatView :topic="selectedTopic" @close="closeChatModal" />
+      </div>
+    </div>
   </section>
 </template>
+

@@ -45,4 +45,8 @@ public class TopicService {
 
         return new PageImpl<>(topicDtos, pageable, topics.getTotalElements());
     }
+
+    public Topic getTopicById(Long id){
+        return topicRepository.findById(id).orElse(null);
+    }
 }
