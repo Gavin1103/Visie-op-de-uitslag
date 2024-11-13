@@ -1,7 +1,6 @@
 package dev.visie.elections.controller;
 
 import dev.visie.elections.dto.AreaDTO;
-import dev.visie.elections.dto.candidate.CandidateWithVotes;
 import dev.visie.elections.dto.party.PartyDTO;
 import dev.visie.elections.dto.party.PartyLogoDTO;
 import dev.visie.elections.dto.votes.TotalAmountOfVotesDTO;
@@ -69,12 +68,21 @@ public class ElectionController {
     }
 
     @GetMapping("candidates/{partyId}/{area}/{searchInput}")
-    @Operation(summary = "get a list of candidates for a party with the amount of votes they got for a municipality or constutuency")
+    @Operation(summary = "get a list of candidates for a party with the amount of votes they got for a municipality or constituency")
     public ResponseEntity<?> getCandidatesWithArea(@PathVariable int partyId, @PathVariable AreaEnum area, @PathVariable String searchInput) {
         return candidateService.getCandidatesWithArea(partyId, area, searchInput);
     }
 
     @GetMapping("areas")
     @Operation(summary = "get all the municipalities and constituencies")
-    public AreaDTO getElectionAreas() { return areaService.getAllAreas(); }
+    public AreaDTO getElectionAreas() {
+        return areaService.getAllAreas();
+    }
+
+    @GetMapping("totalVotesByParty")
+    @Operation(summary = "Get total votes by party per constituency and municipality")
+    public ResponseEntity<List<Object[]>> getTotalVotesByPartyPerConstituencyAndMunicipality() {
+        List<Object[]> results = votesService.getTotalVotesByPartyPerConstituencyAndMunicipality();
+        return ResponseEntity.ok(results);
+    }
 }
