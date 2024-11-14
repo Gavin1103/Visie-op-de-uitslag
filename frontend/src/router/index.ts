@@ -11,6 +11,7 @@ import LivechatView from '@/views/LivechatView.vue'
 import UserOverview from '@/views/UserOverview.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import ForumLandingsPage from "@/views/forum/ForumLandingsPage.vue";
+import TopicDetailView from '@/views/forum/TopicDetailView.vue'
 
 
 const userService = new UserService();
@@ -55,6 +56,10 @@ const router = createRouter({
       name: 'forum',
       component: ForumLandingsPage
     },
+    {
+      path: '/topic/:id',
+      name: 'TopicDetail',
+      component: TopicDetailView, props: true },
     {
       path: '/register',
       name: 'register',
