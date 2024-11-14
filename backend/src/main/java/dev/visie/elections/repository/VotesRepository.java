@@ -50,14 +50,14 @@ public interface VotesRepository extends JpaRepository<Votes, Long> {
             "ORDER BY SUM(v.amount) DESC")
     List<Object[]> getCandidateWithVotesAndMunicipality(@Param("partyId") int partyId, @Param("searchInput") String searchInput);
 
-    @Query("SELECT p.partyId, p.name AS partyName, t.name AS constituencyName, m.name AS municipalityName, SUM(v.amount) " +
+    @Query("SELECT p.partyId, p.name AS partyName, t.name AS constituencyName, SUM(v.amount) " +
             "FROM Votes v " +
             "JOIN v.party p " +
             "JOIN v.station s " +
             "JOIN s.municipality m " +
             "JOIN m.constituency t " +
-            "GROUP BY p.partyId, p.name, t.name, m.name " +
-            "ORDER BY SUM(v.amount) DESC")
+            "GROUP BY p.partyId, p.name, t.name " +
+            "ORDER BY t.name, SUM(v.amount) DESC")
     List<Object[]> getTotalVotesByPartyPerConstituencyAndMunicipality();
     
 }

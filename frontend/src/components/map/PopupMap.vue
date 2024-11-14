@@ -8,6 +8,11 @@
           {{ region.regionName }}
         </li>
       </ul>
+      <ul>
+        <li v-for="party in votingData" :key="party.partyId">
+          {{ party.partyName }}: {{ party.totalVotes }}
+        </li>
+      </ul>
       <slot></slot>
     </div>
   </div>
@@ -23,10 +28,13 @@ export default {
       type: String,
       required: true,
     },
+    votingData: {
+      type: Array,
+      required: true,
+    },
   },
   computed: {
     filteredRegions() {
-      // Normalize the title and region names by trimming spaces, converting to lowercase, and normalizing characters
       const normalizedTitle = this.normalizeString(this.title);
 
       return kieskringenData.filter(region => {
@@ -38,10 +46,10 @@ export default {
   methods: {
     normalizeString(str) {
       return str
-          .trim()  // Remove leading/trailing spaces
-          .toLowerCase()  // Convert to lowercase
-          .normalize('NFD')  // Normalize characters
-          .replace(/[\u0300-\u036f]/g, ""); // Remove any diacritical marks (like accents)
+          .trim()
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, "");
     },
     closePopup() {
       this.$emit('close');
