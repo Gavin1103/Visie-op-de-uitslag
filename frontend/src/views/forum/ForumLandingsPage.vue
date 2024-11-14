@@ -57,6 +57,16 @@ const loadMore = () => {
 }
 
 const openDialog = () => {
+  if(!isUserLoggedIn.value) {
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'You need to be logged in to create a topic.',
+      life: 3000
+    })
+    return
+  }
+
   isDialogVisible.value = true
 }
 
@@ -138,7 +148,6 @@ const submitNewTopic = async () => {
       />
       <button
         @click="openDialog"
-        v-if="isUserLoggedIn"
         class="px-5 py-2 text-lg font-bold text-white bg-[#5564c8] rounded cursor-pointer hover:bg-blue-700 transition-colors">
         Topic +
       </button>
