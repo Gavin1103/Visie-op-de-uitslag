@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { onBeforeMount, onMounted, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import type { TopicResponse } from '@/models/forum/TopicResponse'
 import { formatDate } from '../../helper/formatDateHelper'
 import { useToast } from 'primevue/usetoast'
@@ -19,12 +19,14 @@ const toast = useToast()
 const isDialogVisible = ref(false)
 const newTopicContent = ref('')
 const newStatement = ref('')
+const searchQuery = ref('')
 
 const topics = ref<TopicResponse[]>([])
 const currentPage = ref(0)
 const pageSize = 5
 const isMoreAvailable = ref(true)
 
+const isLoading = ref(false)
 const isUserLoggedIn = ref<boolean | null>(null)
 
 onBeforeMount(async () => {
@@ -34,22 +36,84 @@ onBeforeMount(async () => {
 const isChatModalVisible = ref(false)
 const selectedTopic = ref<TopicResponse | null>(null)
 
+const fetchAllData = async () => {
+  try {
+    isLoading.value = true
+    let page = 0
+    const allTopics = []
+    let isDataAvailable = true
+
+    while (isDataAvailable) {
+      const response = await topicService.getTopics(page, pageSize, 'createdAt,asc')
+      allTopics.push(...response.content)
+      page += 1
+      isDataAvailable = allTopics.length < response.totalElements
+    }
+    topics.value = allTopics
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
 const fetchData = async (page: number = 0) => {
   try {
+    isLoading.value = true
     const response = await topicService.getTopics(page, pageSize, 'createdAt,asc')
-    topics.value = [...topics.value, ...response.content]
-
+    if (page === 0) {
+      topics.value = response.content
+    } else {
+      topics.value = [...topics.value, ...response.content]
+    }
     if (topics.value.length >= response.totalElements) {
       isMoreAvailable.value = false
     }
   } catch (error) {
     console.error('Error fetching data:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
 onMounted(() => {
   fetchData()
 })
+
+watch(searchQuery, async (newQuery) => {
+  if (newQuery && newQuery.length > 0) {
+    topics.value = []
+    currentPage.value = 0
+    isMoreAvailable.value = true
+    await fetchAllData()
+  } else {
+    topics.value = []
+    currentPage.value = 0
+    isMoreAvailable.value = true
+    await fetchData()
+  }
+})
+
+const filteredTopics = computed(() => {
+  const searchQueryLower = searchQuery.value.toLowerCase();
+  const parser = new DOMParser();
+
+  return topics.value
+    .map(topic => {
+      const parsedDocument = parser.parseFromString(topic.statement, 'text/html');
+      const plainTextStatement = parsedDocument.body.textContent || "";
+
+      const relevanceScore = (plainTextStatement.toLowerCase().match(new RegExp(searchQueryLower, 'g')) || []).length;
+
+      return {
+        ...topic,
+        relevanceScore
+      };
+    })
+    .filter(topic => topic.relevanceScore > 0)
+    .sort((a, b) => b.relevanceScore - a.relevanceScore);
+});
+
 
 const loadMore = () => {
   currentPage.value += 1
@@ -142,6 +206,7 @@ const submitNewTopic = async () => {
 
     <section class="py-1 w-full flex justify-between mb-4">
       <input
+        v-model="searchQuery"
         class="w-3/4 px-4 py-2 text-lg border border-gray-300 rounded focus:outline-none focus:border-blue-600 transition-colors"
         type="text"
         placeholder="zoeken..."
@@ -154,10 +219,11 @@ const submitNewTopic = async () => {
     </section>
 
     <section class="w-full flex flex-col space-y-4 pb-20">
-      <div v-for="(topic, index) in topics"
-           :key="topic.id"
-           class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
+      <div v-if="isLoading" class="flex justify-center my-6">
+        <ProgressSpinner />
+      </div>
 
+      <div v-else v-for="(topic, index) in filteredTopics" :key="topic.id" class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
         <div class="left-container w-7/12 flex flex-col justify-center">
           <h3 class="text-lg font-semibold" v-html="topic.statement"></h3>
           <section class="flex">
