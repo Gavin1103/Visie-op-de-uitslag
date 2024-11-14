@@ -23,6 +23,7 @@ public class EmailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
+        message.setFrom("aaron.laan@hva.nl");
         mailSender.send(message);
     }
 
@@ -34,6 +35,7 @@ public class EmailService {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(htmlContent, true);
+            helper.setFrom("aaron.laan@hva.nl");
 
             mailSender.send(message);
         } catch (MessagingException e) {

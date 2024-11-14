@@ -41,8 +41,8 @@ const scrollToBottom = () => {
   container.scrollTop = container.scrollHeight;
 };
 
-function connect() {
-  webSocketService.connect(props.topic.id)
+async function connect() {
+  await webSocketService.connect(props.topic.id)
 }
 
 async function sendMessage() {
@@ -70,7 +70,7 @@ watch(messages, async (newMessages) => {
 });
 
 onMounted(async () => {
-  connect();
+  await connect();
   await nextTick(scrollToBottom);
   const user: UserProfile = await userService.getUserByToken(cookieService.getCookie(cookieService.accessTokenAlias));
   userId.value = user.id

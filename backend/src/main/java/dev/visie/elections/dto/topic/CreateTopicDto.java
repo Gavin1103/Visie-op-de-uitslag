@@ -10,15 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CreateTopicDto {
-
-    private Integer id;
-
     @NotBlank
     private String statement;
 
     @NotBlank
     private String message;
-
-    @NotNull
-    private Long userId;
 }

@@ -3,12 +3,15 @@ package dev.visie.elections.service;
 import dev.visie.elections.dto.topic.CreateTopicDto;
 import dev.visie.elections.dto.topic.TopicResponseDto;
 import dev.visie.elections.model.Topic;
+import dev.visie.elections.model.User;
 import dev.visie.elections.repository.TopicRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -20,20 +23,27 @@ public class TopicService {
 
     private final TopicRepository topicRepository;
     private final ModelMapper modelMapper;
+    private final UserService userService;
 
     @Autowired
-    public TopicService(TopicRepository topicRepository, ModelMapper modelMapper) {
+    public TopicService(TopicRepository topicRepository, ModelMapper modelMapper, UserService userService) {
         this.topicRepository = topicRepository;
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
-    public void createTopic(CreateTopicDto createTopicDto) {
-
+    public ResponseEntity<Topic> createTopic(CreateTopicDto createTopicDto, String userEmail) {
         Topic topic = modelMapper.map(createTopicDto, Topic.class);
         topic.setCreatedAt(new Date());
         topic.setUpdatedAt(new Date());
 
-        topicRepository.save(topic);
+        User user = userService.getUserByEmail(userEmail);
+
+        if(user != null) {
+            topic.setUser(userService.getUserByEmail(userEmail));
+        }
+
+        return new ResponseEntity<>(topicRepository.save(topic), HttpStatus.CREATED);
     }
 
     public Page<TopicResponseDto> getTopics(Pageable pageable) {

@@ -43,7 +43,7 @@ function updateBarChartDisplayInfo(value: string) {
         <section class="mb-2.5 flex flex-col items-center">
           <p class="mt-4 text-xl font-black">Winnaar</p>
           <p class="text-6xl font-black">{{ electedParty?.name }}</p>
-          <img style="height:200px" src="../../../public/pvv-logo.png" alt="elected party logo"/>
+          <img style="height:200px" src="../../public/pvv-logo.png" alt="elected party logo"/>
         </section>
         <section class="mb-3.5 flex flex-col items-center">
           <p class="text-xl font-black">Totaal aantal stemmen</p>

@@ -23,7 +23,6 @@ export class WebSocketService {
   }
 
   public connect(id: number) {
-
     this.stompClient = new Client({
       connectHeaders: {
         Authorization: this.token ? `Bearer ${this.token}` : '',
