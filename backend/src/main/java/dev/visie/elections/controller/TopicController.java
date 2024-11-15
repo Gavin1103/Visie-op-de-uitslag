@@ -3,6 +3,7 @@ package dev.visie.elections.controller;
 import dev.visie.elections.dto.topic.CreateTopicDto;
 import dev.visie.elections.dto.topic.TopicResponseDto;
 import dev.visie.elections.model.Topic;
+import dev.visie.elections.model.User;
 import dev.visie.elections.service.JwtService;
 import dev.visie.elections.service.TopicService;
 import io.jsonwebtoken.Jwt;
@@ -47,5 +48,17 @@ public class TopicController {
 
         Page<TopicResponseDto> topics = topicService.getTopics(pageable);
         return new ResponseEntity<>(topics, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get topic by id", description = "Get a topic by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Topic retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Topic not found"),
+            @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
+    })
+    public ResponseEntity<Topic> getTopicById(@PathVariable Long id) {
+        Topic topic = topicService.getTopicById(id);
+        return new ResponseEntity<>(topic, HttpStatus.OK);
     }
 }
