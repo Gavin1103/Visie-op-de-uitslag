@@ -225,8 +225,8 @@ const submitNewTopic = async () => {
 
       <div v-else v-for="(topic, index) in filteredTopics" :key="topic.id" class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
         <div class="left-container w-7/12 flex flex-col justify-center">
-          <h3 class="text-lg font-semibold" v-html="topic.statement"></h3>
-          <section class="flex">
+          <router-link :to="{ name: 'TopicDetail', params: { id: topic.id } }" v-html="topic.statement"></router-link>
+            <section class="flex">
             <p class="text-sm mr-2"><small>Likes: {{ topic.likes }}</small></p>
             <p class="text-sm"><small>Dislikes: {{ topic.dislikes }}</small></p>
           </section>
