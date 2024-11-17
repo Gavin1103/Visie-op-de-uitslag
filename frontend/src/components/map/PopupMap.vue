@@ -19,17 +19,18 @@
         </select>
       </div>
 
+      <!-- Pie Chart displaying voting data -->
+      <div v-if="chartData.labels.length > 0" class="mb-4">
+        <PieChart :data="chartData" />
+      </div>
+      <div v-else>
+        <p>No data available for the selected kieskring.</p>
+      </div>
+
       <!-- Display the current kieskring -->
       <div v-if="currentKieskring" class="mb-4">
         <h3 class="text-lg font-semibold text-gray-800">{{ currentKieskring.regionName }}</h3>
       </div>
-
-      <!-- Voting Data -->
-      <ul class="list-disc pl-6">
-        <li v-for="party in votingData" :key="party.partyId" class="text-gray-800">
-          <span class="font-medium">{{ party.partyName }}:</span> {{ party.totalVotes }}
-        </li>
-      </ul>
 
       <slot></slot>
     </div>
@@ -37,10 +38,19 @@
 </template>
 
 <script>
+import { Pie } from 'vue-chartjs';
+import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { kieskringenData } from '@/components/map/kieskringData';
+// Import party colors from the external file
+import getPartyColor from '@/components/map/partyColors'; // Adjust path if needed
+
+ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
 export default {
   name: "PopupMap",
+  components: {
+    PieChart: Pie
+  },
   props: {
     title: {
       type: String,
@@ -54,6 +64,15 @@ export default {
   data() {
     return {
       selectedKieskring: '', // Track the selected kieskring
+      chartData: {
+        labels: [],
+        datasets: [{
+          data: [],
+          backgroundColor: [], // Will be populated with colors dynamically
+          hoverBackgroundColor: [], // Will be populated with hover colors dynamically
+        }],
+      },
+      isLoading: false, // To track loading state
     };
   },
   computed: {
@@ -75,6 +94,20 @@ export default {
       this.fetchVotingData(); // Fetch data for the first kieskring
     }
   },
+  watch: {
+    // Watch for changes in votingData prop and update the chart accordingly
+    votingData: {
+      handler(newData) {
+        if (newData && newData.length > 0) {
+          this.updateChartData(newData); // Update chart when votingData changes
+        } else {
+          // If no data, reset the chart
+          this.resetChartData();
+        }
+      },
+      immediate: true, // Make sure it triggers immediately when the component mounts
+    },
+  },
   methods: {
     normalizeString(str) {
       return str
@@ -87,9 +120,31 @@ export default {
       this.$emit('close');
     },
     fetchVotingData() {
+      this.isLoading = true; // Start loading state
       // Trigger event to fetch data for the selected kieskring
       this.$emit('fetchVotingData', this.selectedKieskring);
     },
+    updateChartData(votingData) {
+      const labels = votingData.map(party => party.partyName);
+      const data = votingData.map(party => party.totalVotes);
+
+      // Map party names to their respective colors using getPartyColor
+      const backgroundColor = votingData.map(party => getPartyColor(party.partyName));
+
+      this.chartData.labels = labels;
+      this.chartData.datasets[0].data = data;
+      this.chartData.datasets[0].backgroundColor = backgroundColor;
+      this.chartData.datasets[0].hoverBackgroundColor = backgroundColor; // Optional: matching hover color
+
+      this.isLoading = false; // End loading state
+    },
+    resetChartData() {
+      this.chartData.labels = [];
+      this.chartData.datasets[0].data = [];
+      this.chartData.datasets[0].backgroundColor = [];
+      this.chartData.datasets[0].hoverBackgroundColor = [];
+      this.isLoading = false; // End loading state
+    }
   },
 };
 </script>
@@ -124,5 +179,9 @@ export default {
   border: none;
   font-size: 18px;
   cursor: pointer;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
 }
 </style>
