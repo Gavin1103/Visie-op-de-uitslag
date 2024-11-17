@@ -19,12 +19,29 @@
         </select>
       </div>
 
-      <!-- Pie Chart displaying voting data -->
-      <div v-if="chartData.labels.length > 0" class="mb-4">
-        <PieChart :data="chartData" />
-      </div>
-      <div v-else>
-        <p>No data available for the selected kieskring.</p>
+      <!-- Container for Pie Chart and Party List -->
+      <div class="flex items-start justify-between">
+        <!-- Party List on the left -->
+        <div class="party-list-container w-1/3 pr-4">
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">Party List:</h3>
+          <div v-for="party in allParties" :key="party.name" class="flex items-center mb-2">
+            <div
+                :style="{ backgroundColor: party.color }"
+                class="w-6 h-6 rounded-full mr-2"
+            ></div>
+            <span class="text-sm">{{ party.name }} - {{ party.votes }} votes</span>
+          </div>
+        </div>
+
+        <!-- Pie Chart on the right, takes up remaining space -->
+        <div class="pie-chart-container w-2/3">
+          <div v-if="chartData.labels.length > 0" class="mb-4">
+            <PieChart :data="chartData" />
+          </div>
+          <div v-else>
+            <p>No data available for the selected kieskring.</p>
+          </div>
+        </div>
       </div>
 
       <!-- Display the current kieskring -->
@@ -41,8 +58,7 @@
 import { Pie } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { kieskringenData } from '@/components/map/kieskringData';
-// Import party colors from the external file
-import getPartyColor from '@/components/map/partyColors'; // Adjust path if needed
+import getPartyColor from '@/components/map/partyColors'; // Import party color function
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
@@ -72,6 +88,7 @@ export default {
           hoverBackgroundColor: [], // Will be populated with hover colors dynamically
         }],
       },
+      allParties: [], // Will store the full list of parties and their votes
       isLoading: false, // To track loading state
     };
   },
@@ -95,13 +112,11 @@ export default {
     }
   },
   watch: {
-    // Watch for changes in votingData prop and update the chart accordingly
     votingData: {
       handler(newData) {
         if (newData && newData.length > 0) {
           this.updateChartData(newData); // Update chart when votingData changes
         } else {
-          // If no data, reset the chart
           this.resetChartData();
         }
       },
@@ -120,8 +135,7 @@ export default {
       this.$emit('close');
     },
     fetchVotingData() {
-      this.isLoading = true; // Start loading state
-      // Trigger event to fetch data for the selected kieskring
+      this.isLoading = true;
       this.$emit('fetchVotingData', this.selectedKieskring);
     },
     updateChartData(votingData) {
@@ -134,16 +148,39 @@ export default {
       this.chartData.labels = labels;
       this.chartData.datasets[0].data = data;
       this.chartData.datasets[0].backgroundColor = backgroundColor;
-      this.chartData.datasets[0].hoverBackgroundColor = backgroundColor; // Optional: matching hover color
+      this.chartData.datasets[0].hoverBackgroundColor = backgroundColor;
 
-      this.isLoading = false; // End loading state
+      // Build the full list of all parties (with their color and vote count)
+      this.allParties = this.buildPartyList(votingData);
+
+      this.isLoading = false;
     },
     resetChartData() {
       this.chartData.labels = [];
       this.chartData.datasets[0].data = [];
       this.chartData.datasets[0].backgroundColor = [];
       this.chartData.datasets[0].hoverBackgroundColor = [];
-      this.isLoading = false; // End loading state
+      this.isLoading = false;
+    },
+    buildPartyList(votingData) {
+      // List of all possible parties
+      const allPartyNames = [
+        'VVD', 'CDA', 'D66', 'PVV (Partij voor de Vrijheid)', 'GROENLINKS / Partij van de Arbeid (PvdA)',
+        'Partij voor de Dieren', 'Volt', 'BIJ1', 'DENK', 'Nieuw Sociaal Contract', 'Forum voor Democratie',
+        'SP (Socialistische Partij)', 'BBB', 'Piratenpartij', 'ChristenUnie', 'Staatkundig Gereformeerde Partij (SGP)',
+        'LEF - Voor de Nieuwe Generatie', 'VNL', '50PLUS', 'BVNL / Groep Van Haga', 'Nederland met een PLAN',
+        'LP (Libertaire Partij)', 'Splinter', 'Partij voor de Sport', 'Politieke Partij voor Basisinkomen', 'Samen voor Nederland'
+      ];
+
+      // Generate the party list with color and vote data
+      return allPartyNames.map(partyName => {
+        const partyData = votingData.find(party => party.partyName === partyName) || { totalVotes: 0 };
+        return {
+          name: partyName,
+          color: getPartyColor(partyName),
+          votes: partyData.totalVotes,
+        };
+      });
     }
   },
 };
@@ -165,10 +202,14 @@ export default {
 .popup-content {
   background: white;
   padding: 20px;
-  border-radius: 8px;
-  max-width: 400px;
-  width: 100%;
+  border-radius: 12px; /* Rounded corners */
+  width: 900px; /* Wider pop-up */
+  height: 800px; /* Adjust the height to make it shorter */
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for a more polished look */
 }
 
 .close-btn {
@@ -184,4 +225,32 @@ export default {
 .mb-4 {
   margin-bottom: 1rem;
 }
+
+.party-list-container {
+  width: 100%;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.pie-chart-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.pie-chart-container canvas {
+  width: 600px !important; /* Adjust the width to make it larger */
+  height: 600px !important; /* Adjust the height accordingly */
+}
+
+.flex {
+  display: flex;
+}
+
+.party-list-container {
+  padding-right: 20px;
+}
+
+
 </style>
+
