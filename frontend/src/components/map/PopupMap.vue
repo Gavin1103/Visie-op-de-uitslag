@@ -24,7 +24,7 @@
         <!-- Party List on the left -->
         <div class="party-list-container w-1/3 pr-4">
           <h3 class="text-lg font-semibold text-gray-800 mb-2">Party List:</h3>
-          <div v-for="party in allParties" :key="party.name" class="flex items-center mb-2">
+          <div v-for="party in sortedParties" :key="party.name" class="flex items-center mb-2">
             <div
                 :style="{ backgroundColor: party.color }"
                 class="w-6 h-6 rounded-full mr-2"
@@ -102,6 +102,10 @@ export default {
     },
     currentKieskring() {
       return this.filteredRegions.find(region => region.regionName === this.selectedKieskring) || null;
+    },
+    sortedParties() {
+      // Sort the parties based on the number of votes in descending order
+      return this.allParties.sort((a, b) => b.votes - a.votes);
     },
   },
   mounted() {
@@ -185,6 +189,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .popup-overlay {
