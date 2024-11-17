@@ -1,4 +1,5 @@
 <template>
+  <div class="map-wrapper">
   <div class="map-container">
     <svg
         width="600"
@@ -81,6 +82,7 @@
       />
     </svg>
   </div>
+  </div>
 </template>
 
 <script>
@@ -96,6 +98,14 @@ export default {
 </script>
 
 <style scoped>
+.map-wrapper {
+  display: flex;
+  justify-content: center; /* Centers the map horizontally */
+  align-items: flex-start; /* Aligns the map to the top */
+  width: 100%;
+  height: 100%; /* Make sure it takes up full height */
+}
+
 .map-container {
   max-width: 100%;
 }
@@ -103,10 +113,22 @@ export default {
 .province {
   fill: #ccc; /* Base color */
   cursor: pointer;
-  transition: fill 0.2s;
+  transition: fill 0.2s, stroke 0.2s; /* Smooth transition for both fill and stroke */
+  stroke: #666; /* Default border color */
+  stroke-width: 1px; /* Define the border width */
 }
 
 .province:hover {
   fill: #007BFF; /* Highlight color on hover */
+  stroke: #0056b3; /* Darker border on hover */
+  stroke-width: 2px; /* Thicker border on hover */
 }
+
+.province:active {
+  fill: #0056b3; /* Darker fill on click */
+  stroke: #003d7a; /* Even darker border on click */
+  stroke-width: 2px; /* Keep the border thicker on click */
+}
+
+
 </style>

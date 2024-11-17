@@ -2,24 +2,42 @@
   <div class="popup-overlay" @click.self="closePopup">
     <div class="popup-content">
       <button class="close-btn" @click="closePopup">X</button>
-      <h2>{{ title }}</h2>
-      <ul>
-        <li v-for="region in filteredRegions" :key="region.regionNumber">
-          {{ region.regionName }}
+      <h2 class="text-xl font-bold text-gray-800">{{ title }}</h2>
+
+      <!-- Dropdown to select kieskring -->
+      <div class="mb-4">
+        <label for="kieskring" class="block text-sm font-semibold text-gray-700">Select Kieskring:</label>
+        <select
+            id="kieskring"
+            v-model="selectedKieskring"
+            @change="fetchVotingData"
+            class="mt-2 p-3 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+        >
+          <option v-for="region in filteredRegions" :key="region.regionNumber" :value="region.regionName">
+            {{ region.regionName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Display the current kieskring -->
+      <div v-if="currentKieskring" class="mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">{{ currentKieskring.regionName }}</h3>
+      </div>
+
+      <!-- Voting Data -->
+      <ul class="list-disc pl-6">
+        <li v-for="party in votingData" :key="party.partyId" class="text-gray-800">
+          <span class="font-medium">{{ party.partyName }}:</span> {{ party.totalVotes }}
         </li>
       </ul>
-      <ul>
-        <li v-for="party in votingData" :key="party.partyId">
-          {{ party.partyName }}: {{ party.totalVotes }}
-        </li>
-      </ul>
+
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
-import {kieskringenData} from '@/components/map/kieskringData';
+import { kieskringenData } from '@/components/map/kieskringData';
 
 export default {
   name: "PopupMap",
@@ -33,15 +51,29 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      selectedKieskring: '', // Track the selected kieskring
+    };
+  },
   computed: {
     filteredRegions() {
       const normalizedTitle = this.normalizeString(this.title);
-
       return kieskringenData.filter(region => {
         const normalizedProvince = this.normalizeString(region.province);
         return normalizedProvince === normalizedTitle;
       });
     },
+    currentKieskring() {
+      return this.filteredRegions.find(region => region.regionName === this.selectedKieskring) || null;
+    },
+  },
+  mounted() {
+    // Automatically select the first kieskring in the filtered list when the component mounts
+    if (this.filteredRegions.length > 0 && !this.selectedKieskring) {
+      this.selectedKieskring = this.filteredRegions[0].regionName;
+      this.fetchVotingData(); // Fetch data for the first kieskring
+    }
   },
   methods: {
     normalizeString(str) {
@@ -53,6 +85,10 @@ export default {
     },
     closePopup() {
       this.$emit('close');
+    },
+    fetchVotingData() {
+      // Trigger event to fetch data for the selected kieskring
+      this.$emit('fetchVotingData', this.selectedKieskring);
     },
   },
 };
@@ -88,13 +124,5 @@ export default {
   border: none;
   font-size: 18px;
   cursor: pointer;
-}
-
-ul {
-  padding-left: 20px;
-}
-
-li {
-  margin-bottom: 5px;
 }
 </style>

@@ -5,9 +5,10 @@
         v-if="showPopup"
         :title="selectedProvince"
         :votingData="aggregatedVotingData"
-    @close="showPopup = false"
+        @close="showPopup = false"
+        @fetchVotingData="fetchVotingData"
     >
-    <p>Details about {{ selectedProvince }} go here.</p>
+      <p>Details about {{ selectedProvince }} go here.</p>
     </PopupMap>
   </div>
 </template>
@@ -60,24 +61,17 @@ export default {
     this.fetchVotingData(); // Fetch data when the component is created
   },
   methods: {
-    async fetchVotingData(province) {
-      // Get the constituencies (kieskringen) for the selected province
-      const constituencies = kieskringenData
-          .filter(item => item.province === province)
-          .map(item => item.regionName);
-
-      // Log the selected province and the mapped constituencies
-      console.log("Selected Province:", province);
-      console.log("Mapped Kieskringen (Constituencies):", constituencies);
+    async fetchVotingData(kieskring) {
+      // Get the constituencies (kieskringen) for the selected kieskring
+      console.log("Selected Kieskring:", kieskring);
 
       try {
         const response = await axios.get('http://localhost:8080/api/election/totalVotesByParty', {
-          params: { constituencies },
+          params: {constituencies: [kieskring]},
           paramsSerializer: params => {
             return params.constituencies.map(c => `constituencies=${encodeURIComponent(c)}`).join('&');
           },
         });
-
 
         console.log("API Response:", response.data);
 
@@ -98,20 +92,18 @@ export default {
     },
     handleProvinceClick(province) {
       if (typeof province === 'string') {
-        // Log the province that was clicked
         console.log("Province Clicked:", province);
 
         this.selectedProvince = province;
         this.showPopup = true;
 
         // Fetch data for constituencies in the clicked province
-        this.fetchVotingData(province);
+        this.fetchVotingData(kieskringenData[0].regionName); // Initial kieskring when province is selected
       } else {
         console.warn("Invalid province data:", province);
       }
     },
   },
-
 };
 </script>
 
