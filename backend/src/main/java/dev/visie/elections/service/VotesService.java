@@ -38,7 +38,8 @@ public class VotesService {
         return (int) Math.round(electoralQuota);
     }
 
-    public List<Object[]> getTotalVotesByPartyPerConstituencyAndMunicipality() {
-        return votesRepository.getTotalVotesByPartyPerConstituencyAndMunicipality();
+    public List<Object[]> getTotalVotesByPartyForConstituencies(List<String> constituencies) {
+        return votesRepository.getTotalVotesByPartyForConstituencies(constituencies);
     }
+
 }

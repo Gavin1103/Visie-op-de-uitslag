@@ -4,7 +4,7 @@
     <PopupMap
         v-if="showPopup"
         :title="selectedProvince"
-        :votingData="filteredVotingData"
+        :votingData="aggregatedVotingData"
     @close="showPopup = false"
     >
     <p>Details about {{ selectedProvince }} go here.</p>
@@ -12,11 +12,11 @@
   </div>
 </template>
 
-
 <script>
 import axios from 'axios';
 import ProvinceMap from '@/components/map/ProvinceMap.vue';
 import PopupMap from '@/components/map/PopupMap.vue';
+import { kieskringenData } from '@/components/map/kieskringData';
 
 export default {
   name: 'NetherlandsMap',
@@ -32,41 +32,86 @@ export default {
     };
   },
   computed: {
-    // Filter voting data for the selected province when popup opens
-    filteredVotingData() {
-      return this.votingData.filter(item => item.constituencyName === this.selectedProvince);
+    // Filter and aggregate votes for the selected province and its constituencies
+    aggregatedVotingData() {
+      if (!this.selectedProvince) return [];
+
+      // Get constituencies within the selected province
+      const constituencies = kieskringenData
+          .filter(item => item.province === this.selectedProvince)
+          .map(item => item.regionName);
+
+      // Filter votes data for these constituencies and aggregate by party
+      const votesByParty = {};
+      this.votingData
+          .filter(item => constituencies.includes(item.constituencyName))
+          .forEach(item => {
+            if (!votesByParty[item.partyId]) {
+              votesByParty[item.partyId] = { partyName: item.partyName, totalVotes: 0 };
+            }
+            votesByParty[item.partyId].totalVotes += item.totalVotes;
+          });
+
+      // Convert to an array format suitable for the PopupMap component
+      return Object.values(votesByParty);
     },
   },
   created() {
     this.fetchVotingData(); // Fetch data when the component is created
   },
   methods: {
-    async fetchVotingData() {
+    async fetchVotingData(province) {
+      // Get the constituencies (kieskringen) for the selected province
+      const constituencies = kieskringenData
+          .filter(item => item.province === province)
+          .map(item => item.regionName);
+
+      // Log the selected province and the mapped constituencies
+      console.log("Selected Province:", province);
+      console.log("Mapped Kieskringen (Constituencies):", constituencies);
+
       try {
-        const response = await axios.get('http://localhost:8080/api/election/totalVotesByParty');
+        const response = await axios.get('http://localhost:8080/api/election/totalVotesByParty', {
+          params: { constituencies },
+          paramsSerializer: params => {
+            return params.constituencies.map(c => `constituencies=${encodeURIComponent(c)}`).join('&');
+          },
+        });
+
+
         console.log("API Response:", response.data);
 
-        // Process response data to ensure it's in the correct format
         const data = Array.isArray(response.data) ? response.data : response.data.results;
 
-        // Map the response data into votingData array
         this.votingData = data.map(item => ({
           partyId: item[0],
           partyName: item[1],
           constituencyName: item[2],
           totalVotes: item[3],
         }));
+
+        // Log the processed voting data
+        console.log("Processed Voting Data for Kieskringen:", this.votingData);
       } catch (error) {
         console.error("Error fetching voting data:", error);
       }
     },
     handleProvinceClick(province) {
       if (typeof province === 'string') {
+        // Log the province that was clicked
+        console.log("Province Clicked:", province);
+
         this.selectedProvince = province;
         this.showPopup = true;
+
+        // Fetch data for constituencies in the clicked province
+        this.fetchVotingData(province);
+      } else {
+        console.warn("Invalid province data:", province);
       }
     },
   },
+
 };
 </script>
 

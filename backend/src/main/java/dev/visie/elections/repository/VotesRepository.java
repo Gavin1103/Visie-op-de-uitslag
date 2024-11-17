@@ -56,8 +56,10 @@ public interface VotesRepository extends JpaRepository<Votes, Long> {
             "JOIN v.station s " +
             "JOIN s.municipality m " +
             "JOIN m.constituency t " +
+            "WHERE t.name IN :constituencies " +
             "GROUP BY p.partyId, p.name, t.name " +
             "ORDER BY t.name, SUM(v.amount) DESC")
-    List<Object[]> getTotalVotesByPartyPerConstituencyAndMunicipality();
-    
+    List<Object[]> getTotalVotesByPartyForConstituencies(@Param("constituencies") List<String> constituencies);
+
+
 }

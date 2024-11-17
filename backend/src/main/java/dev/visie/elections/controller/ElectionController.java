@@ -80,9 +80,11 @@ public class ElectionController {
     }
 
     @GetMapping("totalVotesByParty")
-    @Operation(summary = "Get total votes by party per constituency and municipality")
-    public ResponseEntity<List<Object[]>> getTotalVotesByPartyPerConstituencyAndMunicipality() {
-        List<Object[]> results = votesService.getTotalVotesByPartyPerConstituencyAndMunicipality();
+    public ResponseEntity<List<Object[]>> getTotalVotesByPartyForConstituencies(
+            @RequestParam("constituencies") List<String> constituencies) {
+        List<Object[]> results = votesService.getTotalVotesByPartyForConstituencies(constituencies);
         return ResponseEntity.ok(results);
     }
+
+
 }
