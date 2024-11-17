@@ -1,11 +1,9 @@
 package dev.visie.elections.controller;
 
 import dev.visie.elections.dto.ChatMessageDTO;
+import dev.visie.elections.dto.CreateReportDTO;
 import dev.visie.elections.service.ChatMessageService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +20,10 @@ public class ChatController {
     @GetMapping("/topic/{id}")
     public List<ChatMessageDTO> getLiveChat(@PathVariable Long id) {
         return chatMessageService.getChatMessages(id);
+    }
+
+    @PostMapping("report/{id}")
+    public void reportChat(@RequestBody CreateReportDTO report, @PathVariable Long id) {
+        System.out.println(report.toString());
     }
 }

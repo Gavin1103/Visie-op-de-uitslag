@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, provide, ref, watch } from 'vue'
 import { WebSocketService } from '@/services/WebSocketService.ts'
 import InputText from 'primevue/inputtext'
 import { ChatMessageType } from '@/models/enum/ChatMessageType'
@@ -28,7 +28,7 @@ const messagesContainer = ref(null);
 let isUserScrolledUp = false;
 
 const userId = ref<Number | null>(null)
-
+provide('userId', userId);
 
 const handleScroll = () => {
   const container = messagesContainer.value;
