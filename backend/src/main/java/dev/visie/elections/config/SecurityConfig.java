@@ -33,7 +33,7 @@ public class SecurityConfig {
             "/webjars/**",
             "/swagger/**",
             "/swagger-ui.html",
-            "/topic/",
+            "/topic/**",
             "/ws",
             "/chat/topic/*"
     };

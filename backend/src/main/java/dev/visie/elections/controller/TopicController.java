@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/topic")
 public class TopicController {
@@ -46,6 +48,14 @@ public class TopicController {
     public ResponseEntity<Page<TopicResponseDto>> getTopics(@PageableDefault(size = 10) Pageable pageable) {
 
         Page<TopicResponseDto> topics = topicService.getTopics(pageable);
+        return new ResponseEntity<>(topics, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/{statement}")
+    @Operation(summary = "Search topic by statement")
+    public ResponseEntity<List<TopicResponseDto>> searchTopicByStatement(@PathVariable String statement) {
+
+        List<TopicResponseDto> topics = topicService.searchTopicByStatement(statement);
         return new ResponseEntity<>(topics, HttpStatus.OK);
     }
 }
