@@ -11,7 +11,7 @@ const props = defineProps({
 
 const chatService: ChatService = new ChatService();
 const toast = useToast()
-const userId = inject('userId');
+const userId = inject('userId') as number;
 const isModalShown = ref(false)
 const selectedReason = ref("");
 const customReason = ref("");

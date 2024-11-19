@@ -9,7 +9,7 @@ export class ChatService {
     this.DbService = new DatabaseService();
   }
 
-  public async ReportMessage(reason: CreateReport, id: number): Promise<void> {
+  public async ReportMessage(reason: CreateReport, id: number | undefined): Promise<void> {
     await this.DbService.post(`chat/report/${id}`, reason)
   }
 }

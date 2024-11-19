@@ -10,7 +10,7 @@ export class WebSocketService {
   private wsURL: String;
 
   private stompClient: Client = new Client();
-  public messages = ref<any[]>([]);
+  public messages = ref<ChatMessage[]>([]);
 
   private token: string | null;
   private cookieService = new CookieService();

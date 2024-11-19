@@ -11,6 +11,7 @@ import LivechatView from '@/views/LivechatView.vue'
 import Dialog from 'primevue/dialog'
 import Editor from 'primevue/editor'
 import {debounce} from 'lodash';
+import { dummytopicResponse } from '@/stores/EmptyCandidateList'
 
 const topicService = new TopicService()
 const cookieService = new CookieService()
@@ -42,7 +43,7 @@ onBeforeMount(async () => {
 })
 
 const isChatModalVisible = ref(false)
-const selectedTopic = ref<TopicResponse | null>(null)
+const selectedTopic = ref<TopicResponse>(dummytopicResponse)
 
 const fetchData = async (page: number = 0) => {
   try {
@@ -54,7 +55,7 @@ const fetchData = async (page: number = 0) => {
     } else {
       topics.value = [...topics.value, ...response.content]
     }
-    if (topics.value.length >= response.length) {
+    if (topics.value.length >= response.totalElements) {
       isMoreAvailable.value = false
     }
   } catch (error) {
@@ -109,7 +110,7 @@ const joinLiveChat = (topic: TopicResponse) => {
 
 const closeChatModal = () => {
   isChatModalVisible.value = false
-  selectedTopic.value = null
+  selectedTopic.value = dummytopicResponse
 }
 
 const validateForm = async () => {
@@ -178,7 +179,7 @@ const submitNewTopic = async () => {
       <select
           v-model="sort"
           class="mr-auto px-2 text-sm font-bold text-white bg-[#5564c8] rounded shadow hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all">
-        <option v-for="key in Object.keys(SortOptions)" :key="key" :value="SortOptions[key]">
+        <option v-for="key in Object.keys(SortOptions) as (keyof typeof SortOptions)[]" :key="key" :value="SortOptions[key]">
           {{ key }}
         </option>
       </select>
@@ -193,7 +194,7 @@ const submitNewTopic = async () => {
       <div v-if="topics.length === 0" class="text-center py-4 text-gray-500">
         <p>No topics found.</p>
       </div>
-      <div v-else v-for="(topic, index) in topics" :key="topic.id"
+      <div v-else v-for="(topic) in topics" :key="topic.id"
            class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
         <div class="left-container w-7/12 flex flex-col justify-center">
           <router-link :to="{ name: 'TopicDetail', params: { id: topic.id } }" v-html="topic.statement"></router-link>
