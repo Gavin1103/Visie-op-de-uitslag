@@ -73,11 +73,13 @@ export class WebSocketService {
   public sendMessage(id: number, message: String, type: ChatMessageType) {
     if(this.token) {
       const body: ChatMessage = {
-        id: '1',
+        id: 1,
         name: 'User',
+        userId: 0,
         chatId: id,
         message: message,
         type: type,
+        activeUsers: 0,
         timestamp: new Date().toISOString()
       }
 

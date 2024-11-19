@@ -3,7 +3,7 @@ export class CreateTopic {
   message: string;
 
   constructor(
-    username: string,
+    statement: string,
     message: string,
   ) {
     this.statement = statement;

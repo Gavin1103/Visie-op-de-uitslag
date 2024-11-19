@@ -48,7 +48,7 @@ const selectedTopic = ref<TopicResponse>(dummytopicResponse)
 const fetchData = async (page: number = 0) => {
   try {
     isMoreAvailable.value = true
-    const response = await topicService.getTopics(page, pageSize, sort.value)
+    const response: PaginatedResponse<TopicResponse> = await topicService.getTopics(page, pageSize, sort.value)
 
     if (page === 0) {
       topics.value = response.content

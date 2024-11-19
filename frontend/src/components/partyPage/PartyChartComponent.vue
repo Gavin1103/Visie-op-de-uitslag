@@ -22,10 +22,10 @@ const candidateService = new CandidateService();
 const placeholder = ref("nationaal")
 const candidatesWithVotes = ref<CandidateWithVotes[]>(props.candidates);
 const searchAvailable = ref(false)
-const area = ref(AreaEnum.NATIONAL)
+const area = ref<AreaEnum>(AreaEnum.NATIONAL)
 const chartLabel = ref("landelijk")
 
-function updateArea(changedArea: String, changedPlaceholder: String) {
+function updateArea(changedArea: AreaEnum, changedPlaceholder: string) {
   area.value = changedArea
   if(changedArea === AreaEnum.CONSTITUENCY || changedArea === AreaEnum.MUNICIPALITY){
     searchAvailable.value = true
@@ -40,7 +40,7 @@ function updateArea(changedArea: String, changedPlaceholder: String) {
   }
 }
 
-const updateCandidates = async (Area) => {
+const updateCandidates = async (Area: string) => {
   switch(area.value) {
     case AreaEnum.CONSTITUENCY:
       try{

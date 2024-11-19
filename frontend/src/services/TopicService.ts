@@ -12,7 +12,7 @@ export class TopicService {
     }
 
     async getTopics(page: number = 0, size: number = 10, sort: string = "createdAt"): Promise<PaginatedResponse<TopicResponse>> {
-        return await this.dbService.get<TopicResponse[]>(`topic/?page=${page}&size=${size}&sort=${sort}`);
+        return await this.dbService.get<PaginatedResponse<TopicResponse>>(`topic/?page=${page}&size=${size}&sort=${sort}`);
     }
 
     async searchTopicByStatement(statement: string): Promise<TopicResponse[]> {

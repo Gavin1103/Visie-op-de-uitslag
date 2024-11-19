@@ -20,16 +20,23 @@ const userData = ref()
 const topicData = ref()
 
 const alignChartData = () => {
-  const allLabels = Array.from(new Set([...userData.value.labels, ...topicData.value.labels])).sort((a, b) => new Date(a) - new Date(b))
+  const allLabels = Array.from(new Set([...userData.value.labels, ...topicData.value.labels]))
+    .sort((a, b) => {
+      const dateA = new Date(a);
+      const dateB = new Date(b);
+      return dateA.getTime() - dateB.getTime();
+    });
 
-  userData.value = fillMissingData(userData.value, allLabels)
-  topicData.value = fillMissingData(topicData.value, allLabels)
-}
+  userData.value = fillMissingData(userData.value, allLabels);
+  topicData.value = fillMissingData(topicData.value, allLabels);
+};
 
-const fillMissingData = (data, allLabels) => {
-  const labelToCount = Object.fromEntries(data.labels.map((label, index) => [label, data.counts[index]]))
-  const counts = allLabels.map(label => labelToCount[label] || 0)
-  return { labels: allLabels, counts }
+const fillMissingData = (data: { labels: string[], counts: number[] }, allLabels: string[]) => {
+  const labelToCount = Object.fromEntries(
+    data.labels.map((label: string, index: number) => [label, data.counts[index]])
+  );
+  const counts = allLabels.map(label => labelToCount[label] || 0);
+  return { labels: allLabels, counts };
 }
 
 const setChartData = () => {
@@ -54,20 +61,25 @@ const setChartData = () => {
   }
 }
 
-function aggregateByMonthYear(items, getDate) {
-  const monthYearCounts = {}
+function aggregateByMonthYear(items: any[], getDate: any) {
+  const monthYearCounts: Record<string, number> = {};
 
   items.forEach(item => {
-    const date = getDate(item)
-    const monthYear = `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`
-    monthYearCounts[monthYear] = (monthYearCounts[monthYear] || 0) + 1
-  })
+    const date = getDate(item);
+    const monthYear = `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
+    monthYearCounts[monthYear] = (monthYearCounts[monthYear] || 0) + 1;
+  });
 
-  const sortedEntries = Object.entries(monthYearCounts).sort(([a], [b]) => new Date(a) - new Date(b))
+  const sortedEntries = Object.entries(monthYearCounts).sort(([a], [b]) => {
+    const dateA = new Date(a as string);
+    const dateB = new Date(b as string);
+    return dateA.getTime() - dateB.getTime();
+  });
+
   return {
     labels: sortedEntries.map(([label]) => label),
     counts: sortedEntries.map(([, count]) => count)
-  }
+  };
 }
 
 const loadUserData = async () => {
@@ -83,7 +95,7 @@ const loadUserData = async () => {
       new Date(user.createdAt)
     ))
 
-    return aggregateByMonthYear(users, user => user.createdAt)
+    return aggregateByMonthYear(users, (user: GetUser) => user.createdAt)
   } catch (error) {
     console.error("Error fetching user data:", error)
   }
@@ -100,7 +112,7 @@ const loadTopicData = async () => {
       topic.createdAt ? new Date(topic.createdAt) : new Date()
     ))
 
-    return aggregateByMonthYear(topics, topic => topic.createdAt)
+    return aggregateByMonthYear(topics, (topic: GetTopic) => topic.createdAt)
   } catch (error) {
     console.error("Error fetching topic data:", error)
   }

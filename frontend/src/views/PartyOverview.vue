@@ -1,6 +1,6 @@
 <script lang="ts">
 import { onMounted, ref, computed } from 'vue'
-import { Party } from '@/models/Party'
+import type { Party } from '@/models/Party'
 import PartyCard from '@/components/PartyCard.vue'
 import { ElectionService } from '@/services/ElectionService'
 
@@ -55,7 +55,7 @@ export default {
 
       <!-- Party Cards -->
       <div class="flex flex-wrap gap-6">
-        <PartyCard v-for="party in filteredParties" :key="party.id" :party="party" />
+        <PartyCard v-for="party in filteredParties" :key="party.partyId" :party="party" />
       </div>
     </div>
   </div>

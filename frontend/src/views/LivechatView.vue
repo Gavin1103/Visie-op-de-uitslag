@@ -21,8 +21,7 @@ const emit = defineEmits(['close']);
 const webSocketService = new WebSocketService();
 const userService = new UserService();
 const cookieService = new CookieService();
-
-const messages: ChatMessage[] = computed(() => webSocketService.messages.value);
+const messages = computed(() => webSocketService.messages.value);
 const chatMessage = ref("");
 const activeUsers = ref(0);
 const messagesContainer = ref<HTMLElement | null>(null);
