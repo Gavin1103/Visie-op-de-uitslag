@@ -25,6 +25,6 @@ public class ChatController {
 
     @PostMapping("report/{id}")
     public ResponseEntity<?> reportChat(@RequestBody CreateReportDTO report, @PathVariable Long id) {
-        return chatMessageService.reportChatMesssage(report, id);
+        return chatMessageService.reportChatMessage(report, id);
     }
 }

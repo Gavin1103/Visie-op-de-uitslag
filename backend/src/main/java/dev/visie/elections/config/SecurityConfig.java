@@ -35,7 +35,7 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/topic/",
             "/ws",
-            "/chat/**",
+            "/chat/topic/*",
 
     };
 

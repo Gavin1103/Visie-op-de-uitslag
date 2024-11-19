@@ -37,6 +37,15 @@ const handleReport = async() => {
     })
     return;
   }
+  if(!report.value.reporterId){
+    toast.add({
+      severity: 'error',
+      summary: 'log in',
+      detail: 'Log in om te rapporteren',
+      life: 3000
+    })
+    return;
+  }
   report.value.reason = reason
   await chatService.ReportMessage(report.value, props.messageId)
 

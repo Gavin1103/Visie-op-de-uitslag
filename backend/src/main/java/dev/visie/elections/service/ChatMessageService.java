@@ -53,7 +53,7 @@ public class ChatMessageService {
         return chatMessageRepository.findAllByChatId(id);
     }
 
-    public ResponseEntity<?> reportChatMesssage(CreateReportDTO createReportDTO, Long id) {
+    public ResponseEntity<?> reportChatMessage(CreateReportDTO createReportDTO, Long id) {
         ChatMessage chatMessage = chatMessageRepository.findById(id).orElse(null);
 
         if(chatMessage == null) {
