@@ -1,16 +1,4 @@
-<template>
-  <div class="dashboard-container">
-    <h1 class="text-2xl font-bold mb-4">CMS Dashboard</h1>
-
-    <div class="chart-container mb-8" v-if="userData && topicData">
-      <Chart type="bar" :data="chartData" :options="chartOptions" class="h-[30rem]" />
-    </div>
-
-    <div v-else>Loading data...</div>
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import Chart from 'primevue/chart'
 import { UserService } from '@/services/UserService'
@@ -162,3 +150,15 @@ const setChartOptions = () => {
 }
 
 </script>
+
+<template>
+  <div class="dashboard-container">
+    <h1 class="text-2xl font-bold mb-4">CMS Dashboard</h1>
+
+    <div class="chart-container mb-8" v-if="userData && topicData">
+      <Chart type="bar" :data="chartData" :options="chartOptions" class="h-[30rem]" />
+    </div>
+
+    <div v-else>Loading data...</div>
+  </div>
+</template>

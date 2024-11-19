@@ -10,7 +10,7 @@ import type { CreateTopic } from '@/models/topic/CreateTopic'
 import LivechatView from '@/views/LivechatView.vue'
 import Dialog from 'primevue/dialog'
 import Editor from 'primevue/editor'
-
+import { dummytopicResponse } from '@/stores/EmptyCandidateList'
 
 const topicService = new TopicService()
 const cookieService = new CookieService()
@@ -21,7 +21,7 @@ const newTopicContent = ref('')
 const newStatement = ref('')
 const searchQuery = ref('')
 
-const topics = ref<TopicResponse[]>([])
+const topics = ref<TopicResponse[]>([dummytopicResponse])
 const currentPage = ref(0)
 const pageSize = 5
 const isMoreAvailable = ref(true)
@@ -44,10 +44,10 @@ const fetchAllData = async () => {
     let isDataAvailable = true
 
     while (isDataAvailable) {
-      const response = await topicService.getTopics(page, pageSize, 'createdAt,asc')
+      const response: TopicResponse[] = await topicService.getTopics(page, pageSize, 'createdAt,asc')
       allTopics.push(...response.content)
       page += 1
-      isDataAvailable = allTopics.length < response.totalElements
+      isDataAvailable = allTopics.length < response.length
     }
     topics.value = allTopics
   } catch (error) {
@@ -62,11 +62,11 @@ const fetchData = async (page: number = 0) => {
     isLoading.value = true
     const response = await topicService.getTopics(page, pageSize, 'createdAt,asc')
     if (page === 0) {
-      topics.value = response.content
+      topics.value = response.values()
     } else {
-      topics.value = [...topics.value, ...response.content]
+      topics.value = [...topics.value, ...response.values()]
     }
-    if (topics.value.length >= response.totalElements) {
+    if (topics.value.length >= response.length) {
       isMoreAvailable.value = false
     }
   } catch (error) {
@@ -98,7 +98,7 @@ const filteredTopics = computed(() => {
   const searchQueryLower = searchQuery.value.toLowerCase();
   const parser = new DOMParser();
 
-  return topics.value
+  return (topics.value || [])
     .map(topic => {
       const parsedDocument = parser.parseFromString(topic.statement, 'text/html');
       const plainTextStatement = parsedDocument.body.textContent || "";
@@ -152,7 +152,7 @@ const closeChatModal = () => {
 const validateForm = async () => {
   let error = false
 
-  if (!newTopicContent.value.length > 0) {
+  if (newTopicContent.value.length < 1) {
     toast.add({
       severity: 'error',
       summary: 'Error',
@@ -162,7 +162,7 @@ const validateForm = async () => {
     error = true
   }
 
-  if (!newStatement.value.length > 0) {
+  if (newStatement.value.length < 1) {
     toast.add({
       severity: 'error',
       summary: 'Error',
@@ -223,7 +223,7 @@ const submitNewTopic = async () => {
         <ProgressSpinner />
       </div>
 
-      <div v-else v-for="(topic, index) in filteredTopics" :key="topic.id" class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
+      <div v-else v-for="(topic) in filteredTopics" :key="topic.id" class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
         <div class="left-container w-7/12 flex flex-col justify-center">
           <h3 class="text-lg font-semibold" v-html="topic.statement"></h3>
           <section class="flex">

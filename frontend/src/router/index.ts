@@ -4,17 +4,16 @@ import CreateUser from '../views/CreateUser.vue'
 import LoginUser from '../views/LoginUser.vue'
 import EmailConfirmation from '../views/EmailConfirmation.vue'
 import { UserService } from '@/services/UserService'
-import Unauthorized from '@/components/Unauthorized.vue'
+import UnauthorizedView from '@/components/Unauthorized.vue'
 import PartyOverview from '@/views/PartyOverview.vue'
 import PartyView from '@/views/PartyView.vue'
-import LivechatView from '@/views/LivechatView.vue'
 import UserOverview from '@/views/UserOverview.vue'
-import Dashboard from '@/views/Dashboard.vue'
+import DashboardView from '@/views/DashboardView.vue'
 import ForumLandingsPage from "@/views/forum/ForumLandingsPage.vue";
 
 
 const userService = new UserService();
-let isAdmin = await userService.currentUserIsAdmin();
+const isAdmin = await userService.currentUserIsAdmin();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,7 +68,7 @@ const router = createRouter({
     {
       path: '/cms/dashboard',
       name: 'dashboard',
-      component: Dashboard,
+      component: DashboardView,
       meta: { requiresAdmin: true }
     },
     {
@@ -80,7 +79,7 @@ const router = createRouter({
     {
       path: '/unauthorized',
       name: 'unauthorized',
-      component: Unauthorized
+      component: UnauthorizedView
     },
     {
       path: '/about',

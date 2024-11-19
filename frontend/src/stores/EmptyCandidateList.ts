@@ -1,5 +1,6 @@
 
 import type { CandidateWithVotes } from '@/models/Candidate'
+import type { TopicResponse } from '@/models/forum/TopicResponse'
 
 export const emptyCandidateList: CandidateWithVotes[] = [
   {
@@ -67,3 +68,14 @@ export const emptyCandidateList: CandidateWithVotes[] = [
     votes: 0
   },
 ];
+
+export const dummytopicResponse: TopicResponse = {id: 0,
+  statement: "",
+  message: "",
+  userId: 0,
+  username: null,
+  createdAt: "",
+  updatedAt: "",
+  likes: 0,
+  dislikes: 0,
+  amountOfAnswers: 0}
