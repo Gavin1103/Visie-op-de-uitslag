@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public abstract class VoteModel {
+public abstract class RatingModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +22,5 @@ public abstract class VoteModel {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private Boolean vote;
+    private Boolean rating;
 }
