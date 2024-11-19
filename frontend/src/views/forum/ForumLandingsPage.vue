@@ -1,16 +1,16 @@
 <script setup lang="ts">
 
-import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
-import type { TopicResponse } from '@/models/forum/TopicResponse'
-import { formatDate } from '../../helper/formatDateHelper'
-import { useToast } from 'primevue/usetoast'
-import { TopicService } from '@/services/TopicService'
-import { CookieService } from '@/services/CookieService'
-import type { CreateTopic } from '@/models/topic/CreateTopic'
+import {onBeforeMount, onMounted, ref, watch} from 'vue'
+import type {TopicResponse} from '@/models/forum/TopicResponse'
+import {formatDate} from '../../helper/formatDateHelper'
+import {useToast} from 'primevue/usetoast'
+import {TopicService} from '@/services/TopicService'
+import {CookieService} from '@/services/CookieService'
+import type {CreateTopic} from '@/models/topic/CreateTopic'
 import LivechatView from '@/views/LivechatView.vue'
 import Dialog from 'primevue/dialog'
 import Editor from 'primevue/editor'
-
+import {debounce} from 'lodash';
 
 const topicService = new TopicService()
 const cookieService = new CookieService()
@@ -21,12 +21,20 @@ const newTopicContent = ref('')
 const newStatement = ref('')
 const searchQuery = ref('')
 
+enum SortOptions {
+  newest = "createdAt,desc",
+  oldest = "createdAt,asc",
+  // TODO: order by likes and dislikes
+  // likes = "likes,desc",
+  // dislikes = "dislikes,desc",
+}
+
 const topics = ref<TopicResponse[]>([])
 const currentPage = ref(0)
 const pageSize = 5
+const sort = ref(SortOptions.newest)
 const isMoreAvailable = ref(true)
 
-const isLoading = ref(false)
 const isUserLoggedIn = ref<boolean | null>(null)
 
 onBeforeMount(async () => {
@@ -36,31 +44,11 @@ onBeforeMount(async () => {
 const isChatModalVisible = ref(false)
 const selectedTopic = ref<TopicResponse | null>(null)
 
-const fetchAllData = async () => {
-  try {
-    isLoading.value = true
-    let page = 0
-    const allTopics = []
-    let isDataAvailable = true
-
-    while (isDataAvailable) {
-      const response = await topicService.getTopics(page, pageSize, 'createdAt,asc')
-      allTopics.push(...response.content)
-      page += 1
-      isDataAvailable = allTopics.length < response.totalElements
-    }
-    topics.value = allTopics
-  } catch (error) {
-    console.error('Error fetching data:', error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
 const fetchData = async (page: number = 0) => {
   try {
-    isLoading.value = true
-    const response = await topicService.getTopics(page, pageSize, 'createdAt,asc')
+    isMoreAvailable.value = true
+    const response = await topicService.getTopics(page, pageSize, sort.value)
+
     if (page === 0) {
       topics.value = response.content
     } else {
@@ -71,49 +59,25 @@ const fetchData = async (page: number = 0) => {
     }
   } catch (error) {
     console.error('Error fetching data:', error)
-  } finally {
-    isLoading.value = false
   }
 }
+
+watch(sort, () => {
+  fetchData();
+});
 
 onMounted(() => {
   fetchData()
 })
 
-watch(searchQuery, async (newQuery) => {
-  if (newQuery && newQuery.length > 0) {
-    topics.value = []
-    currentPage.value = 0
-    isMoreAvailable.value = true
-    await fetchAllData()
-  } else {
-    topics.value = []
-    currentPage.value = 0
-    isMoreAvailable.value = true
-    await fetchData()
+const searchTopic = debounce(async () => {
+  if (searchQuery.value.length > 1) {
+    isMoreAvailable.value = false;
+    topics.value = await topicService.searchTopicByStatement(searchQuery.value);
+  } else if (searchQuery.value.length === 0) {
+    await fetchData();
   }
-})
-
-const filteredTopics = computed(() => {
-  const searchQueryLower = searchQuery.value.toLowerCase();
-  const parser = new DOMParser();
-
-  return topics.value
-    .map(topic => {
-      const parsedDocument = parser.parseFromString(topic.statement, 'text/html');
-      const plainTextStatement = parsedDocument.body.textContent || "";
-
-      const relevanceScore = (plainTextStatement.toLowerCase().match(new RegExp(searchQueryLower, 'g')) || []).length;
-
-      return {
-        ...topic,
-        relevanceScore
-      };
-    })
-    .filter(topic => topic.relevanceScore > 0)
-    .sort((a, b) => b.relevanceScore - a.relevanceScore);
-});
-
+}, 300);
 
 const loadMore = () => {
   currentPage.value += 1
@@ -123,14 +87,13 @@ const loadMore = () => {
 const openDialog = () => {
   if(!isUserLoggedIn.value) {
     toast.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'You need to be logged in to create a topic.',
-      life: 3000
+      severity: 'info',
+      summary: 'Log in to Participate',
+      detail: 'You need to be logged in to create a topic. Sign in to get started!',
+      life: 5000
     })
     return
   }
-
   isDialogVisible.value = true
 }
 
@@ -196,34 +159,42 @@ const submitNewTopic = async () => {
   } finally {
     closeDialog()
     await fetchData()
-    toast.add({ severity: 'success', summary: 'Success', detail: 'Your topic was created successfully!', life: 3000 })
+    toast.add({severity: 'success', summary: 'Success', detail: 'Your topic was created successfully!', life: 3000})
   }
 }
+
 </script>
 <template>
   <section class="container mx-auto w-3/5 min-h-[400px]">
     <h1 class="text-3xl font-bold my-6">Topics</h1>
-
     <section class="py-1 w-full flex justify-between mb-4">
       <input
-        v-model="searchQuery"
-        class="w-3/4 px-4 py-2 text-lg border border-gray-300 rounded focus:outline-none focus:border-blue-600 transition-colors"
-        type="text"
-        placeholder="zoeken..."
+          v-model="searchQuery"
+          @input="searchTopic"
+          class="w-1/2 mr-2.5 px-4 py-2 text-lg border border-gray-300 rounded focus:outline-none focus:border-blue-600 transition-colors"
+          type="text"
+          placeholder="zoeken..."
       />
+      <select
+          v-model="sort"
+          class="mr-auto px-2 text-sm font-bold text-white bg-[#5564c8] rounded shadow hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all">
+        <option v-for="key in Object.keys(SortOptions)" :key="key" :value="SortOptions[key]">
+          {{ key }}
+        </option>
+      </select>
       <button
-        @click="openDialog"
-        class="px-5 py-2 text-lg font-bold text-white bg-[#5564c8] rounded cursor-pointer hover:bg-blue-700 transition-colors">
+          @click="openDialog"
+          class="px-5 py-2 text-lg font-bold text-white bg-[#5564c8] rounded cursor-pointer hover:bg-blue-700 transition-colors">
         Topic +
       </button>
     </section>
 
     <section class="w-full flex flex-col space-y-4 pb-20">
-      <div v-if="isLoading" class="flex justify-center my-6">
-        <ProgressSpinner />
+      <div v-if="topics.length === 0" class="text-center py-4 text-gray-500">
+        <p>No topics found.</p>
       </div>
-
-      <div v-else v-for="(topic, index) in filteredTopics" :key="topic.id" class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
+      <div v-else v-for="(topic, index) in topics" :key="topic.id"
+           class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
         <div class="left-container w-7/12 flex flex-col justify-center">
           <router-link :to="{ name: 'TopicDetail', params: { id: topic.id } }" v-html="topic.statement"></router-link>
             <section class="flex">

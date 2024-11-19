@@ -59,4 +59,12 @@ public class TopicService {
     public Topic getTopicById(Long id){
         return topicRepository.findById(id).orElse(null);
     }
+
+    public List<TopicResponseDto> searchTopicByStatement(String statement) {
+        List<Topic> foundTopics = topicRepository.findByStatementContainingIgnoreCase(statement);
+
+        return foundTopics.stream()
+                .map(topics -> modelMapper.map(topics, TopicResponseDto.class))
+                .collect(Collectors.toList());
+    }
 }

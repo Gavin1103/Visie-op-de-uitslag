@@ -15,6 +15,10 @@ export class TopicService {
         return await this.dbService.get<TopicResponse[]>(`topic/?page=${page}&size=${size}&sort=${sort}`);
     }
 
+    async searchTopicByStatement(statement: string): Promise<TopicResponse[]> {
+        return await this.dbService.get<TopicResponse[]>(`topic/search/${statement}`);
+    }
+
     async createTopic(topic: CreateTopic): Promise<CreateTopic> {
         return await this.dbService.post<CreateTopic>('topic/create-topic', topic);
     }
