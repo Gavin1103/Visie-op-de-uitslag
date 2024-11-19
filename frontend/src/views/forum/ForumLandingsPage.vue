@@ -62,9 +62,9 @@ const fetchData = async (page: number = 0) => {
     isLoading.value = true
     const response = await topicService.getTopics(page, pageSize, 'createdAt,asc')
     if (page === 0) {
-      topics.value = response.values()
+      topics.value = response.content
     } else {
-      topics.value = [...topics.value, ...response.values()]
+      topics.value = [...topics.value, ...response.content]
     }
     if (topics.value.length >= response.length) {
       isMoreAvailable.value = false
