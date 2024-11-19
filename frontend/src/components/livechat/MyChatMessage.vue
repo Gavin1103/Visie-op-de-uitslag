@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Message from 'primevue/message'
 import { extractTime } from '../../helper/formatDateHelper'
 const props = defineProps({
   message: {

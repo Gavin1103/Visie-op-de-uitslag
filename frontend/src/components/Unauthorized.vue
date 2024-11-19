@@ -6,9 +6,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: 'Unauthorized',
+  name: 'UnauthorizedView',
   mounted() {
     setTimeout(() => {
       this.$router.push('/');

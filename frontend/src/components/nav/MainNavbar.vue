@@ -32,7 +32,12 @@ const leftMenuItems = ref([
 ])
 
 // Define a function to update the rightMenuItems based on login status and admin role
-const rightMenuItems = ref([])
+const rightMenuItems = ref([{
+  label: '',
+  icon: '',
+  command: () => router.push(''),
+  visible: false
+},])
 
 watch([isUserLoggedIn, isUserAdmin], () => {
   if (isUserLoggedIn.value !== null && isUserAdmin.value !== null) {
@@ -40,7 +45,8 @@ watch([isUserLoggedIn, isUserAdmin], () => {
       {
         label: isUserLoggedIn.value ? 'Logout' : 'Login',
         icon: isUserLoggedIn.value ? 'pi pi-sign-out' : 'pi pi-sign-in',
-        command: () => isUserLoggedIn.value ? logout() : router.push('/login')
+        command: async () => isUserLoggedIn.value ? logout() : router.push('/login'),
+        visible: true
       },
       {
         label: 'Register',

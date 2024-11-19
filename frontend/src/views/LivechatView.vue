@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, provide, ref, watch } from 'vue'
 import { WebSocketService } from '@/services/WebSocketService.ts'
 import InputText from 'primevue/inputtext'
 import { ChatMessageType } from '@/models/enum/ChatMessageType'
@@ -9,11 +9,11 @@ import OtherChatMessage from '@/components/livechat/OtherChatMessage.vue'
 import type { UserProfile } from '@/models/user/UserProfile'
 import { UserService } from '@/services/UserService'
 import { CookieService } from '@/services/CookieService'
+import type { TopicResponse } from '@/models/forum/TopicResponse'
 
-
-const props = defineProps({
-  topic: Object,
-});
+const props = defineProps<{
+  topic: TopicResponse | null,
+}>();
 
 const emit = defineEmits(['close']);
 
@@ -28,7 +28,7 @@ const messagesContainer = ref(null);
 let isUserScrolledUp = false;
 
 const userId = ref<Number | null>(null)
-
+provide('userId', userId);
 
 const handleScroll = () => {
   const container = messagesContainer.value;
@@ -80,7 +80,7 @@ onMounted(async () => {
 <template>
   <div class="bg-white shadow-xl rounded-lg p-4 max-w-2xl w-full h-full flex flex-col mx-auto">
     <div>
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Live chat: {{ topic.statement }}</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Live chat: {{ !topic.statement }}</h2>
       <div class="m-3"><i class="pi pi-eye" style="color: blue"></i> {{activeUsers}}</div>
     </div>
     <div ref="messagesContainer"

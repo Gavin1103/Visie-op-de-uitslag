@@ -1,7 +1,7 @@
 import { Client } from '@stomp/stompjs'
 import { ChatMessageType } from '@/models/enum/ChatMessageType'
 import { ref } from 'vue'
-import type { ChatMessage } from '@/models/ChatMessage'
+import type { ChatMessage } from '@/models/chat/ChatMessage'
 import { CookieService } from '@/services/CookieService'
 import { DatabaseService } from '@/services/DatabaseService'
 

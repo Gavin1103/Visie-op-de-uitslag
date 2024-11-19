@@ -54,7 +54,7 @@ const fetchData = async (page: number = 0) => {
     } else {
       topics.value = [...topics.value, ...response.content]
     }
-    if (topics.value.length >= response.totalElements) {
+    if (topics.value.length >= response.length) {
       isMoreAvailable.value = false
     }
   } catch (error) {
@@ -115,7 +115,7 @@ const closeChatModal = () => {
 const validateForm = async () => {
   let error = false
 
-  if (!newTopicContent.value.length > 0) {
+  if (newTopicContent.value.length < 1) {
     toast.add({
       severity: 'error',
       summary: 'Error',
@@ -125,7 +125,7 @@ const validateForm = async () => {
     error = true
   }
 
-  if (!newStatement.value.length > 0) {
+  if (newStatement.value.length < 1) {
     toast.add({
       severity: 'error',
       summary: 'Error',
