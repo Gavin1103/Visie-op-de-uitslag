@@ -105,6 +105,7 @@ export default {
     },
     sortedParties() {
       // Sort the parties based on the number of votes in descending order
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       return this.allParties.sort((a, b) => b.votes - a.votes);
     },
   },
