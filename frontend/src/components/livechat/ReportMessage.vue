@@ -26,7 +26,7 @@ const predefinedReasons = [
 
 const handleReport = async() => {
   const reason =
-    selectedReason.value === "Other" ? customReason.value : selectedReason.value;
+    selectedReason.value === "Anders" ? customReason.value : selectedReason.value;
 
   if (!reason) {
     toast.add({

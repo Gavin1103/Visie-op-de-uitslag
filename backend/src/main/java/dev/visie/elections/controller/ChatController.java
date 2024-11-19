@@ -3,6 +3,7 @@ package dev.visie.elections.controller;
 import dev.visie.elections.dto.ChatMessageDTO;
 import dev.visie.elections.dto.CreateReportDTO;
 import dev.visie.elections.service.ChatMessageService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class ChatController {
     }
 
     @PostMapping("report/{id}")
-    public void reportChat(@RequestBody CreateReportDTO report, @PathVariable Long id) {
-        System.out.println(report.toString());
+    public ResponseEntity<?> reportChat(@RequestBody CreateReportDTO report, @PathVariable Long id) {
+        return chatMessageService.reportChatMesssage(report, id);
     }
 }
