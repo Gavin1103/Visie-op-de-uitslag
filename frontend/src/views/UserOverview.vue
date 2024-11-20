@@ -11,7 +11,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import Select from 'primevue/Select'
+import Select from 'primevue/select'
 import Checkbox from 'primevue/checkbox'
 import Divider from 'primevue/divider'
 import IftaLabel from 'primevue/iftalabel'
@@ -150,7 +150,7 @@ export default {
       });
     }
 
-    const deleteUser = async (userId: string) => {
+    const deleteUser = async (userId: number) => {
       confirm.require({
         message: 'Are you sure you want to delete this user?',
         header: 'Confirmation',
@@ -267,7 +267,7 @@ export default {
       <Column header="Actions">
         <template #body="slotProps">
           <Button label="Update" icon="pi pi-save" class="p-button-success mr-2" @click="updateUser(slotProps.data)" />
-          <Button label="Delete" icon="pi pi-trash" class="p-button-danger" @click="deleteUser(slotProps.data.id)" />
+          <Button label="Delete" icon="pi pi-trash" class="p-button-danger" @click="deleteUser(parseInt(slotProps.data.id))" />
         </template>
       </Column>
     </DataTable>

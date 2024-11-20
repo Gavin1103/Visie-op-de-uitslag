@@ -33,7 +33,7 @@ export default {
       try {
         const response = await userService.confirmAccount(token);
         success.value = 'Your email has been confirmed successfully!';
-      } catch (err) {
+      } catch (err: any) {
         console.error(err);
         error.value = err.response?.data?.message || 'An error occurred while confirming your email.';
       } finally {

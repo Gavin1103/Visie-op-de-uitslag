@@ -30,6 +30,7 @@ import Button from 'primevue/button'
 import type { TopicResponse } from '@/models/forum/TopicResponse'
 import { formatDate } from '../../helper/formatDateHelper'
 import { TopicService } from '@/services/TopicService'
+import type { GetTopic } from '@/models/topic/GetTopic'
 
 const topicService = new TopicService()
 const route = useRoute()
@@ -38,9 +39,9 @@ const router = useRouter()
 const topic = ref<TopicResponse | null>(null)
 
 const loadTopic = async () => {
-  const topicId = route.params.id
+  const topicId: number = parseInt(route.params.id as string, 10);
   if (topicId) {
-    topic.value = await topicService.getTopicById(topicId as string)
+    topic.value = await topicService.getTopicById(topicId);
   }
 }
 

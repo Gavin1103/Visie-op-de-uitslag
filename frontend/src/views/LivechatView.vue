@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { WebSocketService } from '@/services/WebSocketService.ts'
+import { computed, nextTick, onMounted, provide, ref, type VNodeRef, watch } from 'vue'
+import { WebSocketService } from '@/services/WebSocketService'
 import InputText from 'primevue/inputtext'
 import { ChatMessageType } from '@/models/enum/ChatMessageType'
 import JoinLeaveMessage from '@/components/livechat/JoinLeaveMessage.vue'
@@ -9,35 +9,35 @@ import OtherChatMessage from '@/components/livechat/OtherChatMessage.vue'
 import type { UserProfile } from '@/models/user/UserProfile'
 import { UserService } from '@/services/UserService'
 import { CookieService } from '@/services/CookieService'
+import type { TopicResponse } from '@/models/forum/TopicResponse'
+import type { ChatMessage } from '@/models/chat/ChatMessage'
 
-
-const props = defineProps({
-  topic: Object,
-});
+const props = defineProps<{
+  topic: TopicResponse,
+}>();
 
 const emit = defineEmits(['close']);
 
 const webSocketService = new WebSocketService();
 const userService = new UserService();
 const cookieService = new CookieService();
-
 const messages = computed(() => webSocketService.messages.value);
 const chatMessage = ref("");
 const activeUsers = ref(0);
-const messagesContainer = ref(null);
+const messagesContainer = ref<HTMLElement | null>(null);
 let isUserScrolledUp = false;
 
 const userId = ref<Number | null>(null)
-
+provide('userId', userId);
 
 const handleScroll = () => {
-  const container = messagesContainer.value;
+  const container = messagesContainer.value!;
   const nearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 10;
   isUserScrolledUp = !nearBottom;
 };
 
 const scrollToBottom = () => {
-  const container = messagesContainer.value;
+  const container = messagesContainer.value!;
   container.scrollTop = container.scrollHeight;
 };
 
@@ -57,7 +57,18 @@ function disconnect() {
 }
 
 watch(messages, async (newMessages) => {
-  const lastMessageIndex = newMessages.findLastIndex((msg) => msg.type == ChatMessageType.JOIN || msg.type == ChatMessageType.LEAVE);
+  const lastMessageIndex = (() => {
+    for (let i = newMessages.length - 1; i >= 0; i--) {
+      if (
+        newMessages[i].type === ChatMessageType.JOIN ||
+        newMessages[i].type === ChatMessageType.LEAVE
+      ) {
+        return i;
+      }
+    }
+    return -1;
+  })();
+
   if (lastMessageIndex !== -1) {
     const lastMessage = newMessages[lastMessageIndex];
     activeUsers.value = lastMessage.activeUsers;
@@ -80,7 +91,7 @@ onMounted(async () => {
 <template>
   <div class="bg-white shadow-xl rounded-lg p-4 max-w-2xl w-full h-full flex flex-col mx-auto">
     <div>
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Live chat: {{ topic.statement }}</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Live chat: {{ topic?.statement }}</h2>
       <div class="m-3"><i class="pi pi-eye" style="color: blue"></i> {{activeUsers}}</div>
     </div>
     <div ref="messagesContainer"

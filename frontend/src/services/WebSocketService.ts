@@ -1,7 +1,7 @@
 import { Client } from '@stomp/stompjs'
 import { ChatMessageType } from '@/models/enum/ChatMessageType'
 import { ref } from 'vue'
-import type { ChatMessage } from '@/models/ChatMessage'
+import type { ChatMessage } from '@/models/chat/ChatMessage'
 import { CookieService } from '@/services/CookieService'
 import { DatabaseService } from '@/services/DatabaseService'
 
@@ -10,7 +10,7 @@ export class WebSocketService {
   private wsURL: String;
 
   private stompClient: Client = new Client();
-  public messages = ref<any[]>([]);
+  public messages = ref<ChatMessage[]>([]);
 
   private token: string | null;
   private cookieService = new CookieService();
@@ -73,11 +73,13 @@ export class WebSocketService {
   public sendMessage(id: number, message: String, type: ChatMessageType) {
     if(this.token) {
       const body: ChatMessage = {
-        id: '1',
+        id: 1,
         name: 'User',
+        userId: 0,
         chatId: id,
         message: message,
         type: type,
+        activeUsers: 0,
         timestamp: new Date().toISOString()
       }
 

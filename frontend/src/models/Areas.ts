@@ -12,3 +12,8 @@ export interface Areas {
   constituencies: Constituency[];
   municipalities: Municipality[];
 }
+
+export interface SearchbarArea {
+  value: number;
+  label: String;
+}

@@ -2,13 +2,14 @@
 import {ref, onMounted, watch} from 'vue';
 import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale} from 'chart.js';
 import {Bar} from 'vue-chartjs';
+import type { ChartEvent, ActiveElement } from 'chart.js';
 import type { CandidateWithVotes } from '@/models/Candidate'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const props = defineProps({
   candidates: {
-    type: Array as () => CandidatesWithVotes[],
+    type: Array as () => CandidateWithVotes[],
     required: true,
   },
   label: {
@@ -19,7 +20,7 @@ const props = defineProps({
 
 const newLabel = ref(props.label)
 const candidatesWithVotes = ref<CandidateWithVotes[]>(props.candidates);
-const chartData = ref(null);
+const chartData = ref<any>(null);
 
 const chartOptions = ref({
   responsive: true,
@@ -49,12 +50,10 @@ const chartOptions = ref({
     duration: 3000,
     loop: false,
   },
-  onHover(event, elements) {
-    const chartCanvas = event.native?.target?.style;
-    if (elements.length) {
-      chartCanvas.cursor = 'pointer';
-    } else {
-      chartCanvas.cursor = 'default';
+  onHover(event: ChartEvent, elements: ActiveElement[], chart: any) {
+    const target = event.native?.target as HTMLCanvasElement | null;
+    if (target) {
+      target.style.cursor = elements.length ? 'pointer' : 'default';
     }
   },
 

@@ -2,7 +2,8 @@
 import {ref, onMounted, watch} from 'vue';
 import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale} from 'chart.js';
 import {Bar} from 'vue-chartjs';
-import {PartyWithVotes} from "@/models/Party";
+import type { ChartEvent, ActiveElement } from 'chart.js';
+import type {PartyWithVotes} from "@/models/Party";
 import {PartyService} from "@/services/PartyService";
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
@@ -16,7 +17,7 @@ const props = defineProps({
 
 const partyService = new PartyService();
 const partiesWithVotes = ref<PartyWithVotes[]>([]);
-const chartData = ref(null);
+const chartData = ref<any>(null);
 
 const chartOptions = ref({
   responsive: true,
@@ -46,15 +47,15 @@ const chartOptions = ref({
     duration: 3000,
     loop: false,
   },
-  onHover(event, elements) {
-    const chartCanvas = event.native?.target?.style;
+  onHover(event: ChartEvent, elements: ActiveElement[]) {
+    const chartCanvas = (event.native?.target as HTMLCanvasElement)?.style;
     if (elements.length) {
       chartCanvas.cursor = 'pointer';
     } else {
       chartCanvas.cursor = 'default';
     }
   },
-  onClick(event, elements) {
+  onClick(event: ChartEvent, elements: ActiveElement[]) {
     if (elements.length > 0) {
       const chartElement = elements[0];
       const index = chartElement.index;
@@ -67,7 +68,7 @@ const chartOptions = ref({
 
 const updateChartData = () => {
   let label = '';
-  let showData = [];
+  let showData: any[] = [];
   let suggestedMax = 0;
 
   // Show data for seats
