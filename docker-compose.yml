@@ -1,52 +1,49 @@
-version: '3.9'
-
 services:
-  backend:
+  web:
+    image: elections-frontend:latest
     build:
-      context: ./backend
+      context: frontend
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      DB_URL: jdbc:mysql://mysql:3306/mydb
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
+      - "7419:7419"
     depends_on:
-      - mysql
+      - api
     networks:
-      - backend-network
+      - election-network
+    restart: unless-stopped
 
-  frontend:
+  api:
+    image: elections-backend:latest
     build:
-      context: ./frontend
+      context: backend
       dockerfile: Dockerfile
     ports:
-      - "3000:80"
+      - "7420:7420"
     depends_on:
-      - backend
+      - database
     networks:
-      - frontend-network
-      - backend-network
-
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    ports:
-      - "3306:3306"
+      - election-network
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASS}
-      MYSQL_DATABASE: mydb
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
+      PG_HOST: database
+    restart: unless-stopped
+
+  database:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: elections
     volumes:
-      - mysql_data:/var/lib/mysql
+      - hva-elections:/var/lib/postgresql/data
     networks:
-      - backend-network
+      - election-network
+    restart: unless-stopped
 
 volumes:
-  mysql_data:
+  hva-elections:
 
 networks:
-  backend-network:
-  frontend-network:
+  election-network:
+    driver: bridge

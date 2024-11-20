@@ -9,7 +9,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -35,7 +35,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 	implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
 	implementation("org.modelmapper:modelmapper:2.4.4")
-	implementation("mysql:mysql-connector-java:8.0.33")
+	implementation("org.postgresql:postgresql")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-gson:0.11.5")
@@ -46,12 +46,6 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("mysql:mysql-connector-java:8.0.33")
 
-}
-
-tasks.jar {
-	archiveBaseName.set("app")
-	archiveVersion.set("")
-	archiveClassifier.set("")
 }
 
 tasks.withType<Test> {
