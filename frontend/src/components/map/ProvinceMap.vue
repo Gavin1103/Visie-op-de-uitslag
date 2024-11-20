@@ -14,6 +14,8 @@
           @click="handleProvinceClick('Noord-Holland')"
           :fill="provinceColors['Noord-Holland'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Noord-Holland')"
+          @mouseleave="handleProvinceHover(null)"
 
       />
       <path
@@ -21,7 +23,9 @@
           d="M 264.48867,524.22575 C 250.01638,562.16038 228.73048,587.37232 192.1944,627.40736 C 187.3581,626.1983 183.1349,627.15313 177.75793,625.95253 C 174.70948,632.70762 171.24913,640.86589 170.148,647.32745 C 177.83765,652.86103 182.47436,652.43491 182.90582,661.20437 C 183.66732,676.6826 127.61716,673.69264 149.24009,686.26616 C 155.12476,689.68805 168.20546,676.6955 177.50699,686.62899 C 183.8122,693.36262 183.00685,687.9306 184.12985,701.16346 C 184.90546,710.30289 198.32968,711.81183 203.83311,718.83834 C 209.93477,721.68576 214.49359,726.98123 220.6197,730.02941 C 220.66533,730.17159 220.68982,730.33253 220.73161,730.47706 C 222.12841,729.5802 223.60003,728.7984 225.09613,728.7984 C 228.03919,728.7984 230.33866,728.16399 232.59414,727.45548 C 234.84961,726.74694 237.03404,725.96317 239.64451,725.44107 C 243.19304,724.73136 244.76759,724.11351 245.79959,722.97904 C 246.83161,721.84457 247.31872,720.19565 248.70928,717.38351 C 250.06567,714.64046 251.79307,712.85824 253.96907,712.0118 C 256.14508,711.16536 258.77228,711.25418 261.80282,712.0118 C 266.56212,713.20164 267.61805,714.36185 272.88197,714.36193 C 274.70373,714.36193 277.67816,714.72304 280.6038,714.92148 C 283.52946,715.11992 286.40235,715.15569 287.9899,714.36193 C 291.50236,712.60573 295.22625,708.22578 299.06906,706.30437 C 301.20411,705.23682 303.12306,704.33705 304.7765,703.28277 C 306.42995,702.22849 307.81528,701.02157 309.14103,699.254 C 310.89778,696.91164 315.40675,694.66698 318.20578,691.86788 C 319.44969,690.62397 319.98916,688.49531 321.00354,686.60809 C 321.51075,685.66445 322.18471,684.77602 323.01794,684.14605 C 323.85116,683.51609 324.8485,683.13885 326.26335,683.13885 C 328.51727,683.13885 331.1612,683.26545 333.64945,683.25077 C 336.13769,683.23608 338.46651,683.08045 340.36408,682.13166 C 343.52066,680.55338 347.67681,680.11734 353.45763,680.11727 C 355.44026,680.11727 358.59711,679.72638 361.40328,679.78154 C 362.80638,679.80911 364.11164,679.87207 365.20825,680.22918 C 365.93082,680.46449 366.3242,680.98419 366.775,681.4602 C 367.10428,679.87475 366.407,678.54632 365.54398,676.87186 C 364.68096,675.19739 363.64151,673.25967 363.64151,670.26913 C 363.64151,669.11657 364.04323,668.09324 364.6487,667.24755 C 365.25417,666.40186 366.07546,665.73057 366.99882,665.12124 C 368.8455,663.90262 371.08995,663.01972 372.48244,662.32348 C 379.14153,658.99392 379.11077,658.82864 383.44969,654.48973 C 387.08583,650.85355 389.07075,647.50028 391.84298,641.95574 C 393.12339,639.39487 393.04574,636.48111 392.17872,634.122 C 391.31169,631.76288 389.56638,629.91577 387.59037,629.42175 C 384.58076,628.66931 384.41007,627.95581 384.00924,627.40736 C 383.6084,626.85891 383.01027,626.51208 379.19708,626.51208 C 377.27587,626.51211 373.96195,627.65123 370.69188,628.97411 C 367.42179,630.29698 364.18945,631.77768 362.63431,632.55525 C 358.64782,634.54845 356.12902,636.58764 351.21942,637.81504 C 349.58585,638.22345 348.14397,638.2204 346.96681,637.92695 C 345.78966,637.63352 344.85123,636.99698 343.94523,636.2483 C 342.13329,634.75095 340.63622,632.60352 338.79734,630.76467 C 336.7761,628.74341 335.58541,627.84627 334.65664,626.84781 C 333.72787,625.84935 333.06536,624.73522 332.41843,622.14756 C 331.73977,619.43284 331.75689,617.37222 332.19461,615.43292 C 332.63233,613.49362 333.535,611.74488 334.54473,609.72547 C 335.29298,608.22899 335.46666,606.66979 335.32812,605.24906 C 335.18955,603.82831 334.75176,602.52617 334.09709,601.33218 C 332.78776,598.94423 330.77043,597.0949 329.62067,596.52002 C 328.34643,595.88291 328.40762,592.95475 328.8373,590.0292 C 329.26696,587.10367 330.12166,584.21512 330.40404,583.65029 C 331.5856,581.28717 333.10472,580.58652 334.65664,579.95725 C 336.20857,579.32798 337.79433,578.82972 338.90925,576.59992 C 338.71322,574.60939 337.7572,572.40878 336.33531,570.33293 C 334.91342,568.25709 332.95274,566.21183 330.73978,564.40166 C 328.52681,562.59151 326.03484,561.00675 323.46559,559.81333 C 320.89633,558.61992 318.23454,557.91271 315.74375,557.68702 C 314.71481,557.57407 314.24368,556.70207 313.95317,555.44881 C 313.66267,554.19555 313.60226,552.54659 313.72935,550.86047 C 313.98358,547.48826 314.73654,543.88531 314.73654,543.02673 C 310.95512,544.38538 307.7366,546.75219 304.66459,549.29373 C 301.59259,551.83526 298.66665,554.58204 295.48793,556.90365 C 293.79391,557.7507 292.17056,558.2189 290.67577,558.3585 C 289.18095,558.49808 287.78392,558.28533 286.53507,557.91086 C 284.03737,557.16193 282.17299,555.63862 280.93953,553.99398 C 280.21407,547.96388 280.10513,544.83371 281.05144,541.79572 C 281.99777,538.75773 284.00321,535.80476 287.54226,530.04509 C 283.10663,527.8274 268.8918,526.37134 264.82441,524.33766 C 264.74147,524.29619 264.57369,524.26725 264.48867,524.22575 z"
           @click="handleProvinceClick('Zuid-Holland')"
           :fill="provinceColors['Zuid-Holland'] || '#ccc'"
-           class="province"
+          class="province"
+          @mouseover="handleProvinceHover('Zuid-Holland')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="zeeland"
@@ -29,6 +33,8 @@
           @click="handleProvinceClick('Zeeland')"
           :fill="provinceColors['Zeeland'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Zeeland')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="utrecht"
@@ -36,6 +42,8 @@
           @click="handleProvinceClick('Utrecht')"
           :fill="provinceColors['Utrecht'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Utrecht')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="noord-brabant"
@@ -43,6 +51,8 @@
           @click="handleProvinceClick('Noord-Brabant')"
           :fill="provinceColors['Noord-Brabant'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Noord-Brabant')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="limburg"
@@ -50,6 +60,8 @@
           @click="handleProvinceClick('Limburg')"
           :fill="provinceColors['Limburg'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Limburg')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="gelderland"
@@ -57,6 +69,8 @@
           @click="handleProvinceClick('Gelderland')"
           :fill="provinceColors['Gelderland'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Gelderland')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="overijssel"
@@ -64,6 +78,8 @@
           @click="handleProvinceClick('Overijssel')"
           :fill="provinceColors['Overijssel'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Overijssel')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="drenthe"
@@ -71,6 +87,8 @@
           @click="handleProvinceClick('Drenthe')"
           :fill="provinceColors['Drenthe'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Drenthe')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="flevoland"
@@ -78,6 +96,8 @@
           @click="handleProvinceClick('Flevoland')"
           :fill="provinceColors['Flevoland'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Flevoland')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="friesland"
@@ -85,6 +105,8 @@
           @click="handleProvinceClick('Friesland')"
           :fill="provinceColors['Friesland'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Friesland')"
+          @mouseleave="handleProvinceHover(null)"
       />
       <path
           id="groningen"
@@ -92,6 +114,8 @@
           @click="handleProvinceClick('Groningen')"
           :fill="provinceColors['Groningen'] || '#ccc'"
           class="province"
+          @mouseover="handleProvinceHover('Groningen')"
+          @mouseleave="handleProvinceHover(null)"
       />
     </svg>
   </div>
@@ -108,9 +132,11 @@ export default {
     },
   },
   methods: {
+    handleProvinceHover(province) {
+      this.$emit('hover', province); // Emit hover event
+    },
     handleProvinceClick(province) {
-      // Emit the province name to the parent
-      this.$emit('click', province);
+      this.$emit('click', province); // Emit click event
     },
   },
 };
@@ -123,6 +149,7 @@ export default {
   align-items: flex-start; /* Aligns the map to the top */
   width: 100%;
   height: 100%; /* Make sure it takes up full height */
+  margin-right: 180px;
 }
 
 .map-container {
