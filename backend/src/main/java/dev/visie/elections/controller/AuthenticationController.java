@@ -102,7 +102,6 @@ public class AuthenticationController {
         return authenticationService.resetPassword(token, password);
     }
 
-
     @PreAuthorizeAdmin
     @GetMapping("/is-admin")
     @Operation(summary = "Check if the current user is an admin", description = "Returns true if the current user has admin privileges.")
