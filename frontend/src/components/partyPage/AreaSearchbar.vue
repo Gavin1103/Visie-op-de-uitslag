@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { ElectionService } from '@/services/ElectionService'
 import { AreaEnum } from '@/models/enum/AreaEnum'
+import type { SearchbarArea } from '@/models/Areas'
 
 
   const props = defineProps({
@@ -20,9 +21,9 @@ import { AreaEnum } from '@/models/enum/AreaEnum'
   const isDropdownVisible= ref(false)
   const searchQuery = ref('');
   const selectedOption = ref("");
-  const optionsMunicipality = ref([]);
-  const optionsConstituency = ref([]);
-  const filteredOptions = ref([]);
+  const optionsMunicipality = ref<SearchbarArea[]>([]);
+  const optionsConstituency = ref<SearchbarArea[]>([]);
+  const filteredOptions = ref<SearchbarArea[]>([]);
   const electionService = new ElectionService();
 
   const fetchOptions = async () => {
@@ -30,41 +31,41 @@ import { AreaEnum } from '@/models/enum/AreaEnum'
         const areas = await electionService.getAllAreas()
         optionsMunicipality.value = areas.municipalities.map(item => ({ value: item.municipalityId, label: item.name }));
         optionsConstituency.value = areas.constituencies.map(item => ({ value: item.constituencyId, label: item.name }));
-        let options = []
+        let options: SearchbarArea[] = []
         switch(props.area){
           case AreaEnum.MUNICIPALITY:
-            options = optionsMunicipality
+            options = optionsMunicipality.value
             break;
           case AreaEnum.CONSTITUENCY:
-            options = optionsConstituency
+            options = optionsConstituency.value
             break;
         }
-        filteredOptions.value = options.value;
+        filteredOptions.value = options;
       } catch (error) {
           console.error('Error fetching options:', error);
       }
     };
-  const toggleDropdown = (visible) => {
+  const toggleDropdown = (visible: boolean) => {
       isDropdownVisible.value = visible;
   }
 
   const fetchFilteredOptions = () => {
       const query = searchQuery.value.toLowerCase();
-      let options = [];
+      let options: SearchbarArea[] = [];
       switch(props.area){
         case AreaEnum.MUNICIPALITY:
-          options = optionsMunicipality
+          options = optionsMunicipality.value
           break;
         case AreaEnum.CONSTITUENCY:
-          options = optionsConstituency
+          options = optionsConstituency.value
           break;
       }
-      filteredOptions.value = options.value.filter(option =>
+      filteredOptions.value = options.filter((option: SearchbarArea) =>
         option.label.toLowerCase().includes(query)
       );
     };
 
-    const updateParent = (option) => {
+    const updateParent = (option: SearchbarArea) => {
       isDropdownVisible.value = false
       emits('select-option', option.label);
     };

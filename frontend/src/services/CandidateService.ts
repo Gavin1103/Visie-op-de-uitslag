@@ -8,7 +8,7 @@ export class CandidateService {
     this.dbService = new DatabaseService();
   }
 
-  async getCandidatesByArea(area: String, partyId: number, searchInput: String): Promise<CandidateWithVotes[]> {
+  async getCandidatesByArea(area: String, partyId: number | undefined, searchInput: String): Promise<CandidateWithVotes[]> {
     return await this.dbService.get<CandidateWithVotes[]>(`election/candidates/${partyId}/${area}/${searchInput}`)
   }
 }

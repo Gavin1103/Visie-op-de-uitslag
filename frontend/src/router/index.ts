@@ -14,7 +14,7 @@ import TopicDetailView from '@/views/forum/TopicDetailView.vue'
 
 
 const userService = new UserService();
-const isAdmin = await userService.currentUserIsAdmin();
+const isAdmin = userService.currentUserIsAdmin();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

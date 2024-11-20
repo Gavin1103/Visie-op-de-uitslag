@@ -13,9 +13,9 @@ export default {
   components: { PartyChartComponent, CandidatesListItem },
   setup() {
     const route = useRoute();
-    const id = route.params.id;
+    const id: number = parseInt(route.params.id as string, 10);
     const party = ref<PartyWithCandidates | undefined>(undefined);
-    const seats = ref<number | undefined>(undefined)
+    const seats = ref<number>(0)
 
     const electionService = new ElectionService();
 
@@ -67,7 +67,7 @@ export default {
       <span class="text-sm text-black">krijgen een zetel</span>
     </div>
     <ul class="w-full space-y-2">
-      <li v-for="candidate in party.candidates" :key="candidate.candidateId" :class="['candidate-item p-4  rounded-md shadow-sm',
+      <li v-for="(candidate, index) in party.candidates" :key="index" :class="['candidate-item p-4  rounded-md shadow-sm',
         candidate.candidateId.candidateId <= seats ? 'bg-amber-300' : 'bg-gray-100']">
         <CandidatesListItem :candidate="candidate"></CandidatesListItem>
       </li>
