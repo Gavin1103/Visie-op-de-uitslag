@@ -11,10 +11,14 @@ import dev.visie.elections.service.CandidateService;
 import dev.visie.elections.service.PartyService;
 import dev.visie.elections.service.VotesService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("election")
@@ -84,6 +88,18 @@ public class ElectionController {
             @RequestParam("constituencies") List<String> constituencies) {
         List<Object[]> results = votesService.getTotalVotesByPartyForConstituencies(constituencies);
         return ResponseEntity.ok(results);
+    }
+
+    @GetMapping("/winners-by-province")
+    @Operation(summary = "Get the winning party for each province")
+    public ResponseEntity<Map<String, String>> getWinnersByProvince() {
+        Map<String, String> winners = votesService.getWinnersByProvince();
+
+        if (winners.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new HashMap<>());
+        }
+
+        return ResponseEntity.ok(winners);
     }
 
 

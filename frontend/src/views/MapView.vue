@@ -1,6 +1,9 @@
 <template>
   <div class="map-container">
-    <ProvinceMap @click="handleProvinceClick" />
+    <ProvinceMap
+        @click="handleProvinceClick"
+        :provinceColors="provinceColors"
+    />
     <PopupMap
         v-if="showPopup"
         :title="selectedProvince"
@@ -17,7 +20,8 @@
 import axios from 'axios';
 import ProvinceMap from '@/components/map/ProvinceMap.vue';
 import PopupMap from '@/components/map/PopupMap.vue';
-import { kieskringenData } from '@/components/map/kieskringData';
+import {kieskringenData} from '@/components/map/kieskringData';
+import partyColors from "@/components/map/partyColors.js";
 
 export default {
   name: 'NetherlandsMap',
@@ -30,6 +34,7 @@ export default {
       showPopup: false,
       selectedProvince: '',
       votingData: [], // Array to store fetched voting data for all provinces
+      provinceColors: {}, // Stores colors for each province based on winning parties
     };
   },
   computed: {
@@ -48,7 +53,7 @@ export default {
           .filter(item => constituencies.includes(item.constituencyName))
           .forEach(item => {
             if (!votesByParty[item.partyId]) {
-              votesByParty[item.partyId] = { partyName: item.partyName, totalVotes: 0 };
+              votesByParty[item.partyId] = {partyName: item.partyName, totalVotes: 0};
             }
             votesByParty[item.partyId].totalVotes += item.totalVotes;
           });
@@ -59,10 +64,10 @@ export default {
   },
   created() {
     this.fetchVotingData(); // Fetch data when the component is created
+    this.fetchWinnersByProvince(); // Call the function to fetch winners when the page loads
   },
   methods: {
     async fetchVotingData(kieskring) {
-      // Get the constituencies (kieskringen) for the selected kieskring
       console.log("Selected Kieskring:", kieskring);
 
       try {
@@ -84,7 +89,6 @@ export default {
           totalVotes: item[3],
         }));
 
-        // Log the processed voting data
         console.log("Processed Voting Data for Kieskringen:", this.votingData);
       } catch (error) {
         console.error("Error fetching voting data:", error);
@@ -101,6 +105,22 @@ export default {
         this.fetchVotingData(kieskringenData[0].regionName); // Initial kieskring when province is selected
       } else {
         console.warn("Invalid province data:", province);
+      }
+    },
+    async fetchWinnersByProvince() {
+      try {
+        const response = await axios.get('http://localhost:8080/api/election/winners-by-province');
+        console.log("Winners by Province:", response.data);
+
+        // Update provinceColors with the color of the winning party
+        this.provinceColors = {};
+        for (const [province, winner] of Object.entries(response.data)) {
+          this.provinceColors[province] = partyColors(winner);  // Get color for the winning party
+        }
+
+        console.log("Province Colors:", this.provinceColors);
+      } catch (error) {
+        console.error("Error fetching winners by province:", error);
       }
     },
   },
