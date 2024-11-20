@@ -1,6 +1,7 @@
 services:
   web:
-    image: elections-frontend:latest
+    image: elections-web:latest
+    platform: linux/amd64
     build:
       context: frontend
       dockerfile: Dockerfile
@@ -13,7 +14,8 @@ services:
     restart: unless-stopped
 
   api:
-    image: elections-backend:latest
+    image: elections-api:latest
+    platform: linux/amd64
     build:
       context: backend
       dockerfile: Dockerfile
