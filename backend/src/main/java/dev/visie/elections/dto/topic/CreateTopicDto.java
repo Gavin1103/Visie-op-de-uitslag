@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CreateTopicDto {
+
     @NotBlank
     private String statement;
 

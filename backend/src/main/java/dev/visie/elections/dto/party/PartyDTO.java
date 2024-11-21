@@ -1,7 +1,7 @@
 package dev.visie.elections.dto.party;
 
 import dev.visie.elections.dto.candidate.CandidateWithVotes;
-import dev.visie.elections.service.VotesService;
+import dev.visie.elections.service.models.VotesService;
 import jakarta.validation.constraints.NotBlank;
 
 import jakarta.validation.constraints.NotNull;
