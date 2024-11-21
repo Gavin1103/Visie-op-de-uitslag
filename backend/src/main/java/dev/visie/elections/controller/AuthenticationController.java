@@ -3,21 +3,17 @@ package dev.visie.elections.controller;
 import dev.visie.elections.config.PreAuthorizeAdmin;
 import dev.visie.elections.dto.user.CreateUserDTO;
 import dev.visie.elections.dto.JwtRequest;
-import dev.visie.elections.model.User;
 import dev.visie.elections.model.enums.RoleEnum;
 import dev.visie.elections.service.AuthenticationService;
-import dev.visie.elections.service.UserService;
+import dev.visie.elections.service.models.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/auth")

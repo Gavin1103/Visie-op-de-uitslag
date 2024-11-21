@@ -1,5 +1,6 @@
 package dev.visie.elections.model.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.visie.elections.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public abstract class VoteModel {
+public abstract class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,8 @@ public abstract class VoteModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
-    private Boolean vote;
+    private Boolean rating;
 }

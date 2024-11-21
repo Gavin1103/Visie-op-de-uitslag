@@ -1,4 +1,4 @@
-package dev.visie.elections.service;
+package dev.visie.elections.service.models;
 
 import dev.visie.elections.dto.user.UserDTO;
 import dev.visie.elections.dto.user.UpdateUserDTO;
@@ -9,6 +9,7 @@ import dev.visie.elections.repository.ConfirmationTokenRepository;
 import dev.visie.elections.repository.RoleRepository;
 import dev.visie.elections.repository.TokenRepository;
 import dev.visie.elections.repository.UserRepository;
+import dev.visie.elections.service.JwtService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
