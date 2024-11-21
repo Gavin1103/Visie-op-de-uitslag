@@ -11,6 +11,7 @@ import UserOverview from '@/views/UserOverview.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import ForumLandingsPage from "@/views/forum/ForumLandingsPage.vue";
 import TopicDetailView from '@/views/forum/TopicDetailView.vue'
+import MapView from "@/views/MapView.vue";
 
 
 const userService = new UserService();
@@ -90,6 +91,11 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/map',
+      name: '/map',
+      component: () => import('../views/MapView.vue')
     }
   ]
 })
