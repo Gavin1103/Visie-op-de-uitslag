@@ -1,7 +1,11 @@
 package dev.visie.elections.repository;
 
+import dev.visie.elections.model.Topic;
 import dev.visie.elections.model.TopicRating;
-import org.springframework.data.jpa.repository.JpaRepository;
+import dev.visie.elections.model.User;
+import org.springframework.stereotype.Repository;
 
-public interface TopicRatingRepository extends JpaRepository<TopicRating, Long> {
+@Repository
+public interface TopicRatingRepository extends RatingRepository<TopicRating> {
+    TopicRating getTopicRatingByTopicAndUser(Topic topic, User user);
 }

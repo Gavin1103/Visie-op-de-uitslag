@@ -1,16 +1,15 @@
 package dev.visie.elections.controller;
 
 import dev.visie.elections.dto.AreaDTO;
-import dev.visie.elections.dto.candidate.CandidateWithVotes;
 import dev.visie.elections.dto.party.PartyDTO;
 import dev.visie.elections.dto.party.PartyLogoDTO;
 import dev.visie.elections.dto.votes.TotalAmountOfVotesDTO;
 import dev.visie.elections.model.election.Party;
 import dev.visie.elections.model.enums.AreaEnum;
 import dev.visie.elections.service.AreaService;
-import dev.visie.elections.service.CandidateService;
-import dev.visie.elections.service.PartyService;
-import dev.visie.elections.service.VotesService;
+import dev.visie.elections.service.models.CandidateService;
+import dev.visie.elections.service.models.PartyService;
+import dev.visie.elections.service.models.VotesService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,12 @@
 package dev.visie.elections.repository;
 
+import dev.visie.elections.model.Comment;
 import dev.visie.elections.model.CommentRating;
-import org.springframework.data.jpa.repository.JpaRepository;
+import dev.visie.elections.model.*;
+import org.springframework.stereotype.Repository;
 
-public interface CommentRatingRepository extends JpaRepository<CommentRating, Long> {
+@Repository
+public interface CommentRatingRepository extends RatingRepository<CommentRating> {
+
+    CommentRating getCommentRatingByCommentAndUser(Comment relatedEntity, User user);
 }

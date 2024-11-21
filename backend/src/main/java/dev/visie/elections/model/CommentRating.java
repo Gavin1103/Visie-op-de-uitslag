@@ -1,6 +1,7 @@
 package dev.visie.elections.model;
 
-import dev.visie.elections.model.base.RatingModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.visie.elections.model.base.Rating;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,8 +17,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentRating extends RatingModel {
+public class CommentRating extends Rating {
     @ManyToOne
     @JoinColumn(name = "comment_id", nullable = false)
+    @JsonIgnore
     private Comment comment;
 }

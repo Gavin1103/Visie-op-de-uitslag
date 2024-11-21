@@ -1,9 +1,10 @@
-package dev.visie.elections.service;
+package dev.visie.elections.service.models;
 
 import dev.visie.elections.dto.party.PartyDTO;
 import dev.visie.elections.model.election.Party;
 import dev.visie.elections.repository.PartyRepository;
 import dev.visie.elections.repository.VotesRepository;
+import dev.visie.elections.service.models.VotesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

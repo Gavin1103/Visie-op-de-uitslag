@@ -1,9 +1,7 @@
 package dev.visie.elections.service;
 
 import dev.visie.elections.dto.ChatMessageDTO;
-import dev.visie.elections.model.ChatMessage;
-import dev.visie.elections.model.User;
-import org.springframework.http.ResponseEntity;
+import dev.visie.elections.service.models.UserService;
 import org.springframework.stereotype.Service;
 import dev.visie.elections.dto.user.UserProfileResponse;
 
@@ -12,7 +10,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
 
 @Service
 public class WebSocketService {

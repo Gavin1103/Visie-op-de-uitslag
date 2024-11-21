@@ -1,6 +1,7 @@
 package dev.visie.elections.model;
 
-import dev.visie.elections.model.base.RatingModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.visie.elections.model.base.Rating;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,9 +14,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopicRating extends RatingModel {
+public class TopicRating extends Rating {
 
     @ManyToOne
     @JoinColumn(name = "topic_id", nullable = false)
+    @JsonIgnore
     private Topic topic;
 }

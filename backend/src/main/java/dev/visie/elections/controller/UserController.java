@@ -2,11 +2,10 @@ package dev.visie.elections.controller;
 
 import dev.visie.elections.config.PreAuthorizeAdmin;
 import dev.visie.elections.dto.user.UpdateUserDTO;
-import dev.visie.elections.dto.user.UserDTO;
 import dev.visie.elections.dto.user.UserProfileResponse;
 import dev.visie.elections.model.User;
 import dev.visie.elections.service.JwtService;
-import dev.visie.elections.service.UserService;
+import dev.visie.elections.service.models.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

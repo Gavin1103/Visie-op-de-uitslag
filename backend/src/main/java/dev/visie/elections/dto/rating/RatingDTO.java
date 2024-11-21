@@ -8,8 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CreateRatingDTO {
+public class RatingDTO {
     Long id;
     Boolean rating;
-    String targetType;
 }
