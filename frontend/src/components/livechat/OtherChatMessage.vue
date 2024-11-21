@@ -17,7 +17,7 @@ const props = defineProps({
       <span class="text-black text-lg break-words">{{ message.message }}</span>
       <div class="absolute bottom-0 right-0 p-2 text-sm text-black">{{ extractTime(message.timestamp) }}
         <div class="display">
-          <ReportMessage :message-id="message.id"></ReportMessage>
+          <ReportMessage :message="message"></ReportMessage>
         </div>
       </div>
     </div>

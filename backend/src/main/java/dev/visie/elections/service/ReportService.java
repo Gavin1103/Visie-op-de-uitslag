@@ -1,5 +1,6 @@
 package dev.visie.elections.service;
 
+import dev.visie.elections.dto.report.ReportDTO;
 import dev.visie.elections.model.MessageReport;
 import dev.visie.elections.repository.MessageReportRepository;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ReportService {
     }
 
     public ResponseEntity<?> getUnhandledReports() {
-        List<MessageReport> reports = messageReportRepository.findAllByhandledFalse();
+        List<ReportDTO> reports = messageReportRepository.findAllByhandledFalse();
         if (reports.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

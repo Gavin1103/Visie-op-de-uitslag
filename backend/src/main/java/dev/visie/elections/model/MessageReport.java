@@ -19,12 +19,20 @@ public class MessageReport extends BaseModel {
     private boolean Handled;
 
     @ManyToOne
+    @JoinColumn(name = "handled_by")
+    private User handledBy;
+
+    @ManyToOne
     @JoinColumn(name = "message_id")
     private ChatMessage message;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "reporter_id")
+    private User reporter;
+
+    @ManyToOne
+    @JoinColumn(name = "reported_id")
+    private User reportedUser;
 
 
 }

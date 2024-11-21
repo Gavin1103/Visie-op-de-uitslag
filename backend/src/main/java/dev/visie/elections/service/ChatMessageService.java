@@ -1,7 +1,7 @@
 package dev.visie.elections.service;
 
 import dev.visie.elections.dto.ChatMessageDTO;
-import dev.visie.elections.dto.CreateReportDTO;
+import dev.visie.elections.dto.report.CreateReportDTO;
 import dev.visie.elections.model.ChatMessage;
 import dev.visie.elections.model.MessageReport;
 import dev.visie.elections.model.Topic;
@@ -59,21 +59,20 @@ public class ChatMessageService {
         if(chatMessage == null) {
             return ResponseEntity.notFound().build();
         }
-        User user = null;
-        if(createReportDTO.getReporterId() != null) {
-            user = userRepository.getUserById(createReportDTO.getReporterId());
+        if(createReportDTO.getReporterId() == null | createReportDTO.getReporterId() == null) {
+            return ResponseEntity.notFound().build();
         }
+        User reporter = userRepository.getUserById(createReportDTO.getReporterId());
+        User reportedUser = userRepository.getUserById(createReportDTO.getReportedId());
 
         MessageReport report = new MessageReport();
         report.setCreatedAt(new Date());
         report.setHandled(false);
         report.setReason(createReportDTO.getReason());
         report.setMessage(chatMessage);
-        report.setUser(user);
+        report.setReporter(reporter);
+        report.setReportedUser(reportedUser);
         messageReportRepository.save(report);
         return ResponseEntity.ok(report);
-
-
-
     }
 }

@@ -9,9 +9,10 @@
       <div v-else class="reports-list">
         <div v-for="report in reports" :key="report.id" class="report-card">
           <h2>Reden: {{ report.reason }}</h2>
-          <p><strong>Gebruiker:</strong> {{ report.user.name }}</p>
-          <p><strong>Bericht:</strong> {{ report.message.content }}</p>
-          <p><strong>Status:</strong> {{ report.isHandled ? "Afgehandeld" : "Open" }}</p>
+          <p><strong>gerapporteerde gebruiker:</strong> {{ report.reportedEmail }}</p>
+          <p><strong>rapporteerder:</strong> {{ report.reporterEmail }}</p>
+          <p><strong>Bericht:</strong> {{ report.message }}</p>
+          <p><strong>gerapporteerd op:</strong> {{ formatDate(report.createdAt)}}</p>
 
           <button
             v-if="!report.isHandled"
@@ -29,8 +30,10 @@
 import { ref, onMounted } from "vue";
 import { ReportService } from '@/services/ReportService.js'
 import type {Report} from '@/models/report/Report'
+import { formatDate } from '../../helper/formatDateHelper'
 export default {
   name: "ReportsView",
+  methods: { formatDate },
   setup() {
     const reports = ref<Report[] | undefined>([undefined]);
     const isLoading = ref(true);

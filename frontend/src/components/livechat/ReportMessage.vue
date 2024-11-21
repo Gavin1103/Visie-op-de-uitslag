@@ -6,7 +6,7 @@ import { inject } from 'vue';
 import type { CreateReport } from '@/models/report/CreateReport'
 
 const props = defineProps({
-  messageId: Number
+  message: Object,
 })
 
 const chatService: ChatService = new ChatService();
@@ -15,7 +15,7 @@ const userId = inject('userId') as number;
 const isModalShown = ref(false)
 const selectedReason = ref("");
 const customReason = ref("");
-const report = ref<CreateReport>({reason: "", reporterId: userId})
+const report = ref<CreateReport>({reason: "", reporterId: userId, reportedId: props.message.userId})
 
 const predefinedReasons = [
   "Spam",
@@ -47,7 +47,7 @@ const handleReport = async() => {
     return;
   }
   report.value.reason = reason
-  await chatService.ReportMessage(report.value, props.messageId)
+  await chatService.ReportMessage(report.value, props.message.id)
 
   toast.add({
     severity: 'success',
