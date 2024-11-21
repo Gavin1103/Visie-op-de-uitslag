@@ -34,6 +34,11 @@ const cmsMenuItems = ref([
     command: () => router.push('/cms/userOverview'),
   },
   {
+    label: 'Reports',
+    icon: 'pi pi-flag',
+    command: () => router.push('/cms/reports'),
+  },
+  {
     label: 'Settings',
     icon: 'pi pi-fw pi-cog',
     command: () => router.push('/cms/settings'),

@@ -15,8 +15,8 @@ public class MessageReport extends BaseModel {
 
     private String reason;
 
-    @Column(name = "is_handled")
-    private boolean isHandled;
+    @Column(name = "handled")
+    private boolean Handled;
 
     @ManyToOne
     @JoinColumn(name = "message_id")

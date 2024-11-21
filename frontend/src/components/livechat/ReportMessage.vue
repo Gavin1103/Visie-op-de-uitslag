@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { ChatService } from '@/services/ChatService'
 import { useToast } from 'primevue/usetoast'
 import { inject } from 'vue';
-import type { CreateReport } from '@/models/chat/CreateReport'
+import type { CreateReport } from '@/models/report/CreateReport'
 
 const props = defineProps({
   messageId: Number
