@@ -28,7 +28,9 @@ const leftMenuItems = ref([
   { label: 'Home', icon: 'pi pi-home', command: () => router.push('/') },
   { label: 'About', icon: 'pi pi-info', command: () => router.push('/about') },
   { label: 'Parties', icon: 'pi pi-users', command: () => router.push('/parties') },
-  { label: 'Forum', icon: 'pi pi-comments', command: () => router.push('/forum') }
+  { label: 'Forum', icon: 'pi pi-comments', command: () => router.push('/forum') },
+  { label: 'Map', icon: 'pi pi-map', command: () => router.push('/map') }
+
 ])
 
 // Define a function to update the rightMenuItems based on login status and admin role
