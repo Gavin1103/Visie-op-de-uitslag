@@ -1,14 +1,15 @@
 package dev.visie.elections.seeder;
 
 import dev.visie.elections.dto.party.PartyLogoDTO;
+import dev.visie.elections.dto.rating.RatingDTO;
 import dev.visie.elections.dto.topic.CreateTopicDto;
 import dev.visie.elections.dto.user.CreateUserDTO;
+import dev.visie.elections.model.Topic;
+import dev.visie.elections.model.TopicRating;
 import dev.visie.elections.model.User;
 import dev.visie.elections.model.enums.RoleEnum;
 import dev.visie.elections.service.AuthenticationService;
-import dev.visie.elections.service.models.PartyService;
-import dev.visie.elections.service.models.TopicService;
-import dev.visie.elections.service.models.UserService;
+import dev.visie.elections.service.models.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,43 +24,52 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     private final AuthenticationService authenticationService;
     private final PartyService partyService;
-    private final PasswordEncoder passwordEncoder;
     private final TopicService topicService;
-
     private final UserService userService;
+    private final TopicRatingService topicRatingService;
+    private final AnswerRatingService answerRatingService;
+    private final CommentRatingService commentRatingService;
 
     public DatabaseSeeder(AuthenticationService authenticationService,
-                          PasswordEncoder passwordEncoder,
                           PartyService partyService,
                           TopicService topicService,
-                          UserService userService
+                          UserService userService,
+                          TopicRatingService topicRatingService,
+                          AnswerRatingService answerRatingService,
+                          CommentRatingService commentRatingService
     ) {
         this.authenticationService = authenticationService;
-        this.passwordEncoder = passwordEncoder;
         this.partyService = partyService;
         this.topicService = topicService;
         this.userService = userService;
+        this.topicRatingService = topicRatingService;
+        this.answerRatingService = answerRatingService;
+        this.commentRatingService = commentRatingService;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        CreateUserDTO userDto = new CreateUserDTO(
-                "User",
-                "user@user.com",
-                "tester",
-                RoleEnum.USER
+        this.createUsers();
+        this.createPartyLogos();
+        this.createTopics();
+        this.createTopicRatings();
+    }
+
+    private void createUsers() {
+        List<CreateUserDTO> users = List.of(
+                new CreateUserDTO("Admin", "admin@admin.com", "admin", RoleEnum.ADMIN),
+                new CreateUserDTO("Gavin", "gavin@admin.com", "gavin", RoleEnum.ADMIN),
+                new CreateUserDTO("Esa", "esa@admin.com", "esa", RoleEnum.ADMIN),
+                new CreateUserDTO("Jasper", "jasper@admin.com", "jasper", RoleEnum.ADMIN),
+                new CreateUserDTO("Aaron", "aaron@admin.com", "aaron", RoleEnum.ADMIN)
         );
 
-        this.authenticationService.register(userDto, userDto.getRoleName(), true);
+        for (CreateUserDTO userDto : users) {
+            this.authenticationService.register(userDto, userDto.getRoleName(), true);
+        }
+    }
 
-        CreateUserDTO adminDto = new CreateUserDTO(
-                "Admin",
-                "admin@admin.com",
-                "admin",
-                RoleEnum.ADMIN
-        );
-        this.authenticationService.register(adminDto, adminDto.getRoleName(), true);
-
+    private void createPartyLogos() {
         List<PartyLogoDTO> partyLogos = Arrays.asList(
                 new PartyLogoDTO("VVD", 1),
                 new PartyLogoDTO("D66", 2),
@@ -90,43 +100,54 @@ public class DatabaseSeeder implements CommandLineRunner {
         for (PartyLogoDTO logo : partyLogos) {
             partyService.savePartyLogo(logo.getLogo(), logo.getId());
         }
-
-        this.createTopics();
     }
 
     private void createTopics() {
-        User user1 = userService.getUserByEmail("user@user.com");
-        User user2 = userService.getUserByEmail("admin@admin.com");
+        User testUser = userService.getUserByEmail("admin@admin.com");
 
         List<CreateTopicDto> createTopicDtos = Arrays.asList(
-                // Topics for user1
-                new CreateTopicDto( "Ik wil kaas", "Ik ben ook een klant"),
+                new CreateTopicDto("Ik wil kaas", "Ik ben ook een klant"),
                 new CreateTopicDto("Ik hou van pizza", "Dit is mijn favoriete eten"),
                 new CreateTopicDto("Technologie en ik", "Laten we praten over technologie"),
-                new CreateTopicDto( "Reizen in Europa", "Wat zijn de beste plekken om te bezoeken?"),
+                new CreateTopicDto("Reizen in Europa", "Wat zijn de beste plekken om te bezoeken?"),
                 new CreateTopicDto("Sporten is gezond", "Ik probeer dagelijks te sporten"),
-                new CreateTopicDto( "Favoriete films", "Wat is jouw favoriete film?"),
-                new CreateTopicDto( "Leer een nieuwe taal", "Waarom zou je een nieuwe taal leren?"),
-                new CreateTopicDto( "Boeken lezen", "Ik hou van lezen"),
-                new CreateTopicDto( "Favoriete seizoen", "Wat is jouw favoriete seizoen?"),
-                new CreateTopicDto( "Favoriete dier", "Welk dier vind je het leukst?"),
-
-                // Topics for user2
-                new CreateTopicDto( "Console vs PC", "Liever console of PC"),
-                new CreateTopicDto( "Mouse and keyboard vs controller", "I think that aim assist is overpowerd"),
+                new CreateTopicDto("Favoriete films", "Wat is jouw favoriete film?"),
+                new CreateTopicDto("Leer een nieuwe taal", "Waarom zou je een nieuwe taal leren?"),
+                new CreateTopicDto("Boeken lezen", "Ik hou van lezen"),
+                new CreateTopicDto("Favoriete seizoen", "Wat is jouw favoriete seizoen?"),
+                new CreateTopicDto("Favoriete dier", "Welk dier vind je het leukst?"),
+                new CreateTopicDto("Console vs PC", "Liever console of PC"),
+                new CreateTopicDto("Mouse and keyboard vs controller", "I think that aim assist is overpowerd"),
                 new CreateTopicDto("Beste game van het jaar", "Wat vind jij?"),
-                new CreateTopicDto( "Wereldreis maken", "Een droom voor velen"),
-                new CreateTopicDto( "Fietsen vs autorijden", "Wat is beter voor het milieu?"),
-                new CreateTopicDto( "Favoriete eten", "Wat eet je het liefst?"),
-                new CreateTopicDto( "Katten of honden", "Wat is jouw favoriete huisdier?"),
+                new CreateTopicDto("Wereldreis maken", "Een droom voor velen"),
+                new CreateTopicDto("Fietsen vs autorijden", "Wat is beter voor het milieu?"),
+                new CreateTopicDto("Favoriete eten", "Wat eet je het liefst?"),
+                new CreateTopicDto("Katten of honden", "Wat is jouw favoriete huisdier?"),
                 new CreateTopicDto("Studeren in het buitenland", "Wat zijn de voordelen?"),
-                new CreateTopicDto( "Fitness doelen", "Wat zijn jouw doelen voor dit jaar?"),
-                new CreateTopicDto( "Zonsondergangen", "De mooiste zonsondergang die ik heb gezien was in...")
+                new CreateTopicDto("Fitness doelen", "Wat zijn jouw doelen voor dit jaar?"),
+                new CreateTopicDto("Zonsondergangen", "De mooiste zonsondergang die ik heb gezien was in...")
         );
 
         for (CreateTopicDto topicDto : createTopicDtos) {
-            topicService.createTopic(topicDto, user1.getEmail());
+            topicService.createTopic(topicDto, testUser.getEmail());
         }
-
     }
+
+    private void createTopicRatings() {
+
+        Topic topic = topicService.getTopicById(1L);
+        RatingDTO ratingDtoLike = new RatingDTO(topic.getId(), true);
+        RatingDTO ratingDtoDislike = new RatingDTO(topic.getId(), false);
+
+        this.topicRatingService.createOrUpdateRating(ratingDtoLike, "admin@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoLike, "gavin@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoLike, "esa@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoDislike, "jasper@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoDislike, "aaron@admin.com");
+    }
+
+    private void createAnswerRatings(){}
+
+    private void createCommentRatings(){}
+
 }
