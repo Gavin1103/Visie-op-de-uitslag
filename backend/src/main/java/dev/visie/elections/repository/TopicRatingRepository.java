@@ -7,16 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
 public interface TopicRatingRepository extends RatingRepository<TopicRating> {
     TopicRating getTopicRatingByTopicAndUser(Topic topic, User user);
 
-    @Query("SELECT " +
-            "SUM(CASE WHEN r.rating = true THEN 1 ELSE 0 END) AS likes, " +
-            "SUM(CASE WHEN r.rating = false THEN 1 ELSE 0 END) AS dislikes " +
-            "FROM TopicRating r WHERE r.topic.id = :ratingTypeId")
-    Object[] countRatings(@Param("ratingTypeId") Long ratingTypeId);
+    @Query("SELECT COUNT(tr.rating) FROM TopicRating tr WHERE tr.topic.id = :ratingTypeId AND tr.rating = true ")
+    int countLikes(@Param("ratingTypeId") Long ratingTypeId);
 
+    @Query("SELECT COUNT(tr.rating) FROM TopicRating tr WHERE  tr.topic.id = :ratingTypeId AND tr.rating = false ")
+    int countDisLikes(@Param("ratingTypeId") Long ratingTypeId);
 }

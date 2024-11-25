@@ -25,9 +25,8 @@ const searchQuery = ref('')
 enum SortOptions {
   newest = "createdAt,desc",
   oldest = "createdAt,asc",
-  // TODO: order by likes and dislikes
-  // likes = "likes,desc",
-  // dislikes = "dislikes,desc",
+  likes = "likes",
+  dislikes = "dislikes",
 }
 
 const topics = ref<TopicResponse[]>([])
@@ -199,8 +198,8 @@ const submitNewTopic = async () => {
         <div class="left-container w-7/12 flex flex-col justify-center">
           <router-link :to="{ name: 'TopicDetail', params: { id: topic.id } }" v-html="topic.statement"></router-link>
             <section class="flex">
-            <p class="text-sm mr-2"><small>Likes: {{ topic.likes }}</small></p>
-            <p class="text-sm"><small>Dislikes: {{ topic.dislikes }}</small></p>
+            <p class="text-sm mr-2"><small>Likes: {{ topic.amountOfRatings.likes }}</small></p>
+            <p class="text-sm"><small>Dislikes: {{ topic.amountOfRatings.dislikes }}</small></p>
           </section>
           <p class="mr-2"><small>Created at: {{ formatDate(topic.createdAt) }}</small></p>
           <p><small><strong>Antwoorden: {{ topic.amountOfAnswers }}</strong></small></p>

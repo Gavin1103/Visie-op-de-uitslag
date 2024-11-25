@@ -6,6 +6,7 @@ import dev.visie.elections.model.User;
 import dev.visie.elections.model.base.Rating;
 import dev.visie.elections.repository.RatingRepository;
 import dev.visie.elections.service.models.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,6 @@ public abstract class RatingService<RatingType extends Rating, RatingTypeReposit
         this.ratingTypeRepository = ratingTypeRepository;
         this.userService = userService;
     }
-
 
     public RatingType createOrUpdateRating(RatingDTO ratingDTO, String userEmail) {
 
@@ -62,5 +62,5 @@ public abstract class RatingService<RatingType extends Rating, RatingTypeReposit
 
     protected abstract void setRelatedEntity(RatingType rating, Object relatedEntity);
 
-    public abstract AmountOfRatingsDTO getAmountOfRatings(Long ratingTypeId);
+    public abstract ResponseEntity<AmountOfRatingsDTO> getAmountOfRatings(Long ratingTypeId);
 }

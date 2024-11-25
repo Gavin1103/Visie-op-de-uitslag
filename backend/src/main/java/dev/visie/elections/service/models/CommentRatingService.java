@@ -6,6 +6,7 @@ import dev.visie.elections.model.CommentRating;
 import dev.visie.elections.model.User;
 import dev.visie.elections.repository.CommentRatingRepository;
 import dev.visie.elections.service.RatingService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,7 +42,7 @@ public class CommentRatingService extends RatingService<CommentRating, CommentRa
     }
 
     @Override
-    public AmountOfRatingsDTO getAmountOfRatings(Long ratingTypeId) {
+    public ResponseEntity<AmountOfRatingsDTO> getAmountOfRatings(Long ratingTypeId) {
         return null;
     }
 }

@@ -4,29 +4,29 @@ import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.model.Topic;
 import dev.visie.elections.model.TopicRating;
 import dev.visie.elections.model.User;
-import dev.visie.elections.repository.RatingRepository;
-import dev.visie.elections.repository.TopicRatingRepository;
-import dev.visie.elections.service.RatingService;
-import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import dev.visie.elections.repository.TopicRatingRepository;
+import dev.visie.elections.repository.TopicRepository;
+import dev.visie.elections.service.RatingService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TopicRatingService extends RatingService<TopicRating, TopicRatingRepository> {
 
-    private final TopicService topicService;
-    private final TopicRatingRepository topicRatingRepository;
 
-    public TopicRatingService(TopicRatingRepository topicRatingRepository, UserService userService, TopicService topicService) {
+    private final TopicRatingRepository topicRatingRepository;
+    private final TopicRepository topicRepository;
+
+    public TopicRatingService(TopicRatingRepository topicRatingRepository, UserService userService, TopicRepository topicRepository) {
         super(topicRatingRepository, userService);
-        this.topicService = topicService;
+        this.topicRepository = topicRepository;
         this.topicRatingRepository = topicRatingRepository;
     }
 
     @Override
     protected Topic getRelatedEntity(Long id) {
-        return topicService.getTopicById(id);
+        return topicRepository.getById(id);
     }
 
     @Override
@@ -45,17 +45,12 @@ public class TopicRatingService extends RatingService<TopicRating, TopicRatingRe
     }
 
     @Override
-    public AmountOfRatingsDTO getAmountOfRatings(Long ratingTypeId) {
-        Object[] result = topicRatingRepository.countRatings(ratingTypeId);
+    public ResponseEntity<AmountOfRatingsDTO> getAmountOfRatings(Long ratingTypeId) {
+        int likes = topicRatingRepository.countLikes(ratingTypeId);
+        int dislikes = topicRatingRepository.countDisLikes(ratingTypeId);
+        AmountOfRatingsDTO ratingsDTO = new AmountOfRatingsDTO(likes, dislikes);
 
-        int likes = ((Number) result[0]).intValue(); // Likes count
-        int dislikes = ((Number) result[1]).intValue(); // Dislikes count
-
-        AmountOfRatingsDTO ratings = new AmountOfRatingsDTO(likes, dislikes);
-
-        return ratings;
+        return ResponseEntity.ok(ratingsDTO);
     }
-
-
 }
 

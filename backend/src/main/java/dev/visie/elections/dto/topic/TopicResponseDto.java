@@ -1,5 +1,7 @@
 package dev.visie.elections.dto.topic;
 
+import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
+import dev.visie.elections.model.Topic;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,17 +16,14 @@ public class TopicResponseDto {
 
     private String message;
 
-    private Long userId;
-
     private String username;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    private int likes;
-
-    private int dislikes;
+    private AmountOfRatingsDTO amountOfRatings;
 
     private int amountOfAnswers;
+
 }

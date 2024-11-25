@@ -9,6 +9,7 @@ import dev.visie.elections.service.JwtService;
 import dev.visie.elections.service.models.AnswerRatingService;
 import dev.visie.elections.service.models.CommentRatingService;
 import dev.visie.elections.service.models.TopicRatingService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,12 +66,12 @@ public class RatingController {
     }
 
     @GetMapping("/get-amount/{ratingTypeId}/{ratingType}")
-    public AmountOfRatingsDTO getAmountOfRatings(@PathVariable Long ratingTypeId, @PathVariable RatingTypeEnum ratingType) {
+    @Operation(summary = "count likes and dislikes of topic, comment or answer")
+    public ResponseEntity<AmountOfRatingsDTO> getAmountOfRatings(@PathVariable Long ratingTypeId, @PathVariable RatingTypeEnum ratingType) {
         return switch (ratingType) {
             case TOPIC -> topicRatingService.getAmountOfRatings(ratingTypeId);
             case ANSWER -> answerRatingService.getAmountOfRatings(ratingTypeId);
             case COMMENT -> commentRatingService.getAmountOfRatings(ratingTypeId);
         };
     }
-
 }

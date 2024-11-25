@@ -1,3 +1,5 @@
+import type {AmountOfRatings} from "@/models/ratings/AmountOfRatings";
+
 export interface TopicResponse {
     id: number;
     statement: string;
@@ -6,7 +8,6 @@ export interface TopicResponse {
     username: string;
     createdAt: string;
     updatedAt: string;
-    likes: number;
-    dislikes: number;
+    amountOfRatings: AmountOfRatings;
     amountOfAnswers:number;
 }

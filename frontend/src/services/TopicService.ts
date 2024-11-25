@@ -12,7 +12,14 @@ export class TopicService {
     }
 
     async getTopics(page: number = 0, size: number = 10, sort: string = "createdAt"): Promise<PaginatedResponse<TopicResponse>> {
-        return await this.dbService.get<PaginatedResponse<TopicResponse>>(`topic/?page=${page}&size=${size}&sort=${sort}`);
+
+        let url: string = `topic/?page=${page}&size=${size}&sort=${sort}`
+
+        if(sort === "likes" || sort === "dislikes") {
+          url = `topic/?page=${page}&size=${size}&customSort=${sort}`
+        }
+
+        return await this.dbService.get<PaginatedResponse<TopicResponse>>(url);
     }
 
     async searchTopicByStatement(statement: string): Promise<TopicResponse[]> {

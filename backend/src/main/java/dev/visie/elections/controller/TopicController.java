@@ -43,12 +43,15 @@ public class TopicController {
     }
 
     @GetMapping("/")
-    @Operation(summary = "Get topics with pagination")
-    public ResponseEntity<Page<TopicResponseDto>> getTopics(@PageableDefault(size = 10) Pageable pageable) {
+    @Operation(summary = "Get topics with pagination and optional custom sort")
+    public ResponseEntity<Page<TopicResponseDto>> getTopics(
+            @PageableDefault(size = 10) Pageable pageable,
+            @RequestParam(required = false) String customSort) {
 
-        Page<TopicResponseDto> topics = topicService.getTopics(pageable);
-        return new ResponseEntity<>(topics, HttpStatus.OK);
+        Page<TopicResponseDto> topics = topicService.getTopics(pageable, customSort);
+        return ResponseEntity.ok(topics);
     }
+
 
     @GetMapping("/{id}")
     @Operation(summary = "Get topic by id", description = "Get a topic by id")
