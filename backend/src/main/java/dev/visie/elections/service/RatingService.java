@@ -1,5 +1,6 @@
 package dev.visie.elections.service;
 
+import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.dto.rating.RatingDTO;
 import dev.visie.elections.model.User;
 import dev.visie.elections.model.base.Rating;
@@ -17,6 +18,7 @@ public abstract class RatingService<RatingType extends Rating, RatingTypeReposit
         this.ratingTypeRepository = ratingTypeRepository;
         this.userService = userService;
     }
+
 
     public RatingType createOrUpdateRating(RatingDTO ratingDTO, String userEmail) {
 
@@ -59,4 +61,6 @@ public abstract class RatingService<RatingType extends Rating, RatingTypeReposit
     protected abstract RatingType createNewRatingInstance();
 
     protected abstract void setRelatedEntity(RatingType rating, Object relatedEntity);
+
+    public abstract AmountOfRatingsDTO getAmountOfRatings(Long ratingTypeId);
 }

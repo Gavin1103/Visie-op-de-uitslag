@@ -1,5 +1,6 @@
 package dev.visie.elections.service.models;
 
+import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.model.Answer;
 import dev.visie.elections.model.AnswerRating;
 import dev.visie.elections.model.User;
@@ -37,5 +38,10 @@ public class AnswerRatingService extends RatingService<AnswerRating, AnswerRatin
     @Override
     protected void setRelatedEntity(AnswerRating rating, Object relatedEntity) {
         rating.setAnswer((Answer) relatedEntity);
+    }
+
+    @Override
+    public AmountOfRatingsDTO getAmountOfRatings(Long ratingTypeId) {
+        return null;
     }
 }

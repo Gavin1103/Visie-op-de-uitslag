@@ -1,5 +1,6 @@
 package dev.visie.elections.controller;
 
+import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.dto.rating.RatingDTO;
 import dev.visie.elections.model.AnswerRating;
 import dev.visie.elections.model.CommentRating;
@@ -12,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import dev.visie.elections.model.enums.RatingTypeEnum;
 
 @RestController
 @RequestMapping("/rating")
@@ -59,6 +62,15 @@ public class RatingController {
         CommentRating commentRating = commentRatingService.createOrUpdateRating(ratingDTO, userEmail);
 
         return new ResponseEntity<>(commentRating, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-amount/{ratingTypeId}/{ratingType}")
+    public AmountOfRatingsDTO getAmountOfRatings(@PathVariable Long ratingTypeId, @PathVariable RatingTypeEnum ratingType) {
+        return switch (ratingType) {
+            case TOPIC -> topicRatingService.getAmountOfRatings(ratingTypeId);
+            case ANSWER -> answerRatingService.getAmountOfRatings(ratingTypeId);
+            case COMMENT -> commentRatingService.getAmountOfRatings(ratingTypeId);
+        };
     }
 
 }
