@@ -1,48 +1,101 @@
 <script setup lang="ts">
-
-import {onMounted, ref} from 'vue';
-import {CookieService} from '@/services/CookieService'; // Import your CookieService
-import {UserService} from "@/services/UserService";
-import type {UserProfile} from "@/models/user/UserProfile";
+import { ref, onMounted } from 'vue';
+import { CookieService } from '@/services/CookieService'; // Import your CookieService
+import { UserService } from "@/services/UserService";
+import { TopicService } from "@/services/TopicService"; // Make sure this is imported
+import type { UserProfile } from "@/models/user/UserProfile";
 import router from "@/router";
-import {NewUser} from "@/models/user/NewUser";
+import { NewUser } from "@/models/user/NewUser";
 
-// Create an instance of CookieService
+// Create instances of services
 const cookieService = new CookieService();
 const userService: UserService = new UserService();
+const topicService: TopicService = new TopicService(); // Instance for TopicService
 
+// State variables for user and topics
 const user = ref<UserProfile>({
   id: 0,
   username: '',
   email: ''
 });
 
+const topics = ref([]); // This will store the fetched topics
+const isLoading = ref(true);
+const errorMessage = ref<string | null>(null);
+
 let popUpDeleteAccount = ref(false);
 let editAccountStatus = ref(false);
 
+// Fetch user data
 const fetchUser = async () => {
   const token = cookieService.getCookie(cookieService.accessTokenAlias);
-  console.log(token);
+  console.log('Token:', token); // Log token for verification
 
   if (!token) {
     console.error('No token found');
-    await router.push("/");
+    await router.push("/"); // Redirect to login if token not found
     return;
   }
 
   try {
     const fetchedUser = await userService.getUserByToken(token);
+    console.log('Fetched User:', fetchedUser); // Log the fetched user data
 
     if (fetchedUser) {
-      user.value = fetchedUser;
+      user.value = fetchedUser; // Set the user details
     }
   } catch (error) {
     console.error('Error fetching user:', error);
   }
 };
 
-onMounted(() => {
-  fetchUser();
+const fetchTopics = async () => {
+  const token = cookieService.getCookie(cookieService.accessTokenAlias);
+
+  if (!token || !user.value.id) {
+    console.error('No user or token found');
+    return;
+  }
+
+  try {
+    const pageable = { page: 0, size: 10 }; // Example pagination
+    console.log('Fetching topics for User ID:', user.value.id); // Log user ID
+
+    const fetchedTopics = await topicService.getTopicById(user.value.id, pageable); // Fetch topics using user ID
+    console.log('Fetched Topics:', fetchedTopics); // Log the full response object
+
+    // Check if fetchedTopics is an array or a single object
+    if (Array.isArray(fetchedTopics)) {
+      console.log('fetchedTopics is an array');
+      topics.value = fetchedTopics; // If it's an array, use it directly
+    } else if (typeof fetchedTopics === 'object' && fetchedTopics !== null) {
+      console.log('fetchedTopics is a single object');
+      // If it's a single object, wrap it in an array
+      topics.value = [fetchedTopics];
+    } else {
+      console.error('Unexpected response structure: No topics found');
+    }
+
+    console.log('Topics:', topics.value); // Log the final topics list
+
+  } catch (error) {
+    errorMessage.value = error instanceof Error ? error.message : 'An error occurred';
+    console.error('Error fetching topics:', error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+
+
+onMounted(async () => {
+  try {
+    await fetchUser(); // Fetch user data first
+    await fetchTopics(); // Then fetch the topics for the user
+  } catch (error) {
+    errorMessage.value = error instanceof Error ? error.message : 'An error occurred';
+    console.error('Error during component mounting:', error);
+  }
 });
 
 const uploadPicture = () => {
@@ -62,14 +115,12 @@ const deleteAccount = () => {
 };
 
 const confirmDeleteAccount = (): void => {
-
   popUpDeleteAccount.value = false;
   userService.deleteUser(user.value.id);
   cookieService.removeTokenCookies();
   router.push('/').then(() => {
     window.location.reload();
   });
-
   return;
 };
 
@@ -78,9 +129,8 @@ const cancelDeleteAccount = () => {
 };
 
 const saveChanges = async () => {
-
   const updatedUser: NewUser = {
-    id:  user.value.id,
+    id: user.value.id,
     username: user.value.username,
     email: user.value.email,
     password: "",
@@ -88,10 +138,9 @@ const saveChanges = async () => {
   }
 
   try {
-    console.log(updatedUser)
+    console.log('Updated User:', updatedUser);
     await userService.updateUserSelf(updatedUser);
-    // await fetchUser();
-    console.log(updatedUser);
+    console.log('User Updated:', updatedUser);
   } catch (error) {
     console.error('Error updating user:', error);
   }
@@ -102,7 +151,7 @@ const saveChanges = async () => {
 const cancelEdit = () => {
   fetchUser();
   editAccountStatus.value = false;
-}
+};
 </script>
 
 <template>
@@ -126,8 +175,7 @@ const cancelEdit = () => {
             class="text-lg p-2 w-full rounded-md border"
             v-model="user.username"
             :disabled="!editAccountStatus"
-            :class="editAccountStatus ? 'bg-white border-blue-[#5564c8]' : 'bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed'"
-        />
+            :class="editAccountStatus ? 'bg-white border-blue-[#5564c8]' : 'bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed'"/>
       </div>
       <div class="border border-gray-300 p-4 rounded-md mt-4">
         <p class="text-lg font-semibold"><strong>Email:</strong></p>
@@ -135,13 +183,11 @@ const cancelEdit = () => {
             class="text-lg p-2 w-full rounded-md border"
             v-model="user.email"
             :disabled="!editAccountStatus"
-            :class="editAccountStatus ? 'bg-white border-blue-[#5564c8]' : 'bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed'"
-        />
+            :class="editAccountStatus ? 'bg-white border-blue-[#5564c8]' : 'bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed'"/>
       </div>
 
       <!-- Action Buttons -->
       <div class="action-buttons flex justify-center space-x-4 mt-4">
-        <!-- Show these buttons when editAccountStatus is false -->
         <div v-if="!editAccountStatus" class="space-x-4">
           <button @click="changePassword" class="bg-[#5564c8] text-white py-2 px-4 rounded hover:bg-blue-400">
             Change Password
@@ -154,7 +200,6 @@ const cancelEdit = () => {
           </button>
         </div>
 
-        <!-- Show Save and Cancel buttons when editAccountStatus is true -->
         <div v-else class="space-x-4">
           <button @click="saveChanges" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
             Save
@@ -183,4 +228,17 @@ const cancelEdit = () => {
       </div>
     </div>
   </div>
+
+  <!-- Loading and Error States for Topics -->
+  <div v-if="isLoading">Loading topics...</div>
+  <div v-else-if="errorMessage" class="error">{{ errorMessage }}</div>
+  <ul v-else>
+    <li v-for="topic in topics" :key="topic.id">{{ topic.statement }}</li>
+  </ul>
 </template>
+
+<style scoped>
+.error {
+  color: red;
+}
+</style>

@@ -67,4 +67,10 @@ public class TopicService {
                 .map(topics -> modelMapper.map(topics, TopicResponseDto.class))
                 .collect(Collectors.toList());
     }
+
+    public Page<Topic> getTopicsByUserId(Long userId, Pageable pageable) {
+        return topicRepository.findByUserId(userId, pageable);
+    }
+
+
 }

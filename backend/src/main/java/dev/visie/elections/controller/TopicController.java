@@ -17,6 +17,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -69,4 +71,14 @@ public class TopicController {
         List<TopicResponseDto> topics = topicService.searchTopicByStatement(statement);
         return new ResponseEntity<>(topics, HttpStatus.OK);
     }
+
+//    @GetMapping("/topics/{userId}")
+//    public Page<Topic> getTopicsByUserId(
+//            @PathVariable Long userId,
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size) {
+//
+//        PageRequest pageable = PageRequest.of(page, size);
+//        return topicService.getTopicsByUserId(userId, pageable);
+//    }
 }
