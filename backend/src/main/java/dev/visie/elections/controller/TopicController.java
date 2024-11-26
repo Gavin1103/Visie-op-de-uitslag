@@ -72,13 +72,12 @@ public class TopicController {
         return new ResponseEntity<>(topics, HttpStatus.OK);
     }
 
-//    @GetMapping("/topics/{userId}")
-//    public Page<Topic> getTopicsByUserId(
-//            @PathVariable Long userId,
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size) {
-//
-//        PageRequest pageable = PageRequest.of(page, size);
-//        return topicService.getTopicsByUserId(userId, pageable);
-//    }
+    @GetMapping("/get-topics")
+    @Operation(summary = "get topics by logged in user")
+    public ResponseEntity<Page<TopicResponseDto>> getTopicsByUser(@PageableDefault(size = 10) Pageable pageable,  HttpServletRequest request) {
+        String userEmail = this.jwtService.extractUserData(request, "sub");
+        Page<TopicResponseDto> topics = topicService.getTopicsByUser(userEmail, pageable);
+        return new ResponseEntity<>(topics, HttpStatus.OK);
+    }
 }
+

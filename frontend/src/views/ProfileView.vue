@@ -2,25 +2,20 @@
 import { ref, onMounted } from 'vue';
 import { CookieService } from '@/services/CookieService'; // Import your CookieService
 import { UserService } from "@/services/UserService";
-import { TopicService } from "@/services/TopicService"; // Make sure this is imported
 import type { UserProfile } from "@/models/user/UserProfile";
 import router from "@/router";
 import { NewUser } from "@/models/user/NewUser";
+import TopicsProfile from "@/components/ProfileTopics/TopicsProfile.vue";
 
-// Create instances of services
 const cookieService = new CookieService();
 const userService: UserService = new UserService();
-const topicService: TopicService = new TopicService(); // Instance for TopicService
 
-// State variables for user and topics
 const user = ref<UserProfile>({
   id: 0,
   username: '',
   email: ''
 });
 
-const topics = ref([]); // This will store the fetched topics
-const isLoading = ref(true);
 const errorMessage = ref<string | null>(null);
 
 let popUpDeleteAccount = ref(false);
@@ -29,7 +24,6 @@ let editAccountStatus = ref(false);
 // Fetch user data
 const fetchUser = async () => {
   const token = cookieService.getCookie(cookieService.accessTokenAlias);
-  console.log('Token:', token); // Log token for verification
 
   if (!token) {
     console.error('No token found');
@@ -39,8 +33,6 @@ const fetchUser = async () => {
 
   try {
     const fetchedUser = await userService.getUserByToken(token);
-    console.log('Fetched User:', fetchedUser); // Log the fetched user data
-
     if (fetchedUser) {
       user.value = fetchedUser; // Set the user details
     }
@@ -49,49 +41,9 @@ const fetchUser = async () => {
   }
 };
 
-const fetchTopics = async () => {
-  const token = cookieService.getCookie(cookieService.accessTokenAlias);
-
-  if (!token || !user.value.id) {
-    console.error('No user or token found');
-    return;
-  }
-
-  try {
-    const pageable = { page: 0, size: 10 }; // Example pagination
-    console.log('Fetching topics for User ID:', user.value.id); // Log user ID
-
-    const fetchedTopics = await topicService.getTopicById(user.value.id, pageable); // Fetch topics using user ID
-    console.log('Fetched Topics:', fetchedTopics); // Log the full response object
-
-    // Check if fetchedTopics is an array or a single object
-    if (Array.isArray(fetchedTopics)) {
-      console.log('fetchedTopics is an array');
-      topics.value = fetchedTopics; // If it's an array, use it directly
-    } else if (typeof fetchedTopics === 'object' && fetchedTopics !== null) {
-      console.log('fetchedTopics is a single object');
-      // If it's a single object, wrap it in an array
-      topics.value = [fetchedTopics];
-    } else {
-      console.error('Unexpected response structure: No topics found');
-    }
-
-    console.log('Topics:', topics.value); // Log the final topics list
-
-  } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'An error occurred';
-    console.error('Error fetching topics:', error);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-
-
 onMounted(async () => {
   try {
     await fetchUser(); // Fetch user data first
-    await fetchTopics(); // Then fetch the topics for the user
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : 'An error occurred';
     console.error('Error during component mounting:', error);
@@ -230,11 +182,7 @@ const cancelEdit = () => {
   </div>
 
   <!-- Loading and Error States for Topics -->
-  <div v-if="isLoading">Loading topics...</div>
-  <div v-else-if="errorMessage" class="error">{{ errorMessage }}</div>
-  <ul v-else>
-    <li v-for="topic in topics" :key="topic.id">{{ topic.statement }}</li>
-  </ul>
+ <TopicsProfile></TopicsProfile>
 </template>
 
 <style scoped>
