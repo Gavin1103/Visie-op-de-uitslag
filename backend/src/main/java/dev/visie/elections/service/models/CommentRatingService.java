@@ -1,6 +1,7 @@
 package dev.visie.elections.service.models;
 
 import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
+import dev.visie.elections.dto.rating.RatingDTO;
 import dev.visie.elections.model.Comment;
 import dev.visie.elections.model.CommentRating;
 import dev.visie.elections.model.User;
@@ -43,6 +44,11 @@ public class CommentRatingService extends RatingService<CommentRating, CommentRa
 
     @Override
     public ResponseEntity<AmountOfRatingsDTO> getAmountOfRatings(Long ratingTypeId) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<RatingDTO> hasRating(Long ratingTypeId, String userEmail) {
         return null;
     }
 }

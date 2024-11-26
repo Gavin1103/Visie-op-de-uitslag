@@ -11,7 +11,9 @@ import LivechatView from '@/views/LivechatView.vue'
 import Dialog from 'primevue/dialog'
 import Editor from 'primevue/editor'
 import {debounce} from 'lodash';
-import { dummytopicResponse } from '@/stores/EmptyCandidateList'
+import {dummytopicResponse} from '@/stores/EmptyCandidateList'
+import RatingComponent from "@/components/forum/RatingComponent.vue";
+import {RatingTypeEnum} from "@/models/enum/rating/RatingTypeEnum";
 
 const topicService = new TopicService()
 const cookieService = new CookieService()
@@ -21,7 +23,6 @@ const isDialogVisible = ref(false)
 const newTopicContent = ref('')
 const newStatement = ref('')
 const searchQuery = ref('')
-
 enum SortOptions {
   newest = "createdAt,desc",
   oldest = "createdAt,asc",
@@ -85,7 +86,7 @@ const loadMore = () => {
 }
 
 const openDialog = () => {
-  if(!isUserLoggedIn.value) {
+  if (!isUserLoggedIn.value) {
     toast.add({
       severity: 'info',
       summary: 'Log in to Participate',
@@ -178,7 +179,8 @@ const submitNewTopic = async () => {
       <select
           v-model="sort"
           class="mr-auto px-2 text-sm font-bold text-white bg-[#5564c8] rounded shadow hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all">
-        <option v-for="key in Object.keys(SortOptions) as (keyof typeof SortOptions)[]" :key="key" :value="SortOptions[key]">
+        <option v-for="key in Object.keys(SortOptions) as (keyof typeof SortOptions)[]" :key="key"
+                :value="SortOptions[key]">
           {{ key }}
         </option>
       </select>
@@ -197,32 +199,34 @@ const submitNewTopic = async () => {
            class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
         <div class="left-container w-7/12 flex flex-col justify-center">
           <router-link :to="{ name: 'TopicDetail', params: { id: topic.id } }" v-html="topic.statement"></router-link>
-            <section class="flex">
-            <p class="text-sm mr-2"><small>Likes: {{ topic.amountOfRatings.likes }}</small></p>
-            <p class="text-sm"><small>Dislikes: {{ topic.amountOfRatings.dislikes }}</small></p>
-          </section>
+          <RatingComponent
+              :ratingType="RatingTypeEnum.TOPIC"
+              :ratingTypeId="topic.id"
+              :likes="topic.amountOfRatings.likes"
+              :dislikes="topic.amountOfRatings.dislikes"
+          />
           <p class="mr-2"><small>Created at: {{ formatDate(topic.createdAt) }}</small></p>
           <p><small><strong>Antwoorden: {{ topic.amountOfAnswers }}</strong></small></p>
         </div>
         <div class="ml-2 h-full w-4/12 bg-[#5564c8] flex flex-col justify-center items-center">
           <img class="w-16 h-16 rounded-full object-cover shadow-lg" src="../../../public/no-proflile-img.png"
-               alt="profile-img" />
+               alt="profile-img"/>
           <p><strong>Username: {{ topic.username }}</strong></p>
         </div>
         <div @click="joinLiveChat(topic)"
              class="h-full w-1/6 flex flex-col justify-center items-center hover:cursor-pointer">
           <img
-            class="w-16 h-16 object-cover"
-            src="../../../public/live-chat-icon.png"
-            alt="profile-img"
+              class="w-16 h-16 object-cover"
+              src="../../../public/live-chat-icon.png"
+              alt="profile-img"
           />
           <p><strong>Live chat</strong></p>
         </div>
       </div>
       <p
-        v-if="isMoreAvailable"
-        @click="loadMore"
-        class="ml-auto text-blue-600 hover:underline cursor-pointer transition-colors">
+          v-if="isMoreAvailable"
+          @click="loadMore"
+          class="ml-auto text-blue-600 hover:underline cursor-pointer transition-colors">
         <strong>Meer...</strong>
       </p>
     </section>
@@ -240,7 +244,7 @@ const submitNewTopic = async () => {
       </Editor>
       <br>
       <h1>Content</h1>
-      <Editor v-model="newTopicContent" editorStyle="height: 320px" />
+      <Editor v-model="newTopicContent" editorStyle="height: 320px"/>
       <div class="flex justify-end mt-4">
         <button @click="closeDialog" class="mr-2 px-4 py-2 bg-gray-400 rounded text-white">Cancel</button>
         <button @click="submitNewTopic" class="px-4 py-2 bg-blue-600 rounded text-white">Submit</button>
@@ -248,7 +252,7 @@ const submitNewTopic = async () => {
     </Dialog>
     <div v-if="isChatModalVisible" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
       <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl h-5/6 overflow-y-auto relative">
-        <LivechatView :topic="selectedTopic" @close="closeChatModal" />
+        <LivechatView :topic="selectedTopic" @close="closeChatModal"/>
       </div>
     </div>
   </section>

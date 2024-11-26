@@ -74,4 +74,15 @@ public class RatingController {
             case COMMENT -> commentRatingService.getAmountOfRatings(ratingTypeId);
         };
     }
+
+    @GetMapping("/has-rating/{ratingTypeId}/{ratingType}")
+    @Operation(summary = "Get the rating from topic, comment or likes by user")
+    public ResponseEntity<RatingDTO> hasRating(@PathVariable Long ratingTypeId, @PathVariable RatingTypeEnum ratingType, HttpServletRequest request) {
+        String userEmail = jwtService.extractUserData(request, "sub");
+        return switch (ratingType) {
+            case TOPIC -> topicRatingService.hasRating(ratingTypeId, userEmail);
+            case ANSWER -> answerRatingService.hasRating(ratingTypeId, userEmail);
+            case COMMENT -> commentRatingService.hasRating(ratingTypeId, userEmail);
+        };
+    }
 }

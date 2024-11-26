@@ -23,7 +23,7 @@ public abstract class RatingService<RatingType extends Rating, RatingTypeReposit
     public RatingType createOrUpdateRating(RatingDTO ratingDTO, String userEmail) {
 
         User user = userService.getUserByEmail(userEmail);
-        Object relatedEntity = getRelatedEntity(ratingDTO.getId());
+        Object relatedEntity = getRelatedEntity(ratingDTO.getRatingTypeId());
         RatingType existingRating = getExistingRating(relatedEntity, user);
 
         if (existingRating != null) {
@@ -63,4 +63,6 @@ public abstract class RatingService<RatingType extends Rating, RatingTypeReposit
     protected abstract void setRelatedEntity(RatingType rating, Object relatedEntity);
 
     public abstract ResponseEntity<AmountOfRatingsDTO> getAmountOfRatings(Long ratingTypeId);
+
+    public abstract ResponseEntity<RatingDTO> hasRating(Long ratingTypeId, String userEmail);
 }

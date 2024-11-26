@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class RatingDTO {
-    Long id;
+    Long ratingTypeId;
     Boolean rating;
 }

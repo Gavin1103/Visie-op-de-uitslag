@@ -52,7 +52,6 @@ public class TopicController {
         return ResponseEntity.ok(topics);
     }
 
-
     @GetMapping("/{id}")
     @Operation(summary = "Get topic by id", description = "Get a topic by id")
     @ApiResponses(value = {
