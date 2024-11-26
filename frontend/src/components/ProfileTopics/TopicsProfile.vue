@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import type {TopicResponse} from "@/models/forum/TopicResponse";
 import {TopicService} from "@/services/TopicService";
+import {formatDate} from "../../helper/formatDateHelper";
 
 
 const topics = ref<TopicResponse[]>([])
@@ -44,15 +45,36 @@ const loadMore = () => {
 
 <template>
   <div class="container mx-auto p-6">
-
     <div>
       <h1 class="text-2xl font-semibold mb-4">Topics</h1>
       <ul>
-        <li v-for="(topic, index) in topics" :key="index" class="mb-4">
-          <div class="bg-white p-4 rounded shadow-md">
-            <h2 class="text-lg font-bold">{{ topic.statement }}</h2>
-            <p class="text-sm text-gray-600">Created At: {{ topic.createdAt }}</p>
-            <p class="mt-2">{{ topic.message }}</p>
+        <li
+            v-for="(topic, index) in topics"
+            :key="index"
+            class="mb-4">
+          <div class="bg-white p-4 rounded shadow-md relative">
+            <!-- Topic Details -->
+            <div>
+              <h2 class="text-lg font-bold">{{ topic.statement }}</h2>
+              <p class="text-sm text-gray-600">Created At: {{ formatDate(topic.createdAt) }}</p>
+              <section class="flex">
+                <p class="text-sm mr-2"><small>Likes: {{ topic.likes }}</small></p>
+                <p class="text-sm"><small>Dislikes: {{ topic.dislikes }}</small></p>
+              </section>
+              <p><small><strong>Antwoorden: {{ topic.amountOfAnswers }}</strong></small></p>
+            </div>
+
+            <!-- Live Chat Button Inside Box -->
+            <div
+                @click="joinLiveChat(topic)"
+                class="absolute top-4 right-4 flex flex-col justify-center items-center hover:cursor-pointer">
+              <img
+                  class="w-10 h-10 object-cover"
+                  src="../../../public/live-chat-icon.png"
+                  alt="Live chat icon"
+              />
+              <p class="text-xs"><strong>Live chat</strong></p>
+            </div>
           </div>
         </li>
       </ul>
@@ -65,6 +87,7 @@ const loadMore = () => {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 /* Add your custom styles if necessary */
