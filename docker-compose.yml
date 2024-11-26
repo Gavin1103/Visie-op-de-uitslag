@@ -1,0 +1,63 @@
+services:
+  web:
+    image: elections-web:latest
+    platform: linux/amd64
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "7419:7419"
+    depends_on:
+      - api
+    networks:
+      - election-network
+    restart: unless-stopped
+
+  api:
+    image: elections-api:latest
+    platform: linux/amd64
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - "7420:7420"
+    depends_on:
+      - database
+      - mailserver
+    networks:
+      - election-network
+    environment:
+      PG_HOST: database
+      MAIL_HOST: mailserver
+      MAIL_PORT: 1025
+    restart: unless-stopped
+
+  database:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: elections
+    volumes:
+      - hva-elections:/var/lib/postgresql/data
+    networks:
+      - election-network
+    restart: unless-stopped
+
+  mailserver:
+    image: mailhog/mailhog:latest
+    ports:
+      - "8025:8025" # Web UI
+      - "1025:1025" # SMTP
+    networks:
+      - election-network
+    restart: unless-stopped
+
+volumes:
+  hva-elections:
+
+networks:
+  election-network:
+    driver: bridge

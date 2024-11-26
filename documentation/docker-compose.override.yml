@@ -1,0 +1,12 @@
+services:
+  web:
+    networks:
+      - nginxproxymanager_default
+
+  api:
+    networks:
+      - nginxproxymanager_default
+
+networks:
+  nginxproxymanager_default:
+    external: true
