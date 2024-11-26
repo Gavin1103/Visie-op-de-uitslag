@@ -3,12 +3,17 @@ import { ref, onMounted } from 'vue';
 import type {TopicResponse} from "@/models/forum/TopicResponse";
 import {TopicService} from "@/services/TopicService";
 import {formatDate} from "../../helper/formatDateHelper";
+import {dummytopicResponse} from "@/stores/EmptyCandidateList";
+import LivechatView from "@/views/LivechatView.vue";
 
 
 const topics = ref<TopicResponse[]>([])
 const currentPage = ref(0)
 const pageSize = 5
 const isMoreAvailable = ref(true)
+
+const isChatModalVisible = ref(false)
+const selectedTopic = ref<TopicResponse>(dummytopicResponse)
 
 
 const topicService = new TopicService();
@@ -40,6 +45,18 @@ const loadMore = () => {
   currentPage.value += 1
   fetchTopics(currentPage.value)
 }
+
+const joinLiveChat = (topic: TopicResponse) => {
+  console.log(topic);
+  selectedTopic.value = topic
+  isChatModalVisible.value = true
+}
+
+const closeChatModal = () => {
+  isChatModalVisible.value = false
+  selectedTopic.value = dummytopicResponse
+}
+
 
 </script>
 
@@ -84,6 +101,12 @@ const loadMore = () => {
           class="ml-auto text-blue-600 hover:underline cursor-pointer transition-colors">
         <strong>Meer...</strong>
       </p>
+    </div>
+  </div>
+
+  <div v-if="isChatModalVisible" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl h-5/6 overflow-y-auto relative">
+      <LivechatView :topic="selectedTopic" @close="closeChatModal" />
     </div>
   </div>
 </template>
