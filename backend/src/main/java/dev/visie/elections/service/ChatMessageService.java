@@ -9,6 +9,7 @@ import dev.visie.elections.model.User;
 import dev.visie.elections.repository.ChatMessageRepository;
 import dev.visie.elections.repository.MessageReportRepository;
 import dev.visie.elections.repository.UserRepository;
+import dev.visie.elections.service.models.TopicService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

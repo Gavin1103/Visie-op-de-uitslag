@@ -12,7 +12,7 @@ import DashboardView from '@/views/cms/DashboardView.vue'
 import ForumLandingsPage from "@/views/forum/ForumLandingsPage.vue";
 import TopicDetailView from '@/views/forum/TopicDetailView.vue'
 import ReportsView from '@/views/cms/ReportsView.vue'
-
+import MapView from '@/views/MapView.vue'
 
 const userService = new UserService();
 const isAdmin = await userService.currentUserIsAdmin();
@@ -97,6 +97,11 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/map',
+      name: '/map',
+      component: MapView,
     }
   ]
 })

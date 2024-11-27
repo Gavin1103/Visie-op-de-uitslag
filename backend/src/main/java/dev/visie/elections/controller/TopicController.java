@@ -3,10 +3,8 @@ package dev.visie.elections.controller;
 import dev.visie.elections.dto.topic.CreateTopicDto;
 import dev.visie.elections.dto.topic.TopicResponseDto;
 import dev.visie.elections.model.Topic;
-import dev.visie.elections.model.User;
 import dev.visie.elections.service.JwtService;
-import dev.visie.elections.service.TopicService;
-import io.jsonwebtoken.Jwt;
+import dev.visie.elections.service.models.TopicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,6 +17,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -71,4 +71,13 @@ public class TopicController {
         List<TopicResponseDto> topics = topicService.searchTopicByStatement(statement);
         return new ResponseEntity<>(topics, HttpStatus.OK);
     }
+
+    @GetMapping("/get-topics")
+    @Operation(summary = "get topics by logged in user")
+    public ResponseEntity<Page<TopicResponseDto>> getTopicsByUser(@PageableDefault(size = 10) Pageable pageable,  HttpServletRequest request) {
+        String userEmail = this.jwtService.extractUserData(request, "sub");
+        Page<TopicResponseDto> topics = topicService.getTopicsByUser(userEmail, pageable);
+        return new ResponseEntity<>(topics, HttpStatus.OK);
+    }
 }
+

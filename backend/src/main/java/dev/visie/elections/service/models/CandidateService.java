@@ -1,4 +1,4 @@
-package dev.visie.elections.service;
+package dev.visie.elections.service.models;
 
 import dev.visie.elections.dto.candidate.CandidateWithVotes;
 import dev.visie.elections.model.enums.AreaEnum;

@@ -5,8 +5,8 @@ Thumbs.db
 
 **/dist
 **/node_modules
-**/.env.local
-**/.env
+frontend/.env.development
+frontend/.env.development
 
 # Dutch election data files
 **/EML_bestanden_TK2021/

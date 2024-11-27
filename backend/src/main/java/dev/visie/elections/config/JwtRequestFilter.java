@@ -2,7 +2,7 @@ package dev.visie.elections.config;
 
 import dev.visie.elections.model.User;
 import dev.visie.elections.service.JwtService;
-import dev.visie.elections.service.UserService;
+import dev.visie.elections.service.models.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

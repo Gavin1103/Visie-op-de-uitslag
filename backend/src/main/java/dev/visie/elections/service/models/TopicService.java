@@ -1,4 +1,4 @@
-package dev.visie.elections.service;
+package dev.visie.elections.service.models;
 
 import dev.visie.elections.dto.topic.CreateTopicDto;
 import dev.visie.elections.dto.topic.TopicResponseDto;
@@ -66,5 +66,16 @@ public class TopicService {
         return foundTopics.stream()
                 .map(topics -> modelMapper.map(topics, TopicResponseDto.class))
                 .collect(Collectors.toList());
+    }
+
+    public Page<TopicResponseDto> getTopicsByUser(String userEmail, Pageable pageable) {
+        User user = userService.getUserByEmail(userEmail);
+        Page<Topic> topics = topicRepository.findByUser(user,pageable);
+
+        List<TopicResponseDto> topicDtos = topics.getContent().stream()
+                .map(topic -> modelMapper.map(topic, TopicResponseDto.class))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(topicDtos, pageable, topics.getTotalElements());
     }
 }
