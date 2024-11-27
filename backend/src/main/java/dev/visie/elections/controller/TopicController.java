@@ -17,6 +17,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -69,4 +71,13 @@ public class TopicController {
         List<TopicResponseDto> topics = topicService.searchTopicByStatement(statement);
         return new ResponseEntity<>(topics, HttpStatus.OK);
     }
+
+    @GetMapping("/get-topics")
+    @Operation(summary = "get topics by logged in user")
+    public ResponseEntity<Page<TopicResponseDto>> getTopicsByUser(@PageableDefault(size = 10) Pageable pageable,  HttpServletRequest request) {
+        String userEmail = this.jwtService.extractUserData(request, "sub");
+        Page<TopicResponseDto> topics = topicService.getTopicsByUser(userEmail, pageable);
+        return new ResponseEntity<>(topics, HttpStatus.OK);
+    }
 }
+
