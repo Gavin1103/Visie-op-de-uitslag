@@ -11,4 +11,8 @@ export class ReportService {
   public async getUnhandledReports(): Promise<Report[]> {
     return await this.dbService.get<Report[]>("report/unhandled")
   }
+
+  public async handleReport(report: Report, disableUser: boolean, deleteMessage: boolean): Promise<void> {
+    await this.dbService.post<Report>(`report/handle/${disableUser}/${deleteMessage}`, report);
+  }
 }
