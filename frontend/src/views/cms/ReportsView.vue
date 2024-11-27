@@ -48,6 +48,7 @@ import { formatDate } from '@/helper/formatDateHelper'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
+import { useToast } from 'primevue/usetoast'
 import Checkbox from 'primevue/checkbox'
 export default {
   name: "ReportsView",
@@ -64,12 +65,13 @@ export default {
     const showModal = ref(false)
     const deleteMessage = ref(false)
     const disableUser = ref(false)
+    const toast = useToast()
+
 
     const fetchReports = async () => {
       isLoading.value = true;
       try {
         reports.value = await reportService.getUnhandledReports();
-
       } catch (error) {
         console.error("Fout bij het ophalen van meldingen:", error);
       } finally {
@@ -86,11 +88,24 @@ export default {
     const handleReport = async (report: Report) => {
       try {
         await reportService.handleReport(report, disableUser.value, deleteMessage.value);
-        cancelReport();
+        toast.add({
+          severity: 'success',
+          summary: 'Afgehandeld',
+          detail: 'De report is afgehandeld.',
+          life: 3000
+        })
       }
       catch (error){
         console.error(error);
+        toast.add({
+          severity: 'error',
+          summary: 'Server error',
+          detail: 'Er is iets mis gegaan.',
+          life: 3000
+        })
       }
+      cancelReport();
+
     };
 
     onMounted(fetchReports);

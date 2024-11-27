@@ -14,6 +14,7 @@ import java.util.Date;
 public class ReportDTO {
     private Long id;
     private String reason;
+    private Long messageId;
     private String message;
     private Date createdAt;
     private String reporterEmail;
