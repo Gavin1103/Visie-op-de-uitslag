@@ -12,7 +12,7 @@ export class ReportService {
     return await this.dbService.get<Report[]>("report/unhandled")
   }
 
-  public async handleReport(report: Report, disableUser: boolean, deleteMessage: boolean): Promise<void> {
-    await this.dbService.post<Report>(`report/handle/${disableUser}/${deleteMessage}`, report);
+  public async handleReport(report: Report | null, disableUser: boolean, deleteMessage: boolean): Promise<void> {
+    await this.dbService.post<Report | null>(`report/handle/${disableUser}/${deleteMessage}`, report);
   }
 }

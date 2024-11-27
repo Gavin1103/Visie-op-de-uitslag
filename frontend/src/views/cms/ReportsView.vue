@@ -1,6 +1,6 @@
 <template>
   <div class="reports-container">
-    <h1 class="text-xl font-bold mb-4">User Overview</h1>
+    <h1 class="text-xl font-bold mb-4">Reports</h1>
     <div v-if="isLoading" class="loading">Laden...</div>
     <div v-else>
       <DataTable :value="reports" class="p-datatable-gridlines">
@@ -16,7 +16,8 @@
         </Column>
         <Column header="Actions">
           <template #body="slotProps">
-            <Button label="Afhandlen" icon="pi pi-save" class="p-button-info mr-2" @click="showModal = true" />
+            <Button label="Afhandlen" icon="pi pi-save" class="p-button-info mr-2"
+                    @click="() => { showModal = true; selectedReport = slotProps.data; }" />
             <div v-if="showModal" class="modal-overlay">
               <div class="modal flex flex-col gap-3 text-lg">
                 <h3>Selecteer opties:</h3>
@@ -29,7 +30,7 @@
                   <label for="disable"> Gebruiker deactiveren </label>
                 </div>
                 <Button severity="danger" @click="cancelReport">Terug</Button>
-                <Button @click="handleReport(slotProps.data)">Handel af</Button>
+                <Button @click="handleReport()">Handel af</Button>
               </div>
             </div>
           </template>
@@ -59,10 +60,11 @@ export default {
     Button,
     Checkbox},
   setup() {
-    const reports = ref<Report[] | undefined>([undefined]);
+    const reports = ref<Report[]>([]);
     const isLoading = ref(true);
     const reportService = new ReportService();
     const showModal = ref(false)
+    const selectedReport = ref<Report | null>(null);
     const deleteMessage = ref(false)
     const disableUser = ref(false)
     const toast = useToast()
@@ -82,18 +84,30 @@ export default {
     const cancelReport = () => {
       showModal.value = false;
       disableUser.value = false;
+      selectedReport.value = null;
       deleteMessage.value = false;
     }
 
-    const handleReport = async (report: Report) => {
+    const handleReport = async () => {
+      if(!selectedReport.value){
+        toast.add({
+          severity: 'error',
+          summary: 'Server error',
+          detail: 'Geen bericht geselecteerd.',
+          life: 3000
+        })
+      }
       try {
-        await reportService.handleReport(report, disableUser.value, deleteMessage.value);
+        await reportService.handleReport(selectedReport.value, disableUser.value, deleteMessage.value);
         toast.add({
           severity: 'success',
           summary: 'Afgehandeld',
           detail: 'De report is afgehandeld.',
           life: 3000
         })
+        if (selectedReport.value) {
+          reports.value = reports.value.filter((m) => m.id !== selectedReport.value?.id);
+        }
       }
       catch (error){
         console.error(error);
@@ -115,6 +129,7 @@ export default {
       isLoading,
       handleReport,
       cancelReport,
+      selectedReport,
       showModal,
       deleteMessage,
       disableUser
