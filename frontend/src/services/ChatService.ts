@@ -1,5 +1,5 @@
 import { DatabaseService } from '@/services/DatabaseService'
-import type { CreateReport } from '@/models/chat/CreateReport'
+import type { CreateReport } from '@/models/report/CreateReport'
 
 export class ChatService {
 

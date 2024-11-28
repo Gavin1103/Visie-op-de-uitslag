@@ -1,4 +1,4 @@
-package dev.visie.elections.dto;
+package dev.visie.elections.dto.report;
 
 import lombok.*;
 
@@ -10,4 +10,5 @@ import lombok.*;
 public class CreateReportDTO {
     private String reason;
     private Long reporterId;
+    private Long reportedId;
 }

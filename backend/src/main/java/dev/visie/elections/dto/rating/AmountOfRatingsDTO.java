@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-public class RatingDTO {
-    Long ratingTypeId;
-    Boolean rating;
+public class AmountOfRatingsDTO {
+    int likes;
+    int dislikes;
 }
