@@ -202,8 +202,6 @@ const submitNewTopic = async () => {
           <RatingComponent
               :ratingType="RatingTypeEnum.TOPIC"
               :ratingTypeId="topic.id"
-              :likes="topic.amountOfRatings.likes"
-              :dislikes="topic.amountOfRatings.dislikes"
           />
           <p class="mr-2"><small>Created at: {{ formatDate(topic.createdAt) }}</small></p>
           <p><small><strong>Antwoorden: {{ topic.amountOfAnswers }}</strong></small></p>

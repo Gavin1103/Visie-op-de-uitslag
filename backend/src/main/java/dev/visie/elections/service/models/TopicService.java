@@ -38,7 +38,7 @@ public class TopicService {
         this.answerRepository = answerRepository;
     }
 
-    public Topic getTopicById(Long id){
+    public Topic getTopicById(Long id) {
         return topicRepository.findById(id).orElse(null);
     }
 
@@ -49,7 +49,7 @@ public class TopicService {
 
         User user = userService.getUserByEmail(userEmail);
 
-        if(user != null) {
+        if (user != null) {
             topic.setUser(userService.getUserByEmail(userEmail));
         }
 
@@ -66,23 +66,17 @@ public class TopicService {
 
         if (customSort != null && !customSort.isEmpty()) {
             switch (customSort.toLowerCase()) {
-                case "likes":
-                    topicDtos.sort((dto1, dto2) -> Integer.compare(
-                            dto2.getAmountOfRatings().getLikes(),
-                            dto1.getAmountOfRatings().getLikes()
-                    ));
-                    break;
-                case "dislikes":
-                    topicDtos.sort((dto1, dto2) -> Integer.compare(
-                            dto2.getAmountOfRatings().getDislikes(),
-                            dto1.getAmountOfRatings().getDislikes()
-                    ));
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid custom sort value: " + customSort);
+                case "likes" -> topicDtos.sort((dto1, dto2) -> Integer.compare(
+                        dto2.getAmountOfRatings().getLikes(),
+                        dto1.getAmountOfRatings().getLikes()
+                ));
+                case "dislikes" -> topicDtos.sort((dto1, dto2) -> Integer.compare(
+                        dto2.getAmountOfRatings().getDislikes(),
+                        dto1.getAmountOfRatings().getDislikes()
+                ));
+                default -> throw new IllegalArgumentException("Invalid custom sort value: " + customSort);
             }
         }
-
         return new PageImpl<>(topicDtos, pageable, topics.getTotalElements());
     }
 
