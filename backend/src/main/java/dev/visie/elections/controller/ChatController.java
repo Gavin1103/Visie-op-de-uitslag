@@ -1,7 +1,7 @@
 package dev.visie.elections.controller;
 
 import dev.visie.elections.dto.ChatMessageDTO;
-import dev.visie.elections.dto.CreateReportDTO;
+import dev.visie.elections.dto.report.CreateReportDTO;
 import dev.visie.elections.service.ChatMessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
