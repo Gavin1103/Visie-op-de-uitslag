@@ -11,6 +11,6 @@ import java.util.List;
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     Page<Topic> findAll(Pageable pageable);
     List<Topic> findByStatementContainingIgnoreCase(String topic);
-
     Page<Topic> findByUser(User user, Pageable pageable);
+    Topic getById(Long id);
 }

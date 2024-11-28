@@ -136,14 +136,35 @@ public class DatabaseSeeder implements CommandLineRunner {
     private void createTopicRatings() {
 
         Topic topic = topicService.getTopicById(1L);
+        Topic topic2 = topicService.getTopicById(2L);
+        Topic topic3 = topicService.getTopicById(3L);
+
         RatingDTO ratingDtoLike = new RatingDTO(topic.getId(), true);
         RatingDTO ratingDtoDislike = new RatingDTO(topic.getId(), false);
+
+        RatingDTO ratingDtoLike2 = new RatingDTO(topic2.getId(), true);
+        RatingDTO ratingDtoDislike2 = new RatingDTO(topic2.getId(), false);
+
+        RatingDTO ratingDtoLike3 = new RatingDTO(topic3.getId(), true);
+        RatingDTO ratingDtoDislike3 = new RatingDTO(topic3.getId(), false);
 
         this.topicRatingService.createOrUpdateRating(ratingDtoLike, "admin@admin.com");
         this.topicRatingService.createOrUpdateRating(ratingDtoLike, "gavin@admin.com");
         this.topicRatingService.createOrUpdateRating(ratingDtoLike, "esa@admin.com");
         this.topicRatingService.createOrUpdateRating(ratingDtoDislike, "jasper@admin.com");
         this.topicRatingService.createOrUpdateRating(ratingDtoDislike, "aaron@admin.com");
+
+        this.topicRatingService.createOrUpdateRating(ratingDtoLike2, "admin@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoLike2, "gavin@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoLike2, "esa@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoLike2, "jasper@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoDislike2, "aaron@admin.com");
+
+        this.topicRatingService.createOrUpdateRating(ratingDtoLike3, "admin@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoDislike3, "gavin@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoDislike3, "esa@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoDislike3, "jasper@admin.com");
+        this.topicRatingService.createOrUpdateRating(ratingDtoDislike3, "aaron@admin.com");
     }
 
     private void createAnswerRatings(){}

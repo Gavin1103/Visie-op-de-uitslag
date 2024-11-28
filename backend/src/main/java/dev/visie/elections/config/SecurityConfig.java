@@ -36,6 +36,7 @@ public class SecurityConfig {
             "/topic/**",
             "/ws",
             "/chat/topic/*",
+            "/rating/**",
 
     };
 
