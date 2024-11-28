@@ -3,22 +3,30 @@
 import {RatingTypeEnum} from "@/models/enum/rating/RatingTypeEnum";
 import type {Rating} from "@/models/ratings/Rating";
 import {RatingService} from "@/services/RatingService";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, onBeforeMount} from "vue";
 import type {AmountOfRatings} from "@/models/ratings/AmountOfRatings";
 import {CookieService} from "@/services/CookieService";
 import {UserService} from "@/services/UserService";
+import {useToast} from "primevue/usetoast";
 
 const ratingService: RatingService = new RatingService();
 const cookieService = new CookieService();
 const userService: UserService = new UserService();
 
-const existingRating = ref<Rating>()!;
+const existingRating = ref<Rating>();
 const amountOfRatings = ref<AmountOfRatings>();
+const isUserLoggedIn = ref<boolean | null>(null)
+const toast = useToast()
 
 const props = defineProps({
   ratingTypeId: Number,
   ratingType: RatingTypeEnum
 });
+
+
+onBeforeMount(async () => {
+  isUserLoggedIn.value = cookieService.tokenExists()
+})
 
 const fetchAmountOfRating = async () => {
   try {
@@ -30,8 +38,7 @@ const fetchAmountOfRating = async () => {
 };
 
 const getExistingRating = async () => {
-  const token = cookieService.getCookie(cookieService.accessTokenAlias);
-  if (token) {
+  if (isUserLoggedIn.value) {
     existingRating.value = await ratingService.hasRating(props.ratingTypeId, props.ratingType);
   }
 }
@@ -41,15 +48,21 @@ onMounted(() => {
 });
 
 const sendRating = async (ratingType: RatingTypeEnum, rating: boolean) => {
-
-  const newRating: Rating = {
-    ratingTypeId: props.ratingTypeId,
-    rating: rating,
-  };
-
-  await ratingService.rate(newRating, props.ratingType).then()
-  {
-    await fetchAmountOfRating();
+  if (!isUserLoggedIn.value) {
+    toast.add({
+      severity: 'info',
+      summary: 'Log in to like or dislike',
+      life: 5000
+    })
+  } else {
+    const newRating: Rating = {
+      ratingTypeId: props.ratingTypeId,
+      rating: rating,
+    };
+    await ratingService.rate(newRating, props.ratingType).then()
+    {
+      await fetchAmountOfRating();
+    }
   }
 }
 
