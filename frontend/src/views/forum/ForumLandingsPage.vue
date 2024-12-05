@@ -30,6 +30,8 @@ enum SortOptions {
   dislikes = "dislikes",
 }
 
+// TODO: fix sort by likes and dislikes
+
 const topics = ref<TopicResponse[]>([])
 const currentPage = ref(0)
 const pageSize = 5

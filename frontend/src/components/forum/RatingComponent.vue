@@ -75,10 +75,10 @@ const sendRating = async (ratingType: RatingTypeEnum, rating: boolean) => {
         @click="sendRating(props.ratingType, true)"
         class="h-4 cursor-pointer hover:scale-110 transition-transform"
         :src="!existingRating
-    ? '../../../public/rating/like-icon-trans.png'
+    ? '/rating/like-icon-trans.png'
     : existingRating.rating === true
-    ? '../../../public/rating/green-thumbs-up.png'
-    : '../../../public/rating/like-icon-trans.png'"
+    ? '/rating/green-thumbs-up.png'
+    : '/rating/like-icon-trans.png'"
         alt="like-icon"
     />
     <p class="ml-1.5">{{ amountOfRatings?.likes }}</p>
@@ -86,10 +86,10 @@ const sendRating = async (ratingType: RatingTypeEnum, rating: boolean) => {
         @click="sendRating(props.ratingType, false)"
         class="h-4 ml-1.5 cursor-pointer hover:scale-110 transition-transform"
         :src="!existingRating
-    ? '../../../public/rating/dislike-icon-trans.png'
+    ? '/rating/dislike-icon-trans.png'
     : existingRating.rating === false
-    ? '../../../public/rating/thumbs-down.png'
-    : '../../../public/rating/dislike-icon-trans.png'"
+    ? '/rating/thumbs-down.png'
+    : '/rating/dislike-icon-trans.png'"
         alt="dislike-icon"
     />
     <p class="ml-1.5">{{ amountOfRatings?.dislikes }}</p>
