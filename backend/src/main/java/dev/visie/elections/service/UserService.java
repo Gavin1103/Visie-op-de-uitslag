@@ -1,6 +1,5 @@
-package dev.visie.elections.service.models;
+package dev.visie.elections.service;
 
-import dev.visie.elections.dto.user.UserDTO;
 import dev.visie.elections.dto.user.UpdateUserDTO;
 import dev.visie.elections.dto.user.UserProfileResponse;
 import dev.visie.elections.model.Role;
@@ -9,7 +8,6 @@ import dev.visie.elections.repository.ConfirmationTokenRepository;
 import dev.visie.elections.repository.RoleRepository;
 import dev.visie.elections.repository.TokenRepository;
 import dev.visie.elections.repository.UserRepository;
-import dev.visie.elections.service.JwtService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -129,6 +127,10 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.findByEmail(email) != null;
     }
 
     public UserProfileResponse getUserByToken(String token) {

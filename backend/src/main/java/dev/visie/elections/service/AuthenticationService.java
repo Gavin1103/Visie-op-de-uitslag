@@ -13,7 +13,6 @@ import dev.visie.elections.model.enums.TokenType;
 import dev.visie.elections.repository.ConfirmationTokenRepository;
 import dev.visie.elections.repository.TokenRepository;
 import dev.visie.elections.repository.UserRepository;
-import dev.visie.elections.service.models.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

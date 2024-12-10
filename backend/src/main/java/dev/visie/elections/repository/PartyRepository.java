@@ -17,4 +17,6 @@ public interface PartyRepository extends JpaRepository<Party, Integer> {
             "WHERE p.partyId = :partyId " +
             "GROUP BY p.name, p.logo, p.partyId")
     List<Object[]> getPartyPageInfo(@Param("partyId") int partyId);
+
+    boolean existsByLogo(String logo);
 }

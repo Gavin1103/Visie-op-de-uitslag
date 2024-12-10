@@ -1,4 +1,4 @@
-package dev.visie.elections.service.models;
+package dev.visie.elections.service;
 
 import dev.visie.elections.model.Comment;
 import dev.visie.elections.repository.CommentRepository;

@@ -10,4 +10,6 @@ import java.util.List;
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     Page<Topic> findAll(Pageable pageable);
     List<Topic> findByStatementContainingIgnoreCase(String topic);
+    Boolean existsByMessage(String message);
+    boolean existsById(Long id);
 }

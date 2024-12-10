@@ -1,4 +1,4 @@
-package dev.visie.elections.service.models;
+package dev.visie.elections.service;
 
 import dev.visie.elections.dto.topic.CreateTopicDto;
 import dev.visie.elections.dto.topic.TopicResponseDto;
@@ -66,5 +66,13 @@ public class TopicService {
         return foundTopics.stream()
                 .map(topics -> modelMapper.map(topics, TopicResponseDto.class))
                 .collect(Collectors.toList());
+    }
+
+    public Boolean existsByTitle(String title) {
+        return topicRepository.existsByMessage(title);
+    }
+
+    public Boolean existsById(Long id) {
+        return topicRepository.existsById(id);
     }
 }

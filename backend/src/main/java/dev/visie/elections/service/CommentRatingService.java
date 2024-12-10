@@ -1,10 +1,9 @@
-package dev.visie.elections.service.models;
+package dev.visie.elections.service;
 
 import dev.visie.elections.model.Comment;
 import dev.visie.elections.model.CommentRating;
 import dev.visie.elections.model.User;
 import dev.visie.elections.repository.CommentRatingRepository;
-import dev.visie.elections.service.RatingService;
 import org.springframework.stereotype.Service;
 
 @Service

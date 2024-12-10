@@ -1,15 +1,13 @@
-package dev.visie.elections.service.models;
+package dev.visie.elections.service;
 
 import dev.visie.elections.model.Topic;
 import dev.visie.elections.model.TopicRating;
 import dev.visie.elections.model.User;
 import dev.visie.elections.repository.TopicRatingRepository;
-import dev.visie.elections.service.RatingService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TopicRatingService extends RatingService<TopicRating, TopicRatingRepository> {
-
     private final TopicService topicService;
 
     private final TopicRatingRepository topicRatingRepository;
