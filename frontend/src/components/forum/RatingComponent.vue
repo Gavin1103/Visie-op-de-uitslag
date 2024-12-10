@@ -3,7 +3,7 @@
 import {RatingTypeEnum} from "@/models/enum/rating/RatingTypeEnum";
 import type {Rating} from "@/models/ratings/Rating";
 import {RatingService} from "@/services/RatingService";
-import {onMounted, ref, onBeforeMount} from "vue";
+import {onMounted, ref, onBeforeMount, type PropType} from "vue";
 import type {AmountOfRatings} from "@/models/ratings/AmountOfRatings";
 import {CookieService} from "@/services/CookieService";
 import {UserService} from "@/services/UserService";
@@ -20,9 +20,11 @@ const toast = useToast()
 
 const props = defineProps({
   ratingTypeId: Number,
-  ratingType: RatingTypeEnum
+  ratingType: {
+    type: Object as PropType<RatingTypeEnum>,
+    required: true
+  }
 });
-
 
 onBeforeMount(async () => {
   isUserLoggedIn.value = cookieService.tokenExists()
@@ -30,7 +32,7 @@ onBeforeMount(async () => {
 
 const fetchAmountOfRating = async () => {
   try {
-    amountOfRatings.value = await ratingService.getAmountOfRatings(props.ratingTypeId, props.ratingType)
+    amountOfRatings.value = await ratingService.getAmountOfRatings(props.ratingTypeId!, props.ratingType!)
     await getExistingRating();
   } catch (error) {
     console.error("Error fetching rating:", error);
@@ -39,7 +41,7 @@ const fetchAmountOfRating = async () => {
 
 const getExistingRating = async () => {
   if (isUserLoggedIn.value) {
-    existingRating.value = await ratingService.hasRating(props.ratingTypeId, props.ratingType);
+    existingRating.value = await ratingService.hasRating(props.ratingTypeId!, props.ratingType!);
   }
 }
 
@@ -56,7 +58,7 @@ const sendRating = async (ratingType: RatingTypeEnum, rating: boolean) => {
     })
   } else {
     const newRating: Rating = {
-      ratingTypeId: props.ratingTypeId,
+      ratingTypeId: props.ratingTypeId!,
       rating: rating,
     };
     await ratingService.rate(newRating, props.ratingType).then()
@@ -73,10 +75,10 @@ const sendRating = async (ratingType: RatingTypeEnum, rating: boolean) => {
         @click="sendRating(props.ratingType, true)"
         class="h-4 cursor-pointer hover:scale-110 transition-transform"
         :src="!existingRating
-    ? '../../../public/rating/like-icon-trans.png'
+    ? '/rating/like-icon-trans.png'
     : existingRating.rating === true
-    ? '../../../public/rating/green-thumbs-up.png'
-    : '../../../public/rating/like-icon-trans.png'"
+    ? '/rating/green-thumbs-up.png'
+    : '/rating/like-icon-trans.png'"
         alt="like-icon"
     />
     <p class="ml-1.5">{{ amountOfRatings?.likes }}</p>
@@ -84,10 +86,10 @@ const sendRating = async (ratingType: RatingTypeEnum, rating: boolean) => {
         @click="sendRating(props.ratingType, false)"
         class="h-4 ml-1.5 cursor-pointer hover:scale-110 transition-transform"
         :src="!existingRating
-    ? '../../../public/rating/dislike-icon-trans.png'
+    ? '/rating/dislike-icon-trans.png'
     : existingRating.rating === false
-    ? '../../../public/rating/thumbs-down.png'
-    : '../../../public/rating/dislike-icon-trans.png'"
+    ? '/rating/thumbs-down.png'
+    : '/rating/dislike-icon-trans.png'"
         alt="dislike-icon"
     />
     <p class="ml-1.5">{{ amountOfRatings?.dislikes }}</p>

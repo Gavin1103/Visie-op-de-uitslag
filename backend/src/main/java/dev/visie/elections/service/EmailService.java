@@ -1,19 +1,22 @@
 package dev.visie.elections.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    @Autowired
+    @Value("${spring.mail.from}")
+    private String mailFrom;
+
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
@@ -23,7 +26,7 @@ public class EmailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
-        message.setFrom("aaron.laan@hva.nl");
+        message.setFrom(mailFrom);
         mailSender.send(message);
     }
 
@@ -35,11 +38,10 @@ public class EmailService {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(htmlContent, true);
-            helper.setFrom("aaron.laan@hva.nl");
+            helper.setFrom(mailFrom); 
 
             mailSender.send(message);
         } catch (MessagingException e) {
-            // Handle exception
             e.printStackTrace();
         }
     }
