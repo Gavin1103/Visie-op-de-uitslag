@@ -9,10 +9,8 @@ import BarChartComponent from "@/components/chart/homepage/BarChartComponent.vue
 import {formatNumber} from "@/helper/formatNumberHelpers";
 
 const barChartDisplayInfo = ref<string>('votes');
-
 const partyService = new PartyService();
 const votesService = new VotesService();
-
 const electedParty = ref<PartyWithVotes | null>(null);
 const totalAmountOfVotes = ref<TotalAmountOfVotes | null>(null);
 const partiesWithVotes = ref<PartyWithVotes[]>([]);

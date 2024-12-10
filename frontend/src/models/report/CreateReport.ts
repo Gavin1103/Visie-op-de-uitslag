@@ -1,4 +1,5 @@
 export interface CreateReport {
     reason: String;
-    reporterId: number | undefined;
+    reporterId: number;
+    reportedId: number;
 }

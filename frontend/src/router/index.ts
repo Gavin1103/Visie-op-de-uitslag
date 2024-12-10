@@ -7,14 +7,15 @@ import { UserService } from '@/services/UserService'
 import UnauthorizedView from '@/components/Unauthorized.vue'
 import PartyOverview from '@/views/PartyOverview.vue'
 import PartyView from '@/views/PartyView.vue'
-import UserOverview from '@/views/UserOverview.vue'
-import DashboardView from '@/views/DashboardView.vue'
+import UserOverview from '@/views/cms/UserOverview.vue'
+import DashboardView from '@/views/cms/DashboardView.vue'
 import ForumLandingsPage from "@/views/forum/ForumLandingsPage.vue";
 import TopicDetailView from '@/views/forum/TopicDetailView.vue'
+import ReportsView from '@/views/cms/ReportsView.vue'
 import MapView from '@/views/MapView.vue'
 
 const userService = new UserService();
-const isAdmin = userService.currentUserIsAdmin();
+const isAdmin = await userService.currentUserIsAdmin();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,6 +75,12 @@ const router = createRouter({
       path: '/cms/dashboard',
       name: 'dashboard',
       component: DashboardView,
+      meta: { requiresAdmin: true }
+    },
+    {
+      path: '/cms/reports',
+      name: 'reports',
+      component: ReportsView,
       meta: { requiresAdmin: true }
     },
     {
