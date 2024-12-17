@@ -1,0 +1,32 @@
+[
+  {
+    "username": "Admin",
+    "email": "admin@admin.com",
+    "password": "admin",
+    "roleName": "ADMIN"
+  },
+  {
+    "username": "Gavin",
+    "email": "gavin@admin.com",
+    "password": "gavin",
+    "roleName": "ADMIN"
+  },
+  {
+    "username": "Esa",
+    "email": "esa@admin.com",
+    "password": "esa",
+    "roleName": "ADMIN"
+  },
+  {
+    "username": "Jasper",
+    "email": "jasper@admin.com",
+    "password": "jasper",
+    "roleName": "ADMIN"
+  },
+  {
+    "username": "Aaron",
+    "email": "aaron@admin.com",
+    "password": "aaron",
+    "roleName": "ADMIN"
+  }
+]

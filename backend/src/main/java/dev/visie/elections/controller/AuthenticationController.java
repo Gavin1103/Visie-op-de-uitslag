@@ -5,7 +5,7 @@ import dev.visie.elections.dto.user.CreateUserDTO;
 import dev.visie.elections.dto.JwtRequest;
 import dev.visie.elections.model.enums.RoleEnum;
 import dev.visie.elections.service.AuthenticationService;
-import dev.visie.elections.service.models.UserService;
+import dev.visie.elections.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

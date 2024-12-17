@@ -1,4 +1,4 @@
-package dev.visie.elections.service.models;
+package dev.visie.elections.service;
 
 import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.dto.rating.RatingDTO;
@@ -9,7 +9,6 @@ import dev.visie.elections.model.User;
 import dev.visie.elections.model.base.Rating;
 import dev.visie.elections.repository.TopicRatingRepository;
 import dev.visie.elections.repository.TopicRepository;
-import dev.visie.elections.service.RatingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

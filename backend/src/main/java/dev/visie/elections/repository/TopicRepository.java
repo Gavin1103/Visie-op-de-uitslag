@@ -13,4 +13,6 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     List<Topic> findByStatementContainingIgnoreCase(String topic);
     Page<Topic> findByUser(User user, Pageable pageable);
     Topic getById(Long id);
+    Boolean existsByMessage(String message);
+    boolean existsById(Long id);
 }

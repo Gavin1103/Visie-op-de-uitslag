@@ -1,17 +1,17 @@
 package dev.visie.elections.controller;
 
-import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.dto.rating.RatingDTO;
+import dev.visie.elections.model.AnswerRating;
+import dev.visie.elections.model.CommentRating;
+import dev.visie.elections.model.TopicRating;
 import dev.visie.elections.service.JwtService;
-import dev.visie.elections.service.models.AnswerRatingService;
-import dev.visie.elections.service.models.CommentRatingService;
-import dev.visie.elections.service.models.TopicRatingService;
-import io.swagger.v3.oas.annotations.Operation;
+import dev.visie.elections.service.AnswerRatingService;
+import dev.visie.elections.service.CommentRatingService;
+import dev.visie.elections.service.TopicRatingService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import dev.visie.elections.model.enums.RatingTypeEnum;
 
 @RestController
 @RequestMapping("/rating")
@@ -34,41 +34,31 @@ public class RatingController {
         this.answerRatingService = answerRatingService;
     }
 
-    @PostMapping("/rate/{ratingType}")
-    @Operation(summary = "Create or update a rating for topic, answer, or comment")
-    public ResponseEntity<?> createOrUpdateRating(
-            @PathVariable RatingTypeEnum ratingType,
-            @RequestBody RatingDTO ratingDTO,
-            HttpServletRequest request) {
+    @PostMapping("/rate/topic")
+    public ResponseEntity<TopicRating> createOrUpdateTopicRating(@RequestBody RatingDTO ratingDTO, HttpServletRequest request) {
 
         String userEmail = jwtService.extractUserData(request, "sub");
+        TopicRating topicRating = topicRatingService.createOrUpdateRating(ratingDTO, userEmail);
 
-        return switch (ratingType) {
-            case TOPIC -> ResponseEntity.ok(topicRatingService.createOrUpdateRating(ratingDTO, userEmail));
-            case ANSWER -> ResponseEntity.ok(answerRatingService.createOrUpdateRating(ratingDTO, userEmail));
-            case COMMENT -> ResponseEntity.ok(commentRatingService.createOrUpdateRating(ratingDTO, userEmail));
-        };
+        return new ResponseEntity<>(topicRating, HttpStatus.OK);
     }
 
+    @PostMapping("/rate/answer")
+    public ResponseEntity<AnswerRating> createOrUpdateAnswerRating(@RequestBody RatingDTO ratingDTO, HttpServletRequest request) {
 
-    @GetMapping("/get-amount/{ratingTypeId}/{ratingType}")
-    @Operation(summary = "count likes and dislikes of topic, comment or answer")
-    public ResponseEntity<AmountOfRatingsDTO> getAmountOfRatings(@PathVariable Long ratingTypeId, @PathVariable RatingTypeEnum ratingType) {
-        return switch (ratingType) {
-            case TOPIC -> topicRatingService.getAmountOfRatings(ratingTypeId);
-            case ANSWER -> answerRatingService.getAmountOfRatings(ratingTypeId);
-            case COMMENT -> commentRatingService.getAmountOfRatings(ratingTypeId);
-        };
-    }
-
-    @GetMapping("/has-rating/{ratingTypeId}/{ratingType}")
-    @Operation(summary = "Get the rating from topic, comment or likes by user")
-    public ResponseEntity<RatingDTO> hasRating(@PathVariable Long ratingTypeId, @PathVariable RatingTypeEnum ratingType, HttpServletRequest request) {
         String userEmail = jwtService.extractUserData(request, "sub");
-        return switch (ratingType) {
-            case TOPIC -> topicRatingService.hasRating(ratingTypeId, userEmail);
-            case ANSWER -> answerRatingService.hasRating(ratingTypeId, userEmail);
-            case COMMENT -> commentRatingService.hasRating(ratingTypeId, userEmail);
-        };
+        AnswerRating answerRating = answerRatingService.createOrUpdateRating(ratingDTO, userEmail);
+
+        return new ResponseEntity<>(answerRating, HttpStatus.OK);
     }
+
+    @PostMapping("/rate/comment")
+    public ResponseEntity<CommentRating> createOrUpdateCommentRating(@RequestBody RatingDTO ratingDTO, HttpServletRequest request) {
+
+        String userEmail = jwtService.extractUserData(request, "sub");
+        CommentRating commentRating = commentRatingService.createOrUpdateRating(ratingDTO, userEmail);
+
+        return new ResponseEntity<>(commentRating, HttpStatus.OK);
+    }
+
 }

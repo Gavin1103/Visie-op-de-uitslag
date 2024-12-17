@@ -1,10 +1,9 @@
-package dev.visie.elections.service.models;
+package dev.visie.elections.service;
 
 import dev.visie.elections.dto.party.PartyDTO;
 import dev.visie.elections.model.election.Party;
 import dev.visie.elections.repository.PartyRepository;
 import dev.visie.elections.repository.VotesRepository;
-import dev.visie.elections.service.models.VotesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -71,7 +70,9 @@ public class PartyService {
         List<Object[]> party = partyRepository.getPartyPageInfo(id);
         List<Object []> candidates = votesRepository.getCandidateWithVotes(id);
         return PartyDTO.customPartyMapperDTO(party.get(0), votesService, candidates);
+    }
 
-
+    public boolean existsByLogo(String logo) {
+        return partyRepository.existsByLogo(logo);
     }
 }
