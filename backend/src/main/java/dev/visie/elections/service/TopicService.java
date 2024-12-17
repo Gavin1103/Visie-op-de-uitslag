@@ -57,7 +57,6 @@ public class TopicService {
     }
 
     public Page<TopicResponseDto> getTopics(Pageable pageable, String customSort) {
-
         Page<Topic> topics = topicRepository.findAll(pageable);
 
         List<TopicResponseDto> topicDtos = topics.getContent().stream()

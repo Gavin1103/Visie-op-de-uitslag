@@ -1,10 +1,11 @@
 package dev.visie.elections.service;
 
+import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.dto.rating.RatingDTO;
 import dev.visie.elections.model.User;
 import dev.visie.elections.model.base.Rating;
 import dev.visie.elections.repository.RatingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +14,6 @@ public abstract class RatingService<RatingType extends Rating, RatingTypeReposit
     private final RatingTypeRepository ratingTypeRepository;
     private final UserService userService;
 
-    @Autowired
     protected RatingService(RatingTypeRepository ratingTypeRepository, UserService userService) {
         this.ratingTypeRepository = ratingTypeRepository;
         this.userService = userService;
@@ -22,7 +22,7 @@ public abstract class RatingService<RatingType extends Rating, RatingTypeReposit
     public RatingType createOrUpdateRating(RatingDTO ratingDTO, String userEmail) {
 
         User user = userService.getUserByEmail(userEmail);
-        Object relatedEntity = getRelatedEntity(ratingDTO.getId());
+        Object relatedEntity = getRelatedEntity(ratingDTO.getRatingTypeId());
         RatingType existingRating = getExistingRating(relatedEntity, user);
 
         if (existingRating != null) {
@@ -60,4 +60,8 @@ public abstract class RatingService<RatingType extends Rating, RatingTypeReposit
     protected abstract RatingType createNewRatingInstance();
 
     protected abstract void setRelatedEntity(RatingType rating, Object relatedEntity);
+
+    public abstract ResponseEntity<AmountOfRatingsDTO> getAmountOfRatings(Long ratingTypeId);
+
+    public abstract ResponseEntity<RatingDTO> hasRating(Long ratingTypeId, String userEmail);
 }

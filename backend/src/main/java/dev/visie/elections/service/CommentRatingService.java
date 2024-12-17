@@ -1,9 +1,13 @@
 package dev.visie.elections.service;
 
+import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
+import dev.visie.elections.dto.rating.RatingDTO;
 import dev.visie.elections.model.Comment;
 import dev.visie.elections.model.CommentRating;
 import dev.visie.elections.model.User;
 import dev.visie.elections.repository.CommentRatingRepository;
+import dev.visie.elections.service.RatingService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,5 +40,15 @@ public class CommentRatingService extends RatingService<CommentRating, CommentRa
     @Override
     protected void setRelatedEntity(CommentRating rating, Object relatedEntity) {
         rating.setComment((Comment) relatedEntity);
+    }
+
+    @Override
+    public ResponseEntity<AmountOfRatingsDTO> getAmountOfRatings(Long ratingTypeId) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<RatingDTO> hasRating(Long ratingTypeId, String userEmail) {
+        return null;
     }
 }
