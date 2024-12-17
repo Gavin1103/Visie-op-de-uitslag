@@ -11,6 +11,10 @@ export class DatabaseService {
     this.token = this.cookieService.getCookie(this.cookieService.accessTokenAlias);
   }
 
+  public getBaseUrl(): string{
+    return this.baseUrl;
+  }
+
   private getHeaders() {
     return {
       headers: {

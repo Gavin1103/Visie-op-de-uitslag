@@ -36,6 +36,9 @@ import ProvinceMap from '@/components/map/ProvinceMap.vue';
 import PopupMap from '@/components/map/PopupMap.vue';
 import { kieskringenData } from '@/components/map/kieskringData';
 import partyColors from '@/components/map/partyColors.js';
+import {DatabaseService} from "@/services/DatabaseService";
+
+const ApiBaseUrl = new DatabaseService().getBaseUrl();
 
 export default {
   name: 'NetherlandsMap',
@@ -47,11 +50,11 @@ export default {
     return {
       showPopup: false,
       selectedProvince: '',
-      hoveredProvince: '', // Tracks hovered province name
-      hoveredWinner: '', // Tracks winner in the hovered province
-      votingData: [], // Array to store fetched voting data for all provinces
-      provinceColors: {}, // Stores colors for each province based on winning parties
-      provinceWinner: {}, // Stores winner party for each province
+      hoveredProvince: '',
+      hoveredWinner: '',
+      votingData: [],
+      provinceColors: {},
+      provinceWinner: {},
     };
   },
   computed: {
@@ -92,7 +95,7 @@ export default {
     handleProvinceHover(province) {
       if (province) {
         this.hoveredProvince = province;
-        this.hoveredWinner = this.getWinnerByProvince(province); // Get winner's party name
+          this.hoveredWinner = this.getWinnerByProvince(province);
       } else {
         this.hoveredProvince = '';
         this.hoveredWinner = '';
@@ -106,7 +109,7 @@ export default {
     async fetchVotingData(kieskring) {
       try {
         const response = await axios.get(
-            'http://localhost:8080/api/election/totalVotesByParty',
+            `${ApiBaseUrl}/election/totalVotesByParty`,
             {
               params: {constituencies: [kieskring]},
               paramsSerializer: params => {
@@ -133,7 +136,7 @@ export default {
     async fetchWinnersByProvince() {
       try {
         const response = await axios.get(
-            'http://localhost:8080/api/election/winners-by-province'
+            `${ApiBaseUrl}/election/winners-by-province`
         );
         this.provinceWinner = {};  // Clear previous data
         this.provinceColors = {};  // Clear previous color data
