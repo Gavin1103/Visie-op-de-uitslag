@@ -1,0 +1,22 @@
+[
+  {"statement": "<i>Ik wil kaas</i>", "message": "<h2>Ik ben ook een klant</h2>"},
+  {"statement": "<i>Ik hou van pizza</i>", "message": "<h2>Dit is mijn favoriete eten</h2>"},
+  {"statement": "<i>Technologie en ik</i>", "message": "<h2>Laten we praten over technologie</h2>"},
+  {"statement": "<i>Reizen in Europa</i>", "message": "<h2>Wat zijn de beste plekken om te bezoeken?</h2>"},
+  {"statement": "<i>Sporten is gezond</i>", "message": "<h2>Ik probeer dagelijks te sporten</h2>"},
+  {"statement": "<i>Favoriete films</i>", "message": "<h2>Wat is jouw favoriete film?</h2>"},
+  {"statement": "<i>Leer een nieuwe taal</i>", "message": "<h2>Waarom zou je een nieuwe taal leren?</h2>"},
+  {"statement": "<i>Boeken lezen</i>", "message": "<h2>Ik hou van lezen</h2>"},
+  {"statement": "<i>Favoriete seizoen</i>", "message": "<h2>Wat is jouw favoriete seizoen?</h2>"},
+  {"statement": "<i>Favoriete dier</i>", "message": "<h2>Welk dier vind je het leukst?</h2>"},
+  {"statement": "<i>Console vs PC</i>", "message": "<h2>Liever console of PC</h2>"},
+  {"statement": "<i>Mouse and keyboard vs controller</i>", "message": "<h2>I think that aim assist is overpowerd</h2>"},
+  {"statement": "<i>Beste game van het jaar</i>", "message": "<h2>Wat vind jij?</h2>"},
+  {"statement": "<i>Wereldreis maken</i>", "message": "<h2>Een droom voor velen</h2>"},
+  {"statement": "<i>Fietsen vs autorijden</i>", "message": "<h2>Wat is beter voor het milieu?</h2>"},
+  {"statement": "<i>Favoriete eten</i>", "message": "<h2>Wat eet je het liefst?</h2>"},
+  {"statement": "<i>Katten of honden</i>", "message": "<h2>Wat is jouw favoriete huisdier?</h2>"},
+  {"statement": "<i>Studeren in het buitenland</i>", "message": "<h2>Wat zijn de voordelen?</h2>"},
+  {"statement": "<i>Fitness doelen</i>", "message": "<h2>Wat zijn jouw doelen voor dit jaar?</h2>"},
+  {"statement": "<i>Zonsondergangen</i>", "message": "<h2>De mooiste zonsondergang die ik heb gezien was in...</h2>"}
+]

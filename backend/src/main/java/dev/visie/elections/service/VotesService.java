@@ -1,4 +1,4 @@
-package dev.visie.elections.service.models;
+package dev.visie.elections.service;
 
 import dev.visie.elections.dto.votes.TotalAmountOfVotesDTO;
 import dev.visie.elections.repository.VotesRepository;

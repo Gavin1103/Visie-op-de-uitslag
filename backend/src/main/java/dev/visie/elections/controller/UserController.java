@@ -5,7 +5,7 @@ import dev.visie.elections.dto.user.UpdateUserDTO;
 import dev.visie.elections.dto.user.UserProfileResponse;
 import dev.visie.elections.model.User;
 import dev.visie.elections.service.JwtService;
-import dev.visie.elections.service.models.UserService;
+import dev.visie.elections.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

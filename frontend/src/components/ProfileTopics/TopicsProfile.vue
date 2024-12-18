@@ -75,8 +75,8 @@ const closeChatModal = () => {
               <h2 class="text-lg font-bold">{{ topic.statement }}</h2>
               <p class="text-sm text-gray-600">Created At: {{ formatDate(topic.createdAt) }}</p>
               <section class="flex">
-                <p class="text-sm mr-2"><small>Likes: {{ topic.likes }}</small></p>
-                <p class="text-sm"><small>Dislikes: {{ topic.dislikes }}</small></p>
+                <p class="text-sm mr-2"><small>Likes: {{ topic.amountOfRatings.likes }}</small></p>
+                <p class="text-sm"><small>Dislikes: {{ topic.amountOfRatings.dislikes }}</small></p>
               </section>
               <p><small><strong>Antwoorden: {{ topic.amountOfAnswers }}</strong></small></p>
             </div>

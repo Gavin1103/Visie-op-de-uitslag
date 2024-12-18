@@ -32,7 +32,7 @@ export class TopicService {
         return await this.dbService.get<TopicResponse>(`topic/${userId}`);
     }
 
-    async getTopicsByUser(page: number = 0, size: number = 10, sort: string = "createdAt"): Promise<TopicResponse> {
-        return await this.dbService.get<TopicResponse>(`topic/get-topics?page=${page}&size=${size}&sort=${sort}`);
+    async getTopicsByUser(page: number = 0, size: number = 10, sort: string = "createdAt"): Promise<PaginatedResponse<TopicResponse>> {
+        return await this.dbService.get<PaginatedResponse<TopicResponse>>(`topic/get-topics?page=${page}&size=${size}&sort=${sort}`);
     }
 }

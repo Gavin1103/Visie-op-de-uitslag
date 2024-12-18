@@ -1,0 +1,7 @@
+[
+  {"topicId": 1, "userEmail": "admin@admin.com", "like": true},
+  {"topicId": 1, "userEmail": "gavin@admin.com", "like": true},
+  {"topicId": 1, "userEmail": "esa@admin.com", "like": true},
+  {"topicId": 1, "userEmail": "jasper@admin.com", "like": false},
+  {"topicId": 1, "userEmail": "aaron@admin.com", "like": false}
+]

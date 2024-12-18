@@ -5,7 +5,6 @@ import dev.visie.elections.dto.rating.RatingDTO;
 import dev.visie.elections.model.User;
 import dev.visie.elections.model.base.Rating;
 import dev.visie.elections.repository.RatingRepository;
-import dev.visie.elections.service.models.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
