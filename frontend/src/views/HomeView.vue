@@ -39,12 +39,12 @@ function updateBarChartDisplayInfo(value: string) {
     <div class="w-3/4">
       <section class="w-full h-auto flex flex-col items-center">
         <section class="mb-2.5 flex flex-col items-center">
-          <p class="mt-4 text-xl font-black">Winnaar</p>
+          <p class="mt-4 text-xl font-black">Grootste partij</p>
           <p class="text-6xl font-black">{{ electedParty?.name }}</p>
           <img style="height:200px" src="../../public/pvv-logo.png" alt="elected party logo"/>
         </section>
         <section class="mb-3.5 flex flex-col items-center">
-          <p class="text-xl font-black">Totaal aantal stemmen</p>
+          <p class="text-xl font-black">Totaal aantal stemmen in Nederland</p>
           <p class="text-5xl font-black">
             {{ totalAmountOfVotes?.totalAmountOfVotes ? formatNumber(totalAmountOfVotes.totalAmountOfVotes) : '' }}</p>
         </section>
