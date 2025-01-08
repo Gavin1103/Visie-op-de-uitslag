@@ -7,14 +7,10 @@ import dev.visie.elections.model.User;
 import dev.visie.elections.repository.ChatMessageRepository;
 import dev.visie.elections.repository.MessageReportRepository;
 import dev.visie.elections.repository.UserRepository;
-import dev.visie.elections.service.models.UserService;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReportService {

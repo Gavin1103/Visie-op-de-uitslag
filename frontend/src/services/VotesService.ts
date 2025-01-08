@@ -11,5 +11,4 @@ export class VotesService {
     async getTotalAmountOfVotes(): Promise<TotalAmountOfVotes> {
         return await this.dbService.get<TotalAmountOfVotes>('election/totalAmountOfVotes');
     }
-
 }

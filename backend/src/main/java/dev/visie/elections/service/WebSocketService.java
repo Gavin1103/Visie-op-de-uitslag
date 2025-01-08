@@ -1,7 +1,6 @@
 package dev.visie.elections.service;
 
 import dev.visie.elections.dto.ChatMessageDTO;
-import dev.visie.elections.service.models.UserService;
 import org.springframework.stereotype.Service;
 import dev.visie.elections.dto.user.UserProfileResponse;
 

@@ -15,7 +15,6 @@ import ReportsView from '@/views/cms/ReportsView.vue'
 import MapView from '@/views/MapView.vue'
 
 const userService = new UserService();
-const isAdmin = await userService.currentUserIsAdmin();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,17 +105,17 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAdmin)) {
+    const isAdmin = await userService.currentUserIsAdmin();
     if (!isAdmin) {
-      next({ name: 'unauthorized' })
+      next({ name: 'unauthorized' });
     } else {
-      next()
+      next();
     }
   } else {
-    next()
+    next();
   }
-})
+});
 
-
-export default router
+export default router;

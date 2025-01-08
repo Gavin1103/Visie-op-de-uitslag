@@ -3,9 +3,9 @@ package dev.visie.elections.controller;
 import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.dto.rating.RatingDTO;
 import dev.visie.elections.service.JwtService;
-import dev.visie.elections.service.models.AnswerRatingService;
-import dev.visie.elections.service.models.CommentRatingService;
-import dev.visie.elections.service.models.TopicRatingService;
+import dev.visie.elections.service.AnswerRatingService;
+import dev.visie.elections.service.CommentRatingService;
+import dev.visie.elections.service.TopicRatingService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +49,6 @@ public class RatingController {
             case COMMENT -> ResponseEntity.ok(commentRatingService.createOrUpdateRating(ratingDTO, userEmail));
         };
     }
-
 
     @GetMapping("/get-amount/{ratingTypeId}/{ratingType}")
     @Operation(summary = "count likes and dislikes of topic, comment or answer")

@@ -1,4 +1,4 @@
-package dev.visie.elections.service.models;
+package dev.visie.elections.service;
 
 import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.dto.topic.CreateTopicDto;
@@ -57,7 +57,6 @@ public class TopicService {
     }
 
     public Page<TopicResponseDto> getTopics(Pageable pageable, String customSort) {
-
         Page<Topic> topics = topicRepository.findAll(pageable);
 
         List<TopicResponseDto> topicDtos = topics.getContent().stream()
@@ -90,10 +89,10 @@ public class TopicService {
 
     public Page<TopicResponseDto> getTopicsByUser(String userEmail, Pageable pageable) {
         User user = userService.getUserByEmail(userEmail);
-        Page<Topic> topics = topicRepository.findByUser(user,pageable);
+        Page<Topic> topics = topicRepository.findByUser(user, pageable);
 
         List<TopicResponseDto> topicDtos = topics.getContent().stream()
-                .map(topic -> modelMapper.map(topic, TopicResponseDto.class))
+                .map(this::mapToDto)
                 .collect(Collectors.toList());
 
         return new PageImpl<>(topicDtos, pageable, topics.getTotalElements());
@@ -109,5 +108,13 @@ public class TopicService {
         dto.setAmountOfAnswers(amountOfAnswers);
 
         return dto;
+    }
+
+    public Boolean existsByTitle(String title) {
+        return topicRepository.existsByMessage(title);
+    }
+
+    public Boolean existsById(Long id) {
+        return topicRepository.existsById(id);
     }
 }
