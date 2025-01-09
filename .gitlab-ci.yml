@@ -39,7 +39,6 @@ deploy-frontend:
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
     - chmod 600 ~/.ssh/id_digitalocean
     - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
-    - apk add --no-cache openssh
   script:
     - scp -r frontend/dist/* root@$DROPLET_IP:/var/www/vue-app/
     - ssh root@$DROPLET_IP 'sudo systemctl restart nginx'
@@ -57,7 +56,6 @@ deploy-backend:
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
     - chmod 600 ~/.ssh/id_digitalocean
     - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
-    - apk add --no-cache openssh
   script:
     - scp backend/build/libs/*.jar root@$DROPLET_IP:/opt/elections/
     - ssh root@$DROPLET_IP 'sudo systemctl restart elections'
