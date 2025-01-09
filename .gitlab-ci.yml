@@ -33,9 +33,10 @@ deploy-frontend:
   image: alpine:latest
   before_script:
     - echo $DROPLET_IP
+    - echo $SSH_PRIVATE_KEY_DIGITALOCEAN
     - apk add --no-cache openssh  # Installeert OpenSSH voor ssh-keyscan
     - mkdir -p ~/.ssh
-    - echo $SSH_PRIVATE_KEY_DIGITALOCEAN > ~/.ssh/id_digitalocean
+    - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
     - chmod 600 ~/.ssh/id_digitalocean
     - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
     - apk add --no-cache openssh
@@ -50,9 +51,10 @@ deploy-backend:
   image: alpine:latest
   before_script:
     - echo $DROPLET_IP
+    - echo $SSH_PRIVATE_KEY_DIGITALOCEAN
     - apk add --no-cache openssh  # Installeert OpenSSH voor ssh-keyscan
     - mkdir -p ~/.ssh
-    - echo $SSH_PRIVATE_KEY_DIGITALOCEAN > ~/.ssh/id_digitalocean
+    - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
     - chmod 600 ~/.ssh/id_digitalocean
     - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
     - apk add --no-cache openssh
