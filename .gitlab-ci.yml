@@ -38,6 +38,7 @@ deploy-frontend:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
     - cat ~/.ssh/id_digitalocean
+    - ssh -i ~/.ssh/id_digitalocean root@$DROPLET_IP echo "SSH connection successful"
     - chmod 600 ~/.ssh/id_digitalocean
     - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
   script:
@@ -56,6 +57,7 @@ deploy-backend:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
     - cat ~/.ssh/id_digitalocean
+    - ssh -i ~/.ssh/id_digitalocean root@$DROPLET_IP echo "SSH connection successful"
     - chmod 600 ~/.ssh/id_digitalocean
     - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
   script:
