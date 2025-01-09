@@ -18,7 +18,7 @@ build-frontend:
 # Backend Build
 build-backend:
   stage: build
-  image: gradle:7.6-jdk17  # Gebruik de juiste Gradle/JDK-versie
+  image: gradle:8.10.1-jdk21
   script:
     - cd backend
     - ./gradlew build
