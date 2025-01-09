@@ -32,6 +32,7 @@ deploy-frontend:
   stage: deploy
   image: alpine:latest
   before_script:
+    - echo $DROPLET_IP
     - apk add --no-cache openssh  # Installeert OpenSSH voor ssh-keyscan
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
@@ -48,6 +49,7 @@ deploy-backend:
   stage: deploy
   image: alpine:latest
   before_script:
+    - echo $DROPLET_IP
     - apk add --no-cache openssh  # Installeert OpenSSH voor ssh-keyscan
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
