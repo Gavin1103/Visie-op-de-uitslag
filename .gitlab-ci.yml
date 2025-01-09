@@ -32,13 +32,15 @@ deploy-frontend:
   stage: deploy
   image: alpine:latest
   before_script:
+    - apk add --no-cache openssh  # Installeert OpenSSH voor ssh-keyscan
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
     - chmod 600 ~/.ssh/id_digitalocean
     - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
     - apk add --no-cache openssh
   script:
-    - scp -r frontend/dist/* root@$DROPLET_IP:/var/www/html/
+    - scp -r frontend/dist/* root@$DROPLET_IP:/var/www/vue-app/
+    - ssh root@$DROPLET_IP 'sudo systemctl restart nginx'
   only:
     - deploy/production
 
@@ -46,13 +48,14 @@ deploy-backend:
   stage: deploy
   image: alpine:latest
   before_script:
+    - apk add --no-cache openssh  # Installeert OpenSSH voor ssh-keyscan
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_digitalocean
     - chmod 600 ~/.ssh/id_digitalocean
     - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
     - apk add --no-cache openssh
   script:
-    - scp backend/build/libs/*.jar root@$DROPLET_IP:/path/to/deploy/
-    - ssh root@$DROPLET_IP 'systemctl restart elections'
+    - scp backend/build/libs/*.jar root@$DROPLET_IP:/opt/elections/
+    - ssh root@$DROPLET_IP 'sudo systemctl restart elections'
   only:
     - deploy/production
