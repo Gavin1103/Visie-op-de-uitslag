@@ -36,7 +36,7 @@ function updateBarChartDisplayInfo(value: string) {
 
 <template>
   <main class="flex justify-center">
-    <div class="w-3/4">
+    <div class="w-3/4 bg-red-600">
       <section class="w-full h-auto flex flex-col items-center">
         <section class="mb-2.5 flex flex-col items-center">
           <p class="mt-4 text-xl font-black">Grootste partij</p>
