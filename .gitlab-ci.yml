@@ -6,6 +6,9 @@ stages:
 build-frontend:
   stage: build
   image: node:18
+  tags:
+    - deploy
+    - digitalocean
   script:
     - cd frontend
     - npm install
