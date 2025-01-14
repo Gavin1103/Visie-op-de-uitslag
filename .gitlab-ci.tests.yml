@@ -1,5 +1,5 @@
 Backend Unit Test:
-  image: openjdk:17-jdk-slim
+  image: openjdk:21-jdk-slim
   stage: test
   before_script:
     - cd backend
