@@ -6,12 +6,13 @@ Backend Unit Test:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./gradlew
   after_script:
-    - kill $(jobs -p) || true
+    - jobs=$(jobs -p)
+    - if [ -n "$jobs" ]; then kill "$jobs"; fi || true
   script:
     - ./gradlew test --no-daemon
   artifacts:
     reports:
-      junit: build/test-results/test/*.xml
+      junit: backend/build/test-results/test/*.xml
     expire_in: 1 hour
   only:
     - merge_requests
