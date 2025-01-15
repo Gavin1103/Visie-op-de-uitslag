@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class TopicService {
-
     private final TopicRepository topicRepository;
     private final ModelMapper modelMapper;
     private final UserService userService;
