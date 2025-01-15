@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -16,7 +17,7 @@ public class ReportDTO {
     private String reason;
     private Long messageId;
     private String message;
-    private Date createdAt;
+    private LocalDateTime createdAt;
     private String reporterEmail;
     private String reportedEmail;
 }
