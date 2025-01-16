@@ -4,7 +4,6 @@ export class GetTopic {
   id: number;
   statement: string;
   createdAt: Date;
-  user: User;
 
   constructor(id: number, statement: string, createdAt: Date) {
     this.id = id;
