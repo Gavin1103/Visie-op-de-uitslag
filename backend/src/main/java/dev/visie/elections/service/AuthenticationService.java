@@ -120,8 +120,6 @@ public class AuthenticationService {
         userRole.setName(roleEnum);
         userRole.setUser(user);
         user.setRoles(new HashSet<>(Set.of(userRole)));
-        user.setCreatedAt(new Date());
-        user.setUpdatedAt(new Date());
 
         User savedUser = userRepository.save(user);
 

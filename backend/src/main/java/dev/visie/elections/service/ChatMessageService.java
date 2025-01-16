@@ -42,7 +42,6 @@ public class ChatMessageService {
         }
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setMessage(chatMessageDTO.getMessage());
-        chatMessage.setCreatedAt(chatMessageDTO.getTimestamp());
         chatMessage.setTopic(topic);
         chatMessage.setUser(user);
         chatMessageRepository.save(chatMessage);
@@ -66,7 +65,6 @@ public class ChatMessageService {
         User reportedUser = userRepository.getUserById(createReportDTO.getReportedId());
 
         MessageReport report = new MessageReport();
-        report.setCreatedAt(new Date());
         report.setHandled(false);
         report.setReason(createReportDTO.getReason());
         report.setMessage(chatMessage);
