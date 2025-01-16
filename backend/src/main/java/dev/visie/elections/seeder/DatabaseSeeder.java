@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Order(0)
-@Profile({"local", "dev", "prod"})
+@Profile({"local", "dev", "prod", "gavin"})
 public class DatabaseSeeder implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
