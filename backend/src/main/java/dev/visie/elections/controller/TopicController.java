@@ -1,6 +1,7 @@
 package dev.visie.elections.controller;
 
 import dev.visie.elections.dto.topic.CreateTopicDto;
+import dev.visie.elections.dto.topic.GetTopicDto;
 import dev.visie.elections.dto.topic.TopicResponseDto;
 import dev.visie.elections.model.Topic;
 import dev.visie.elections.service.JwtService;
@@ -61,9 +62,9 @@ public class TopicController {
             @ApiResponse(responseCode = "404", description = "Topic not found"),
             @ApiResponse(responseCode = "500", description = "An unexpected error occurred")
     })
-    public ResponseEntity<Topic> getTopicById(@PathVariable Long id) {
-        Topic topic = topicService.getTopicById(id);
-        return new ResponseEntity<>(topic, HttpStatus.OK);
+    public ResponseEntity<GetTopicDto> getTopicById(@PathVariable Long id) {
+        GetTopicDto topicDto = topicService.getTopicByDtoId(id);
+        return new ResponseEntity<>(topicDto, HttpStatus.OK);
     }
 
     @GetMapping("/search/{statement}")

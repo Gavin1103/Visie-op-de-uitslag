@@ -5,6 +5,7 @@ import dev.visie.elections.model.Topic;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -18,9 +19,9 @@ public class TopicResponseDto {
 
     private String username;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     private AmountOfRatingsDTO amountOfRatings;
 

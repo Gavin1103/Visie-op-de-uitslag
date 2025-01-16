@@ -78,8 +78,6 @@ public class UserService {
             user.setRoles(existingUser.getRoles());
         }
 
-        user.setCreatedAt(existingUser.getCreatedAt());
-        user.setUpdatedAt(new Date());
         user.setEnabled(userDto.isEnabled());
         user.setId(existingUser.getId());
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);

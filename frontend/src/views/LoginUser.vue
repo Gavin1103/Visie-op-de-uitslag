@@ -75,16 +75,16 @@ const onSubmit = async () => {
 
     <form class="create-form" @submit.prevent="onSubmit">
       <IftaLabel>
-        <InputText id="Email" class="w-full" v-model="email" variant="filled" required />
+        <InputText data-cy="loginEmailInput" id="Email" class="w-full" v-model="email" variant="filled" required />
         <label for="Email">Email</label>
       </IftaLabel>
 
       <IftaLabel>
-        <Password id="password" class="w-full" :feedback="false" v-model="password" variant="filled" required />
+        <Password data-cy="loginPasswordInput" id="password" class="w-full" :feedback="false" v-model="password" variant="filled" required />
         <label for="password">Password</label>
       </IftaLabel>
 
-      <Button label="Login" icon="pi pi-user" :loading="loading" type="submit" class="p-mt-3" />
+      <Button data-cy="loginSubmit" label="Login" icon="pi pi-user" :loading="loading" type="submit" class="p-mt-3" />
       </form>
   </div>
 </template>

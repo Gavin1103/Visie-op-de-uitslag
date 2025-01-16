@@ -2,6 +2,7 @@ package dev.visie.elections.service;
 
 import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.dto.topic.CreateTopicDto;
+import dev.visie.elections.dto.topic.GetTopicDto;
 import dev.visie.elections.dto.topic.TopicResponseDto;
 import dev.visie.elections.model.Topic;
 import dev.visie.elections.model.User;
@@ -22,7 +23,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class TopicService {
-
     private final TopicRepository topicRepository;
     private final ModelMapper modelMapper;
     private final UserService userService;
@@ -39,13 +39,19 @@ public class TopicService {
     }
 
     public Topic getTopicById(Long id) {
-        return topicRepository.findById(id).orElse(null);
+        Topic topic = topicRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Topic not found"));
+        return topic;
+    }
+
+    public GetTopicDto getTopicByDtoId(Long id) {
+        Topic topic = topicRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Topic not found"));
+        GetTopicDto topicDto = modelMapper.map(topic, GetTopicDto.class);
+        topicDto.setUsername(topic.getUser().getUsername());
+        return topicDto;
     }
 
     public ResponseEntity<Topic> createTopic(CreateTopicDto createTopicDto, String userEmail) {
         Topic topic = modelMapper.map(createTopicDto, Topic.class);
-        topic.setCreatedAt(new Date());
-        topic.setUpdatedAt(new Date());
 
         User user = userService.getUserByEmail(userEmail);
 

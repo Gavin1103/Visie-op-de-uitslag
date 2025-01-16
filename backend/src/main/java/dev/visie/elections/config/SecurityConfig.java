@@ -34,6 +34,7 @@ public class SecurityConfig {
             "/swagger/**",
             "/swagger-ui.html",
             "/topic/**",
+            "/answer/topic/**",
             "/ws",
             "/chat/topic/*",
             "/rating/**",
