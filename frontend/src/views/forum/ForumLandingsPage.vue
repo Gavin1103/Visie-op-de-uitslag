@@ -23,6 +23,7 @@ const isDialogVisible = ref(false)
 const newTopicContent = ref('')
 const newStatement = ref('')
 const searchQuery = ref('')
+
 enum SortOptions {
   newest = "createdAt,desc",
   oldest = "createdAt,asc",
@@ -168,19 +169,19 @@ const submitNewTopic = async () => {
 
 </script>
 <template>
-  <section class="container mx-auto w-3/5 min-h-[400px]">
+  <section class="container mx-auto md:w-3/4 xl:w-3/5 min-h-[400px]">
     <h1 class="text-3xl font-bold my-6">Topics</h1>
-    <section class="py-1 w-full flex justify-between mb-4">
+    <section class="search-container py-1 w-full flex justify-between mb-4">
       <input
           v-model="searchQuery"
           @input="searchTopic"
-          class="w-1/2 mr-2.5 px-4 py-2 text-lg border border-gray-300 rounded focus:outline-none focus:border-blue-600 transition-colors"
+          class="search-input w-1/2 mr-2.5 px-4 py-2 text-lg border border-gray-300 rounded focus:outline-none focus:border-blue-600 transition-colors"
           type="text"
           placeholder="zoeken..."
       />
       <select
           v-model="sort"
-          class="mr-auto px-2 text-sm font-bold text-white bg-[#5564c8] rounded shadow hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all">
+          class="select-filter mr-auto px-2 text-sm font-bold text-white bg-[#5564c8] rounded shadow hover:bg-gray-200 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all">
         <option v-for="key in Object.keys(SortOptions) as (keyof typeof SortOptions)[]" :key="key"
                 :value="SortOptions[key]">
           {{ key }}
@@ -188,7 +189,7 @@ const submitNewTopic = async () => {
       </select>
       <button
           @click="openDialog"
-          class="px-5 py-2 text-lg font-bold text-white bg-[#5564c8] rounded cursor-pointer hover:bg-blue-700 transition-colors">
+          class="create-topic-btn px-5 py-2 text-lg font-bold text-white bg-[#5564c8] rounded cursor-pointer hover:bg-blue-700 transition-colors">
         Topic +
       </button>
     </section>
@@ -198,7 +199,7 @@ const submitNewTopic = async () => {
         <p>No topics found.</p>
       </div>
       <div v-else v-for="(topic) in topics" :key="topic.id"
-           class="w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
+           class="topic-container w-full pl-4 bg-gray-200 rounded-lg flex justify-between h-28">
         <div class="left-container w-7/12 flex flex-col justify-center">
           <router-link :to="{ name: 'TopicDetail', params: { id: topic.id } }" v-html="topic.statement"></router-link>
           <RatingComponent
@@ -208,13 +209,23 @@ const submitNewTopic = async () => {
           <p class="mr-2"><small>Created at: {{ formatDate(topic.createdAt) }}</small></p>
           <p><small><strong>Antwoorden: {{ topic.amountOfAnswers }}</strong></small></p>
         </div>
-        <div class="ml-2 h-full w-4/12 bg-[#5564c8] flex flex-col justify-center items-center">
+
+        <div class="live-chat-icon-mobile hidden">
+          <img
+              @click="joinLiveChat(topic)"
+              class="mobile-chat-icon"
+              src="../../../public/live-chat-icon.png"
+              alt="profile-img-mobile"
+          />
+        </div>
+
+        <div class="user-info-container ml-2 h-full w-4/12 bg-[#5564c8] flex flex-col justify-center items-center">
           <img class="w-16 h-16 rounded-full object-cover shadow-lg" src="../../../public/no-proflile-img.png"
                alt="profile-img"/>
-          <p><strong>Username: {{ topic.username }}</strong></p>
+          <p><strong>{{ topic.username }}</strong></p>
         </div>
         <div @click="joinLiveChat(topic)"
-             class="h-full w-1/6 flex flex-col justify-center items-center hover:cursor-pointer">
+             class="live-chat-icon-container h-full w-1/6 flex flex-col justify-center items-center hover:cursor-pointer">
           <img
               class="w-16 h-16 object-cover"
               src="../../../public/live-chat-icon.png"
@@ -257,3 +268,58 @@ const submitNewTopic = async () => {
     </div>
   </section>
 </template>
+
+
+<style>
+@media (max-width: 700px) {
+  .container {
+    width: 95%;
+  }
+
+  .live-chat-icon-container {
+    display: none;
+  }
+
+  .user-info-container {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    margin: 0;
+  }
+
+  .live-chat-icon-mobile {
+    height: 100%;
+    width: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    .mobile-chat-icon {
+      margin: 0 5px 5px 0;
+      height: 50px;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .search-container{
+    flex-direction: column;
+    justify-content: space-around  ;
+    height: 200px;
+
+    .search-input{
+      width:100%;
+    }
+
+    .create-topic-btn{
+      width: 100%;
+    }
+
+    .select-filter{
+      width: 100%;
+      height: 50px;
+    }
+  }
+}
+
+
+</style>
