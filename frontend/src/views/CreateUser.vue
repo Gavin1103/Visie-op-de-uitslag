@@ -133,7 +133,7 @@ const onSubmit = async () => {
         <label for="confirmPassword">Confirm Password</label>
       </IftaLabel>
 
-      <Button label="Create User" icon="pi pi-user" :loading="loading" type="submit" class="p-mt-3" />
+      <Button data-cy="registerButton" label="Create User" icon="pi pi-user" :loading="loading" type="submit" class="p-mt-3" />
     </form>
   </div>
 </template>
