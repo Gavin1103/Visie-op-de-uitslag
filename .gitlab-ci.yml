@@ -1,11 +1,12 @@
 stages:
   - build
+  - test
   - deploy
 
 include:
   - ".gitlab-ci.tests.yml"
   - ".gitlab-ci.sonarqube.yml"
-# Frontend Build
+
 build-frontend:
   stage: build
   image: node:18
