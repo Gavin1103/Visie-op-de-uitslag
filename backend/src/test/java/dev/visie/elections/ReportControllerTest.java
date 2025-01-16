@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -59,7 +60,7 @@ public class ReportControllerTest {
         sampleReport.setReason("Spam");
         sampleReport.setMessageId(1L);
         sampleReport.setMessage("This is a spam message");
-        sampleReport.setCreatedAt(new Date());
+        sampleReport.setCreatedAt(LocalDateTime.now());
         sampleReport.setReporterEmail("reporter@example.com");
         sampleReport.setReportedEmail("reported@example.com");
 
