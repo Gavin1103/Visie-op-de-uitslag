@@ -20,9 +20,8 @@ build-frontend:
   artifacts:
     paths:
       - frontend/dist/
-    expire_in: 1 week  # Artefacten blijven een week beschikbaar
+    expire_in: 1 week
 
-# Backend Build
 build-backend:
   stage: build
   tags:
@@ -37,6 +36,17 @@ build-backend:
       - backend/build/libs/
     expire_in: 1 week
 
+# Backend Unit Test
+backend-unit-test:
+  stage: test
+  tags:
+    - deploy
+    - digitalocean
+  image: gradle:8.10.1-jdk21
+  script:
+    - cd backend
+    - ./gradlew test
+
 # Deployment
 deploy-frontend:
   stage: deploy
@@ -45,7 +55,7 @@ deploy-frontend:
     - digitalocean
   image: alpine:latest
   before_script:
-    - apk add --no-cache openssh  # Installeer OpenSSH
+    - apk add --no-cache openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
@@ -63,14 +73,13 @@ deploy-backend:
     - digitalocean
   image: alpine:latest
   before_script:
-    - apk add --no-cache openssh  # Installeer OpenSSH
+    - apk add --no-cache openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
   script:
     - scp backend/build/libs/*.jar $SERVER_USER@$DROPLET_IP:/opt/elections/
     - ssh $SERVER_USER@$DROPLET_IP 'sudo systemctl restart elections'
   only:
     - deploy/production
-
-
