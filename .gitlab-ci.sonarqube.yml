@@ -4,12 +4,9 @@ sonarqube-analysis:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   script:
-    - sonar-scanner \
-      -Dsonar.projectKey=Aaron2404_semster-3 \
-      -Dsonar.organization=aaron2404 \
-      -Dsonar.sources=src \
-      -Dsonar.host.url=$SONAR_HOST_URL \
-      -Dsonar.login=$SONAR_TOKEN
+    - sonar-scanner
+  variables:
+    SONAR_TOKEN: $SONAR_TOKEN
   only:
     - main
     - merge_requests
