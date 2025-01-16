@@ -133,7 +133,7 @@ const onSubmit = async () => {
         <label for="confirmPassword">Confirm Password</label>
       </IftaLabel>
 
-      <Button label="Create User" icon="pi pi-user" :loading="loading" type="submit" class="p-mt-3" />
+      <Button data-cy="registerButton" label="Create User" icon="pi pi-user" :loading="loading" type="submit" class="p-mt-3" />
     </form>
   </div>
 </template>
@@ -143,7 +143,8 @@ const onSubmit = async () => {
 .create-user {
   max-width: 350px;
   margin: 10% auto;
-  border: solid 1px rgb(22 31 64);
+  border: solid 1px rgb(22 31 64)
+;
   border-radius: 25px;
   padding: 1.5rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

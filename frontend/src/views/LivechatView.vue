@@ -91,7 +91,7 @@ onMounted(async () => {
 <template>
   <div class="bg-white shadow-xl rounded-lg p-4 max-w-2xl w-full h-full flex flex-col mx-auto">
     <div>
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Live chat: {{ topic?.statement }}</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Live chat: <span v-html="topic?.statement"></span></h2>
       <div class="m-3"><i class="pi pi-eye" style="color: blue"></i> {{activeUsers}}</div>
     </div>
     <div ref="messagesContainer"

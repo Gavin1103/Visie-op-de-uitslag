@@ -63,4 +63,8 @@ public class ReportService {
         messageReportRepository.save(messageReport);
         return ResponseEntity.ok(messageReport);
     }
+
+    public void deleteReport(ReportDTO reportDTO) {
+        messageReportRepository.deleteById(reportDTO.getId());
+    }
 }
