@@ -2,9 +2,15 @@
   <section class="container mx-auto w-3/5 min-h-[400px] py-8">
     <Card>
       <template #title>
+      <div class="flex items-center justify-between">
         <h1 class="text-4xl font-bold" v-html="topicTitle"></h1>
-        <hr class="my-4 border-t-2 border-gray-300" />
-      </template>
+        <button @click="joinLiveChat"
+          class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none">
+          join chat
+        </button>
+      </div>
+      <hr class="my-4 border-t-2 border-gray-300" />
+    </template>
       <template #content>
         <div class="text-lg mb-4 topic-content" v-html="topicContent"></div>
         <div class="flex justify-between mt-4">
@@ -64,6 +70,11 @@
         </div>
       </div>
     </section>
+    <div v-if="isChatModalVisible" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl h-5/6 overflow-y-auto relative">
+        <LivechatView :topic="selectedTopic" @close="closeChatModal"/>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -79,6 +90,8 @@ import { TopicService } from '@/services/TopicService'
 import { CookieService } from '@/services/CookieService'
 import { AnswerService } from '@/services/AnswerService'
 import { CreateAnswerDto } from '@/models/answer/CreateAnswerDto'
+import LivechatView from '@/views/LivechatView.vue'
+import { dummytopicResponse } from '@/stores/EmptyCandidateList'
 const topicService = new TopicService()
 const answerService = new AnswerService()
 const cookieService = new CookieService()
@@ -91,6 +104,9 @@ const responses = ref<Array<{ id: number; username: string; message: string; cre
 const newResponse = ref('')
 const isUserLoggedIn = ref<boolean | null>(null)
 
+const isChatModalVisible = ref(false)
+const selectedTopic = ref<TopicResponse>(dummytopicResponse)
+
 onBeforeMount(async () => {
   isUserLoggedIn.value = cookieService.tokenExists()
 })
@@ -101,6 +117,17 @@ const loadTopic = async () => {
     topic.value = await topicService.getTopicById(topicId)
     responses.value = await answerService.getAnswersByTopicId(topicId)
   }
+}
+
+const joinLiveChat = () => {
+  console.log(topic);
+  selectedTopic.value = topic.value
+  isChatModalVisible.value = true
+}
+
+const closeChatModal = () => {
+  isChatModalVisible.value = false
+  selectedTopic.value = dummytopicResponse
 }
 
 const addResponse = async () => {
