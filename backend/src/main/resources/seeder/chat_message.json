@@ -1,0 +1,10 @@
+[
+  {
+  "id": 1,
+  "userId": 1,
+  "chatId": 1,
+  "name": "Alice",
+  "message": "Hello, everyone!",
+  "timestamp": "2025-01-13T15:30:00.000Z"
+  }
+]

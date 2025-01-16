@@ -2,6 +2,9 @@ stages:
   - build
   - deploy
 
+include:
+  - ".gitlab-ci.tests.yml"
+  - ".gitlab-ci.sonarqube.yml"
 # Frontend Build
 build-frontend:
   stage: build
@@ -63,7 +66,6 @@ deploy-backend:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY_DIGITALOCEAN" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan -H $DROPLET_IP >> ~/.ssh/known_hosts
   script:
     - scp backend/build/libs/*.jar $SERVER_USER@$DROPLET_IP:/opt/elections/
     - ssh $SERVER_USER@$DROPLET_IP 'sudo systemctl restart elections'

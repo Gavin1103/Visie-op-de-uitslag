@@ -1,3 +1,5 @@
+import type { User } from '@/models/user/User'
+
 export class GetTopic {
   id: number;
   statement: string;

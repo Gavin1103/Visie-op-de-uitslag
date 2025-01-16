@@ -1,0 +1,12 @@
+sonarqube-analysis:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  script:
+    - sonar-scanner
+  variables:
+    SONAR_TOKEN: $SONAR_TOKEN
+  only:
+    - main
+    - merge_requests

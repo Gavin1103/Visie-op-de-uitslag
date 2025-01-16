@@ -1,4 +1,5 @@
 package dev.visie.elections.dto;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import dev.visie.elections.model.enums.MessageTypeEnum;
@@ -14,11 +15,11 @@ public class ChatMessageDTO {
     private Long chatId;
     private String name;
     private String message;
-    private Date timestamp;
+    private LocalDateTime timestamp;
     private int activeUsers;
     private MessageTypeEnum type;
 
-    public ChatMessageDTO(Long id, Long userId, Long chatId, String name,  String message, Date timestamp) {
+    public ChatMessageDTO(Long id, Long userId, Long chatId, String name,  String message, LocalDateTime timestamp) {
         this.id = id;
         this.userId = userId;
         this.chatId = chatId;

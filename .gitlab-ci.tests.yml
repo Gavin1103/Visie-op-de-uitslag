@@ -1,0 +1,23 @@
+Backend Unit Test:
+  image: openjdk:21-jdk-slim
+  stage: test
+  before_script:
+    - cd backend
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./gradlew
+  after_script:
+    - jobs=$(jobs -p)
+    - if [ -n "$jobs" ]; then kill "$jobs"; fi || true
+  script:
+    - ./gradlew test --no-daemon
+  artifacts:
+    reports:
+      junit: backend/build/test-results/test/*.xml
+    expire_in: 1 hour
+  only:
+    - merge_requests
+    - branches
+  except:
+    - main
+  tags:
+    - hva
