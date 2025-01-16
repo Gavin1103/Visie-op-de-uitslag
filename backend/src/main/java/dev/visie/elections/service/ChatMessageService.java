@@ -71,6 +71,14 @@ public class ChatMessageService {
         report.setReporter(reporter);
         report.setReportedUser(reportedUser);
         messageReportRepository.save(report);
+        
         return ResponseEntity.ok(report);
     }
+
+    public boolean chatMessageExists(Long id) {
+        ChatMessage chatMessage = chatMessageRepository.findById(id).orElse(null);
+        return chatMessage != null;
+    }
+
+
 }
