@@ -120,9 +120,10 @@ const loadTopic = async () => {
 }
 
 const joinLiveChat = () => {
-  console.log(topic);
-  selectedTopic.value = topic.value
-  isChatModalVisible.value = true
+  if (topic.value) {
+    selectedTopic.value = topic.value
+    isChatModalVisible.value = true
+  }
 }
 
 const closeChatModal = () => {
@@ -143,7 +144,6 @@ const addResponse = async () => {
 
 const deleteResponse = async (responseId: number) => {
   const topicId = parseInt(route.params.id as string, 10)
-  await answerService.deleteAnswer(responseId)
   responses.value = responses.value.filter((r) => r.id !== responseId)
 }
 
