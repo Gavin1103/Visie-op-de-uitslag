@@ -14,6 +14,7 @@ import {debounce} from 'lodash';
 import {dummytopicResponse} from '@/stores/EmptyCandidateList'
 import RatingComponent from "@/components/forum/RatingComponent.vue";
 import {RatingTypeEnum} from "@/models/enum/rating/RatingTypeEnum";
+import router from "@/router";
 
 const topicService = new TopicService()
 const cookieService = new CookieService()
@@ -144,28 +145,39 @@ const validateForm = async () => {
 
 const submitNewTopic = async () => {
   if (await validateForm()) {
-    return
+    return;
   }
 
   try {
     const data: CreateTopic = {
       statement: newStatement.value,
-      message: newTopicContent.value
+      message: newTopicContent.value,
+    };
+    const createdTopic = await topicService.createTopic(data);
+    if (createdTopic?.id) {
+      toast.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: `Your topic was created successfully!`,
+        life: 5000,
+      });
+      router.push({
+        name: 'TopicDetail',
+        params: { id: createdTopic.id },
+      });
+    } else {
+      throw new Error('Failed to retrieve the topic ID.');
     }
-    await topicService.createTopic(data)
   } catch (error) {
+    console.error('Error creating topic:', error);
     toast.add({
       severity: 'error',
       summary: 'Error',
       detail: 'Failed to create topic. Please try again.',
-      life: 3000
-    })
-  } finally {
-    closeDialog()
-    await fetchData()
-    toast.add({severity: 'success', summary: 'Success', detail: 'Your topic was created successfully!', life: 3000})
+      life: 3000,
+    });
   }
-}
+};
 
 </script>
 <template>
