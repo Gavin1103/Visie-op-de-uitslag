@@ -6,6 +6,7 @@ Outcome 9.4 productquality, UX-UI
 - Nice feedback (the info messages)
 - Directly send user to the topic after creating topic
 - Improve responsiveness
+- Add a loading image when the data is still loading on the homepage
 
 Outcome 9.5, 9.6 Organization
 
