@@ -2,7 +2,7 @@
 import {ref, onMounted, watch} from 'vue';
 import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale} from 'chart.js';
 import {Bar} from 'vue-chartjs';
-import type { ChartEvent, ActiveElement } from 'chart.js';
+import type {ChartEvent, ActiveElement} from 'chart.js';
 import type {PartyWithVotes} from "@/models/Party";
 import {PartyService} from "@/services/PartyService";
 
@@ -18,6 +18,7 @@ const props = defineProps({
 const partyService = new PartyService();
 const partiesWithVotes = ref<PartyWithVotes[]>([]);
 const chartData = ref<any>(null);
+const isLoading = ref(false); // Add a loading state
 
 const chartOptions = ref({
   responsive: true,
@@ -94,7 +95,7 @@ const updateChartData = () => {
         suggestedMax: suggestedMax,
       },
     },
-  }
+  };
 
   chartData.value = {
     labels: partiesWithVotes.value.map(party => party.name),
@@ -113,8 +114,13 @@ const updateChartData = () => {
 };
 
 const fetchData = async () => {
-  partiesWithVotes.value = await partyService.getPartiesWithVotes();
-  updateChartData();
+  isLoading.value = true;
+  try {
+    partiesWithVotes.value = await partyService.getPartiesWithVotes();
+    updateChartData();
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 watch(() => props.chartType, () => {
@@ -129,9 +135,17 @@ onMounted(() => {
 <template>
   <section class="w-full flex justify-center">
     <div class="w-full overflow-x-auto">
-      <div :style="{ width: partiesWithVotes.length * 100 + 'px', height: '700px' }">
+      <div v-if="isLoading" class="flex items-center justify-center h-64">
+        <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 000 8h4a8 8 0 01-8 8v-4a4 4 0 000-8H4z"></path>
+        </svg>
+      </div>
+      <div v-else :style="{ width: partiesWithVotes.length * 100 + 'px', height: '700px' }">
         <Bar v-if="chartData" :data="chartData" :options="chartOptions"/>
-        <p v-else></p>
+        <p v-else>No data available</p>
       </div>
     </div>
   </section>
