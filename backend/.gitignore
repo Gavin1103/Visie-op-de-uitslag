@@ -82,6 +82,9 @@ out/
 ######################
 .gradle/
 /build/
+!/build/classes/
+!/build/classes/java/
+!/build/classes/java/main/
 
 ######################
 # Package Files
