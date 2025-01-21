@@ -4,7 +4,7 @@ site_description: Documentatie voor ons project
 theme:
   name: material
 
-docs_dir: docs
+docs_dir: documentation
 
 site_dir: public
 
