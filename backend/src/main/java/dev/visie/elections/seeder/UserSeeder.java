@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @Order(1)
-@Profile({"local", "dev", "prod"})
+@Profile({"local", "dev", "prod", "gavin"})
 public class UserSeeder implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(UserSeeder.class);

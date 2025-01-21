@@ -2,7 +2,9 @@ package dev.visie.elections.dto.topic;
 
 import dev.visie.elections.dto.rating.AmountOfRatingsDTO;
 import dev.visie.elections.model.Topic;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -10,6 +12,8 @@ import java.util.Date;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TopicResponseDto {
     private Long id;
 

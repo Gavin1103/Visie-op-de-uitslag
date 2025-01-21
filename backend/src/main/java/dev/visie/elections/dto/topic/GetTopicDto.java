@@ -1,6 +1,7 @@
 package dev.visie.elections.dto.topic;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class GetTopicDto {
     private String statement;
 
