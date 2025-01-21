@@ -5,13 +5,10 @@ theme:
   name: material
 
 docs_dir: documentation
-
 site_dir: public
 
-nav:
-  - Home: index.md
-  - Guide: guide.md
-  - Contributing: contributing.md
-
 plugins:
-  - search  # Enables a search bar on your site
+  - search
+  - autolinks
+
+nav: []
