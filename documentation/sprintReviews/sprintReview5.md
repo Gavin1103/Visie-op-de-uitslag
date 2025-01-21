@@ -1,24 +1,26 @@
-### Feedback per learning outcome (sprint 5):
+**Sprint Review Feedback – Sprint 5**  
+**Date:** 08-01-2025  
+**Attendees:** Aaron, Jasper, Gavin, Esa  
+**Reviewer:** Maarten Post
 
-Outcome 9.4 productquality, UX-UI
+### Feedback per Learning Outcome:
 
-- I like the map, it is exactly what I want as a user.
-- Nice feedback (the info messages)
-- Directly send user to the topic after creating topic
-- Improve responsiveness
+**Outcome 9.4 – Product Quality, UX-UI:**
+- The map is exactly what I want as a user—great job!
+- The feedback messages (info messages) are very clear and helpful.
+- Good idea to directly send users to the topic after creating one.
+- Improve the responsiveness of the website.
 
-Outcome 9.5, 9.6 Organization
+**Outcome 9.5, 9.6 – Organization:**
+- Excellent sprint planning.
+- Great use of merge requests.
+- Effective application of the Gitflow workflow.
 
-- Good sprintplanning
-- Good use of merge request
-- Good use of the gitflow
+**Outcome 9.5, 9.7 – Future-Oriented Organizing:**
+- It’s impressive that users can be blocked or deactivated.
 
-Outcome 9.5, 9.7 Future-oriented organizing
+**Outcome 9.8 – Deployment:**
+- Great that the website has been deployed.
 
-- I like that you can block or deactivate a user
-
-Outcome 9.8 deployment
-
-- Good that you guys have deployed the website.
-
-Wij gaan als team de feedback die wij hebben gekregen analyseren en kijken hoe wat dat kunnen toepassen in ons product.
+### Next Steps:
+As a team, we will analyze the feedback we received and determine how to apply it to improve our product.
