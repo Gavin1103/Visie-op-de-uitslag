@@ -6,3 +6,4 @@ stages:
 include:
   - ".gitlab-ci.tests.yml"
   - ".gitlab-ci.sonarqube.yml"
+  - ".gitlab-ci.mkdocs.yml"

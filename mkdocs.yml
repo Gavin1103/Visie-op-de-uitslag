@@ -1,0 +1,13 @@
+site_name: Visie op de uitslag
+site_description: Documentatie voor ons project
+
+theme:
+  name: material
+
+docs_dir: documentation
+site_dir: public
+
+plugins:
+  - search
+
+nav: []
