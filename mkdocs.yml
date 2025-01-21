@@ -9,6 +9,5 @@ site_dir: public
 
 plugins:
   - search
-  - autolinks
 
 nav: []
