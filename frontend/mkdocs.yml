@@ -1,0 +1,17 @@
+site_name: Visie op de uitslag
+site_description: Documentatie voor ons project
+
+theme:
+  name: material
+
+docs_dir: docs
+
+site_dir: public
+
+nav:
+  - Home: index.md
+  - Guide: guide.md
+  - Contributing: contributing.md
+
+plugins:
+  - search  # Enables a search bar on your site
