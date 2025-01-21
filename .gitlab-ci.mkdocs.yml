@@ -1,0 +1,11 @@
+pages:
+  stage: deploy
+  image: python:3.9-slim
+  script:
+    - pip install mkdocs mkdocs-material
+    - mkdocs build --clean --site-dir public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main

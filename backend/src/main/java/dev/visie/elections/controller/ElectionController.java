@@ -101,6 +101,4 @@ public class ElectionController {
 
         return ResponseEntity.ok(winners);
     }
-
-
 }
