@@ -49,7 +49,7 @@ export default {
     <p class="votes text-xl text-gray-700">Partij</p>
     <h1 class="party-name text-5xl font-bold mb-4">{{ party?.name }}</h1>
     <section class="w-80 h-72 flex items-center justify-center">
-      <img :src="`../../public/partyLogos/${party.logo}.png`" alt="Party Logo" class="party-logo" />
+      <img :src="`/partyLogos/${party.logo}.png`" :alt="`Party-logo-${party.logo}`" class="party-logo" />
     </section>
     <p class="votes text-xl text-gray-700">Aantal stemmen:</p>
 

@@ -13,13 +13,11 @@ const partyService = new PartyService();
 const votesService = new VotesService();
 const electedParty = ref<PartyWithVotes | null>(null);
 const totalAmountOfVotes = ref<TotalAmountOfVotes | null>(null);
-const partiesWithVotes = ref<PartyWithVotes[]>([]);
 
 const fetchData = async () => {
   try {
     electedParty.value = await partyService.getElectedParty();
     totalAmountOfVotes.value = await votesService.getTotalAmountOfVotes();
-    partiesWithVotes.value = await partyService.getPartiesWithVotes();
   } catch (error) {
     console.error("Error fetching data:", error);
   }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @Order(2)
-@Profile({"local", "dev", "prod"})
+@Profile({"local", "dev", "prod", "gavin"})
 public class PartyLogoSeeder implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(PartyLogoSeeder.class);
