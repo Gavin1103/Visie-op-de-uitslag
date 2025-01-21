@@ -1,2 +1,9 @@
-# The Docker image that will be used to build your app
-image: python:3.9
+stages:
+  - build
+  - test
+  - deploy
+
+include:
+  - ".gitlab-ci.tests.yml"
+  - ".gitlab-ci.sonarqube.yml"
+  - ".gitlab-ci.mkdocs.yml"
