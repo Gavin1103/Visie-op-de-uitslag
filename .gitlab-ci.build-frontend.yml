@@ -1,0 +1,14 @@
+build-frontend:
+  stage: build
+  image: node:18
+  tags:
+    - deploy
+    - digitalocean
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/
+    expire_in: 1 week

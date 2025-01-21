@@ -1,0 +1,13 @@
+build-backend:
+  stage: build
+  tags:
+    - deploy
+    - digitalocean
+  image: gradle:8.10.1-jdk21
+  script:
+    - cd backend
+    - ./gradlew build
+  artifacts:
+    paths:
+      - backend/build/libs/
+    expire_in: 1 week
