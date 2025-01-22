@@ -5,14 +5,14 @@ create_pr:
     GITHUB_API_URL: "https://api.github.com/repos/$GITHUB_REPO"
   script:
     - echo "Creating GitHub pull request for $GITHUB_REPO..."
-    - >
+    - |
       PR_RESPONSE=$(curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
            -H "Content-Type: application/json" \
            -d '{
-             "title": "'$CI_MERGE_REQUEST_TITLE'",
-             "body": "This PR mirrors GitLab MR #'$CI_MERGE_REQUEST_IID' from '$CI_PROJECT_URL'/-/merge_requests/'$CI_MERGE_REQUEST_IID'",
-             "head": "'$CI_COMMIT_REF_NAME'",
-             "base": "'$CI_MERGE_REQUEST_TARGET_BRANCH_NAME'"
+             "title": "'"$CI_MERGE_REQUEST_TITLE"'",
+             "body": "This PR mirrors GitLab MR #'"$CI_MERGE_REQUEST_IID"' from '"$CI_PROJECT_URL"'/-/merge_requests/'"$CI_MERGE_REQUEST_IID"'",
+             "head": "'"$CI_COMMIT_REF_NAME"'",
+             "base": "'"$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"'"
            }' \
            $GITHUB_API_URL/pulls)
     - export GITHUB_PR_NUMBER=$(echo "$PR_RESPONSE" | jq -r '.number')
