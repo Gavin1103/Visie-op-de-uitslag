@@ -1,6 +1,6 @@
 run_cypress_tests:
   stage: test
-  image: cypress/browsers:22.12.0
+  image: cypress/browsers:22.12.0-alpine
   services:
     - name: docker:dind
       alias: docker
@@ -8,10 +8,7 @@ run_cypress_tests:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   before_script:
-    - curl -sSL https://get.docker.com/ | sh
-    - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    - chmod +x /usr/local/bin/docker-compose
-    - apt-get update && apt-get install -y nodejs npm
+    - apk add --no-cache docker-compose nodejs npm
     - docker-compose up -d
     - cd frontend
     - npm i
