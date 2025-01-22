@@ -12,7 +12,7 @@ run_cypress_tests:
   script:
     - npm i
     - npm run build
-    - npx cypress run --config video=false
+    - npx cypress run
   after_script:
     - docker-compose down
   artifacts:
