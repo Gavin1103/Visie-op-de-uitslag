@@ -1,6 +1,6 @@
 run_cypress_tests:
   stage: test
-  image: docker:latest
+  image: cypress/browsers:22.12.0
   services:
     - name: docker:dind
       alias: docker
@@ -8,25 +8,12 @@ run_cypress_tests:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   before_script:
-    - apk add --no-cache \
-      docker-compose \
-      nodejs \
-      npm \
-      xvfb-run \
-      libxtst \
-      libxss \
-      alsa-lib \
-      nss \
-      dbus \
-      ttf-freefont \
-      xorg-server \
-      gtk+3.0 \
-      xvfb
+    - apk add --no-cache docker-compose nodejs npm
     - docker-compose up -d
     - cd frontend
     - npm i
   script:
-    - xvfb-run npx cypress run
+    - npx cypress run
   after_script:
     - docker-compose down
   artifacts:
