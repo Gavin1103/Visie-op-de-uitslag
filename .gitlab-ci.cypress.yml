@@ -2,6 +2,7 @@ run_cypress_tests:
   stage: test
   image: cypress/included:12.0.0
   script:
+    - cd frontend
     - npm ci
     - npm run build
     - npx cypress run --config video=false
