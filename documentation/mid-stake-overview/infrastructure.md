@@ -46,7 +46,7 @@ sequenceDiagram
     Frontend-->>User: Rendered Topics
 ```
 
-### Manual Deployment Guide Using Dockerfile
+## Manual Deployment Guide Using Dockerfile
 #### **Step 1: Export Docker Images**
 1. Navigate to the root of the project containing our `docker-compose.yml` file.
 2. Build the Docker images using the following command:
