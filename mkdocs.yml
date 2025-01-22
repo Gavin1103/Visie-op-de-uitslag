@@ -14,3 +14,6 @@ plugins:
 markdown_extensions:
   - pymdownx.superfences
   - pymdownx.extra
+
+extra_javascript:
+  - "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"
