@@ -1,7 +1,9 @@
-Datum: 26-09-2024
-Docent: Tycho Veltmeijer
+# sprint review 2
 
-Feedback:
+### Datum: 26-09-2024
+### Docent: Tycho Veltmeijer
+
+## Feedback:
 - Zorg dat het iedereen weet wat er gemaakt is en dit ook begrijpt.
 - Zorg dat de class diagram zo veel mogelijk info bevat zodat er tijdens het programmeren voor iedereen
 duidelijk is wat er moet gebeuren.
