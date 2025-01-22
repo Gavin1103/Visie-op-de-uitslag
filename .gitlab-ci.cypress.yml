@@ -1,8 +1,6 @@
 run_cypress_tests:
   stage: test
-  image: cypress/browsers:22.12.0
-  services:
-    - docker:dind
+  image: docker:latest
   variables:
     DOCKER_DRIVER: overlay2
   before_script:
