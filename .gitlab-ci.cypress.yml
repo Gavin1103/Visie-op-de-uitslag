@@ -10,7 +10,7 @@ run_cypress_tests:
     - docker-compose up -d
     - cd frontend
   script:
-    - npm ci
+    - npm i
     - npm run build
     - npx cypress run --config video=false
   after_script:
