@@ -1,6 +1,3 @@
-stages:
-  - test
-
 run_cypress_tests:
   stage: test
   image: cypress/included:12.0.0
