@@ -25,12 +25,22 @@
 - [Entire file](https://gitlab.fdmci.hva.nl/semester-3-hbo-ict/onderwijs/student-projecten/2024-2025/out-r-se-cs/semester-1/siiquujuucii98/-/blob/main/frontend/cypress/e2e/login.cy.ts?ref_type=heads)
 
 ## Dependency injection in springboot
+
 ### Field injection
+When using field injection, you manually inject the dependencies by annotating the field with `@Autowired`, which is considered a bad practice because it makes the code tightly coupled, and slightly harder to test.
 ```
     @Autowired
     private UserService userService;
 ```
 
+Constructor injection is automatically wired by Spring, and it is considered a best practice for dependency injection.
+```
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+```
 ### Constructor injection
 ```
     private final UserService userService;
@@ -41,8 +51,12 @@
     }
 ```
 
-![Ioc](./images/ioc.png)
+Spring Boot uses IoC to manage the dependencies in the application. This means that the object lifecycle is managed by the Spring framework, which manages the dependencies and injects them into the classes that require them.
+Springboot used beans to manage the dependencies in the application. Beans are objects that are managed by the Spring IoC container. The Spring IoC container is responsible for instantiating, configuring, and assembling the beans.
+An example of a bean is the `@Service` annotation, which is used to indicate that a class is a service bean.
 
+Shown below is a diagram of the Inversion of Control (IoC) principle:
+![Ioc](./images/ioc.png)
 ### Example of lambda and stream in the codebase
 ```@Override
 public Collection<? extends GrantedAuthority> getAuthorities() {
