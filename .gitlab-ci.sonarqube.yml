@@ -4,7 +4,22 @@ sonarqube-analysis:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   script:
-    - sonar-scanner
+    - |
+      if [ "$CI_MERGE_REQUEST_IID" ]; then
+        echo "Running SonarQube analysis for Merge Request #$CI_MERGE_REQUEST_IID"
+        sonar-scanner \
+          -Dsonar.projectKey="$CI_PROJECT_NAME" \
+          -Dsonar.pullrequest.key="$CI_MERGE_REQUEST_IID" \
+          -Dsonar.pullrequest.branch="$CI_COMMIT_REF_NAME" \
+          -Dsonar.pullrequest.base="$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" \
+          -Dsonar.login="$SONAR_TOKEN"
+      else
+        echo "Running SonarQube analysis for branch $CI_COMMIT_REF_NAME"
+        sonar-scanner \
+          -Dsonar.projectKey="$CI_PROJECT_NAME" \
+          -Dsonar.branch.name="$CI_COMMIT_REF_NAME" \
+          -Dsonar.login="$SONAR_TOKEN"
+      fi
   variables:
     SONAR_TOKEN: $SONAR_TOKEN
   only:
