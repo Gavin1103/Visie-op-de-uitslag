@@ -1,4 +1,4 @@
-Backend Unit Test:
+backend-unit-tests:
   image: openjdk:21-jdk-slim
   stage: test
   before_script:
@@ -17,7 +17,5 @@ Backend Unit Test:
   only:
     - merge_requests
     - branches
-  except:
-    - main
   tags:
     - hva
