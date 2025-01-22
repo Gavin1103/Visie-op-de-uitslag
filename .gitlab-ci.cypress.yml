@@ -1,6 +1,6 @@
 run_cypress_tests:
   stage: test
-  image: cypress/included:10.0.0
+  image: cypress/browsers:22.12.0
   services:
     - docker:dind
   variables:
@@ -10,8 +10,7 @@ run_cypress_tests:
     - docker-compose up -d
     - cd frontend
   script:
-    - npm i
-    - npm run build
+    - npm ci
     - npx cypress run
   after_script:
     - docker-compose down
