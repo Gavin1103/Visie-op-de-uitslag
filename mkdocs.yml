@@ -9,5 +9,8 @@ site_dir: public
 
 plugins:
   - search
+  - mermaid2
 
-nav: []
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.extra

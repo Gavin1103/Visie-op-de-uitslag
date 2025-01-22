@@ -2,7 +2,7 @@ pages:
   stage: deploy
   image: python:3.9-slim
   script:
-    - pip install mkdocs mkdocs-material
+    - pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin pymdown-extensions
     - mkdocs build --clean --site-dir public
   artifacts:
     paths:
