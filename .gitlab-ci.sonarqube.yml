@@ -17,7 +17,6 @@ sonarqube-analysis:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   script:
-    - cd frontend
     - sonar-scanner
   dependencies:
     - gradle-test-coverage
@@ -25,4 +24,5 @@ sonarqube-analysis:
     SONAR_TOKEN: $SONAR_TOKEN
   only:
     - main
+
 
