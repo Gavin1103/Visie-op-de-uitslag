@@ -1,4 +1,5 @@
 ### Deployment, testing and sonarqube being ran by GitLab CI
+[Commit where I fixed issues sonarqube found](https://gitlab.fdmci.hva.nl/semester-3-hbo-ict/onderwijs/student-projecten/2024-2025/out-r-se-cs/semester-1/siiquujuucii98/-/commit/d3b80b55bf93a51c0cf90898890b781e825ec644)
 ![Pipelines](./images/pipelines.png)
 
 # Deployment documentation
