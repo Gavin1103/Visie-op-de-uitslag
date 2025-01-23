@@ -21,7 +21,6 @@ sonarqube-analysis:
     - sonar-scanner
   dependencies:
     - gradle-test-coverage
-    - cypress-test
   variables:
     SONAR_TOKEN: $SONAR_TOKEN
   only:
