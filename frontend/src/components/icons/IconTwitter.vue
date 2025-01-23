@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <a href="#!" role="button">
+  <a role="button">
     <!-- X -->
     <span class="[&>svg]:h-12 [&>svg]:w-12 [&>svg]:fill-white">
     <svg

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <a href="#!" role="button">
+  <a role="button">
     <!-- Instagram -->
     <span class="[&>svg]:h-12 [&>svg]:w-12 [&>svg]:fill-[#c13584]">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">

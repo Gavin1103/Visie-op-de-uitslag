@@ -5,23 +5,26 @@ import ReportMessage from '@/components/livechat/ReportMessage.vue'
 const props = defineProps({
   message: {
     type: Object,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 </script>
 
 <template>
-  <li class="flex justify-start my-2">
-    <div class="min-w-[100px] border-2 p-3 border-indigo-200 max-w-xs h-auto rounded-lg shadow-md bg-indigo-50 relative pb-6 text-left group">
-      <span class="font-semibold text-indigo-700 block">{{ message.name }}:</span>
-      <span class="text-black text-lg break-words">{{ message.message }}</span>
-      <div class="absolute bottom-0 right-0 p-2 text-sm text-black">{{ extractTime(message.timestamp) }}
-        <div class="display">
-          <ReportMessage :message="message"></ReportMessage>
+  <ul>
+    <li class="flex justify-start my-2">
+      <div
+        class="min-w-[100px] border-2 p-3 border-indigo-200 max-w-xs h-auto rounded-lg shadow-md bg-indigo-50 relative pb-6 text-left group">
+        <span class="font-semibold text-indigo-700 block">{{ message.name }}:</span>
+        <span class="text-black text-lg break-words">{{ message.message }}</span>
+        <div class="absolute bottom-0 right-0 p-2 text-sm text-black">{{ extractTime(message.timestamp) }}
+          <div class="display">
+            <ReportMessage :message="message"></ReportMessage>
+          </div>
         </div>
       </div>
-    </div>
-  </li>
+    </li>
+  </ul>
 </template>
 <style scoped>
 .display {
