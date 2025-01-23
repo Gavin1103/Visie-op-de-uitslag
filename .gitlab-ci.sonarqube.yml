@@ -17,7 +17,7 @@ cypress-test:
   script:
     - cd frontend
     - npm install
-    - npx cypress run
+    - npm run test
   dependencies:
     - gradle-test-coverage
   only:
@@ -30,8 +30,6 @@ sonarqube-analysis:
     entrypoint: [""]
   script:
     - cd frontend
-    - npm install
-    - npm run test
     - sonar-scanner
   dependencies:
     - gradle-test-coverage
