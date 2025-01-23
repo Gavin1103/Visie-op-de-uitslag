@@ -4,10 +4,10 @@ stages:
   - deploy
 
 include:
-  - ".gitlab-ci.tests.yml"
+  #- ".gitlab-ci.tests.yml"
   - ".gitlab-ci.sonarqube.yml"
-  - ".gitlab-ci.mkdocs.yml"
-  - ".gitlab-ci.build-frontend.yml"
-  - ".gitlab-ci.build-backend.yml"
-  - ".gitlab-ci.deploy-frontend.yml"
-  - ".gitlab-ci.deploy-backend.yml"
+ # - ".gitlab-ci.mkdocs.yml"
+  #- ".gitlab-ci.build-frontend.yml"
+#  - ".gitlab-ci.build-backend.yml"
+#  - ".gitlab-ci.deploy-frontend.yml"
+#  - ".gitlab-ci.deploy-backend.yml"

@@ -4,6 +4,13 @@ sonarqube-analysis:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   script:
+    - cd backend
+    - ./gradlew test jacocoTestReport
+    - cd ..
+
+    - npm install --prefix frontend
+    - npm run test --prefix frontend
+
     - sonar-scanner
   variables:
     SONAR_TOKEN: $SONAR_TOKEN

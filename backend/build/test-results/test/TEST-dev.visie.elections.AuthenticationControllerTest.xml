@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="dev.visie.elections.AuthenticationControllerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-01-14T13:51:08" hostname="Aarons-MacBook-Pro.local" time="0.105">
+<testsuite name="dev.visie.elections.AuthenticationControllerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-01-23T10:47:31" hostname="Mac.localdomain" time="0.146">
   <properties/>
-  <testcase name="testAuthenticate()" classname="dev.visie.elections.AuthenticationControllerTest" time="0.073"/>
-  <testcase name="testRegister()" classname="dev.visie.elections.AuthenticationControllerTest" time="0.031"/>
-  <system-out><![CDATA[14:51:04.656 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [dev.visie.elections.AuthenticationControllerTest]: AuthenticationControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-14:51:04.708 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration dev.visie.elections.ElectionsApplication for test class dev.visie.elections.AuthenticationControllerTest
+  <testcase name="testAuthenticate()" classname="dev.visie.elections.AuthenticationControllerTest" time="0.1"/>
+  <testcase name="testRegister()" classname="dev.visie.elections.AuthenticationControllerTest" time="0.044"/>
+  <system-out><![CDATA[11:47:26.316 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [dev.visie.elections.AuthenticationControllerTest]: AuthenticationControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+11:47:26.399 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration dev.visie.elections.ElectionsApplication for test class dev.visie.elections.AuthenticationControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -15,19 +15,19 @@
 
  :: Spring Boot ::                (v3.3.3)
 
-2025-01-14T14:51:04.867+01:00  INFO 4559 --- [elections] [    Test worker] d.v.e.AuthenticationControllerTest       : Starting AuthenticationControllerTest using Java 21.0.3 with PID 4559 (started by aaronlaan in /Users/aaronlaan/Desktop/Repo/Java/siiquujuucii98/backend)
-2025-01-14T14:51:04.868+01:00  INFO 4559 --- [elections] [    Test worker] d.v.e.AuthenticationControllerTest       : The following 1 profile is active: "test"
-2025-01-14T14:51:05.139+01:00  INFO 4559 --- [elections] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-01-14T14:51:05.175+01:00  INFO 4559 --- [elections] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 32 ms. Found 17 JPA repository interfaces.
-2025-01-14T14:51:06.084+01:00  INFO 4559 --- [elections] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-01-14T14:51:06.116+01:00  INFO 4559 --- [elections] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
-2025-01-14T14:51:06.135+01:00  INFO 4559 --- [elections] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-01-14T14:51:06.199+01:00  INFO 4559 --- [elections] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-01-14T14:51:06.212+01:00  INFO 4559 --- [elections] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-01-14T14:51:06.282+01:00  INFO 4559 --- [elections] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
-2025-01-14T14:51:06.283+01:00  INFO 4559 --- [elections] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-01-14T14:51:06.297+01:00  WARN 4559 --- [elections] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-01-14T14:51:06.806+01:00  INFO 4559 --- [elections] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-23T11:47:26.669+01:00  INFO 16555 --- [elections] [    Test worker] d.v.e.AuthenticationControllerTest       : Starting AuthenticationControllerTest using Java 21.0.3 with PID 16555 (started by aaronlaan in /Users/aaronlaan/Desktop/Repo/Java/siiquujuucii98/backend)
+2025-01-23T11:47:26.670+01:00  INFO 16555 --- [elections] [    Test worker] d.v.e.AuthenticationControllerTest       : The following 1 profile is active: "test"
+2025-01-23T11:47:27.037+01:00  INFO 16555 --- [elections] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-23T11:47:27.079+01:00  INFO 16555 --- [elections] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 36 ms. Found 17 JPA repository interfaces.
+2025-01-23T11:47:28.347+01:00  INFO 16555 --- [elections] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-23T11:47:28.403+01:00  INFO 16555 --- [elections] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-01-23T11:47:28.437+01:00  INFO 16555 --- [elections] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-01-23T11:47:28.548+01:00  INFO 16555 --- [elections] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-23T11:47:28.574+01:00  INFO 16555 --- [elections] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-01-23T11:47:28.820+01:00  INFO 16555 --- [elections] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2025-01-23T11:47:28.821+01:00  INFO 16555 --- [elections] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-01-23T11:47:28.858+01:00  WARN 16555 --- [elections] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-23T11:47:29.819+01:00  INFO 16555 --- [elections] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: drop table if exists answer cascade 
 Hibernate: drop table if exists answer_rating cascade 
 Hibernate: drop table if exists candidate cascade 
@@ -94,18 +94,18 @@ Hibernate: alter table if exists topic_rating add constraint FK3fh88wyfrctas413b
 Hibernate: alter table if exists votes add constraint FK3dkfbc5tadp29txw2brf680j6 foreign key (candidate_id, party_id) references candidate
 Hibernate: alter table if exists votes add constraint FK5dayh0t4eqt7o4ctu195v3jsw foreign key (party_id) references party
 Hibernate: alter table if exists votes add constraint FK76q6jvyfrq8q8bqle7j32ljms foreign key (station_id) references station
-2025-01-14T14:51:06.851+01:00  INFO 4559 --- [elections] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-01-14T14:51:06.879+01:00  WARN 4559 --- [elections] [    Test worker] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.web.filter.OncePerRequestFilter.doFilter(jakarta.servlet.ServletRequest,jakarta.servlet.ServletResponse,jakarta.servlet.FilterChain) throws jakarta.servlet.ServletException,java.io.IOException] because it is marked as final, consider using interface-based JDK proxies instead.
-2025-01-14T14:51:06.879+01:00  WARN 4559 --- [elections] [    Test worker] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.web.filter.GenericFilterBean.init(jakarta.servlet.FilterConfig) throws jakarta.servlet.ServletException] because it is marked as final, consider using interface-based JDK proxies instead.
-2025-01-14T14:51:07.023+01:00  INFO 4559 --- [elections] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-01-14T14:51:07.764+01:00  WARN 4559 --- [elections] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-01-14T14:51:08.289+01:00  INFO 4559 --- [elections] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-01-14T14:51:08.289+01:00  INFO 4559 --- [elections] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-01-14T14:51:08.290+01:00  INFO 4559 --- [elections] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2025-01-14T14:51:08.298+01:00  INFO 4559 --- [elections] [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
-2025-01-14T14:51:08.298+01:00  INFO 4559 --- [elections] [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@52742778]]
-2025-01-14T14:51:08.298+01:00  INFO 4559 --- [elections] [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
-2025-01-14T14:51:08.308+01:00  INFO 4559 --- [elections] [    Test worker] d.v.e.AuthenticationControllerTest       : Started AuthenticationControllerTest in 3.539 seconds (process running for 4.06)
+2025-01-23T11:47:29.895+01:00  INFO 16555 --- [elections] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-23T11:47:29.931+01:00  WARN 16555 --- [elections] [    Test worker] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.web.filter.OncePerRequestFilter.doFilter(jakarta.servlet.ServletRequest,jakarta.servlet.ServletResponse,jakarta.servlet.FilterChain) throws jakarta.servlet.ServletException,java.io.IOException] because it is marked as final, consider using interface-based JDK proxies instead.
+2025-01-23T11:47:29.931+01:00  WARN 16555 --- [elections] [    Test worker] o.s.aop.framework.CglibAopProxy          : Unable to proxy interface-implementing method [public final void org.springframework.web.filter.GenericFilterBean.init(jakarta.servlet.FilterConfig) throws jakarta.servlet.ServletException] because it is marked as final, consider using interface-based JDK proxies instead.
+2025-01-23T11:47:30.174+01:00  INFO 16555 --- [elections] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-23T11:47:31.156+01:00  WARN 16555 --- [elections] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-23T11:47:31.846+01:00  INFO 16555 --- [elections] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-01-23T11:47:31.846+01:00  INFO 16555 --- [elections] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-01-23T11:47:31.846+01:00  INFO 16555 --- [elections] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2025-01-23T11:47:31.856+01:00  INFO 16555 --- [elections] [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-01-23T11:47:31.856+01:00  INFO 16555 --- [elections] [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@352280f4]]
+2025-01-23T11:47:31.856+01:00  INFO 16555 --- [elections] [    Test worker] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-01-23T11:47:31.870+01:00  INFO 16555 --- [elections] [    Test worker] d.v.e.AuthenticationControllerTest       : Started AuthenticationControllerTest in 5.375 seconds (process running for 6.212)
 ]]></system-out>
   <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/aaronlaan/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.19/154da3a65b4f4a909d3e5bdec55d1b2b4cbb6ce1/byte-buddy-agent-1.14.19.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning

@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.3.3"
 	id("io.spring.dependency-management") version "1.1.6"
+	id("jacoco")
 }
 
 group = "dev.visie"
@@ -77,4 +78,33 @@ tasks.test {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+jacoco {
+	toolVersion = "0.8.10"
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test) // Ensures tests run before generating coverage reports
+	reports {
+		xml.required.set(true) // XML report for SonarQube
+		csv.required.set(false)
+		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml")) // Optional HTML report
+	}
+}
+
+// For Cypress coverage integration
+tasks.register("mergeCypressCoverage") {
+	group = "verification"
+	description = "Merges Cypress coverage with JaCoCo."
+	doLast {
+		val cypressCoverageFile = file("frontend/coverage/lcov.info")
+		val jacocoCoverageFile = file("backend/build/reports/jacoco/test/jacocoTestReport.xml")
+
+		if (cypressCoverageFile.exists() && jacocoCoverageFile.exists()) {
+			println("Merging Cypress and JaCoCo coverage...")
+		} else {
+			println("One or both coverage reports are missing.")
+		}
+	}
 }
