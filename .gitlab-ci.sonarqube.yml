@@ -18,8 +18,8 @@ sonarqube-analysis:
     entrypoint: [""]
   script:
     - cd frontend
-    - npm install --prefix frontend
-    - npm run test --prefix frontend
+    - npm install
+    - npm run test
     - sonar-scanner
   dependencies:
     - gradle-test-coverage
