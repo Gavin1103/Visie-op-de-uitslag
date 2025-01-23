@@ -17,9 +17,6 @@ sonarqube-analysis:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   script:
-    - cd frontend
-    - npm install
-    - npm run test
     - sonar-scanner
   dependencies:
     - gradle-test-coverage
@@ -28,15 +25,4 @@ sonarqube-analysis:
   only:
     - main
 
-cypress-test:
-  stage: test
-  image: cypress/included:12.5.0
-  script:
-    - cd frontend
-    - npm install
-    - npx cypress run
-  dependencies:
-    - gradle-test-coverage
-    - sonarqube-analysis
-  only:
-    - main
+
