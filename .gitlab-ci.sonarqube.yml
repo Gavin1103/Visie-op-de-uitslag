@@ -11,6 +11,18 @@ gradle-test-coverage:
   only:
     - main
 
+cypress-test:
+  stage: test
+  image: cypress/included:12.5.0
+  script:
+    - cd frontend
+    - npm install
+    - npx cypress run
+  dependencies:
+    - gradle-test-coverage
+  only:
+    - main
+
 sonarqube-analysis:
   stage: test
   image:
@@ -23,20 +35,9 @@ sonarqube-analysis:
     - sonar-scanner
   dependencies:
     - gradle-test-coverage
+    - cypress-test
   variables:
     SONAR_TOKEN: $SONAR_TOKEN
   only:
     - main
 
-cypress-test:
-  stage: test
-  image: cypress/included:12.5.0
-  script:
-    - cd frontend
-    - npm install
-    - npx cypress run
-  dependencies:
-    - gradle-test-coverage
-    - sonarqube-analysis
-  only:
-    - main
