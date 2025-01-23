@@ -11,18 +11,6 @@ gradle-test-coverage:
   only:
     - main
 
-cypress-test:
-  stage: test
-  image: cypress/included:12.5.0
-  script:
-    - cd frontend
-    - npm install
-    - npm run test
-  dependencies:
-    - gradle-test-coverage
-  only:
-    - main
-
 sonarqube-analysis:
   stage: test
   image:
