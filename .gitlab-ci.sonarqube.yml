@@ -27,3 +27,16 @@ sonarqube-analysis:
     SONAR_TOKEN: $SONAR_TOKEN
   only:
     - main
+
+cypress-test:
+  stage: test
+  image: cypress/included:12.5.0
+  script:
+    - cd frontend
+    - npm install
+    - npx cypress run
+  dependencies:
+    - gradle-test-coverage
+    - sonarqube-analysis
+  only:
+    - main
