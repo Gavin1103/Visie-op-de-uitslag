@@ -57,6 +57,55 @@ An example of a bean is the `@Service` annotation, which is used to indicate tha
 
 Shown below is a diagram of the Inversion of Control (IoC) principle:
 ![Ioc](./images/ioc.png)
+ 
+## Dependency inversion principle example
+### Dependency inversion not being used
+```java
+class Database {
+    void saveData(String data) {
+        System.out.println("Data saved to the database.");
+    }
+}
+
+class DataService {
+    private final Database database;
+
+    public DataService() {
+        this.database = new Database();
+    }
+
+    public void save(String data) {
+        database.saveData(data);
+    }
+}
+```
+### Dependency inversion being used
+```java
+interface DataStorage {
+    void saveData(String data);
+}
+
+class Database implements DataStorage {
+    public void saveData(String data) {
+        System.out.println("Data saved to the database.");
+    }
+}
+
+class DataService {
+    private final DataStorage storage;
+
+    public DataService(DataStorage storage) {
+        this.storage = storage; 
+    }
+
+    public void save(String data) {
+        storage.saveData(data);
+    }
+}
+```
+
+
+
 ### Example of lambda and stream in the codebase
 ```@Override
 public Collection<? extends GrantedAuthority> getAuthorities() {
