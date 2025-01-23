@@ -3,7 +3,7 @@
 ![Pipelines](./images/pipelines.png)
 
 # Deployment documentation
-
+## Main website:
 - **Hosting:** Digital Ocean
 - **Domain:** visieopdeuitslag
 - **Frontend url:** https://www.visieopdeuitslag.nl
@@ -46,6 +46,12 @@ sequenceDiagram
     Backend-->>Frontend: JSON Response
     Frontend-->>User: Rendered Topics
 ```
+
+## Aaron's website:
+- **Domain:** aaronlaan.com / aaronlaan.nl
+- **Frontend url:** https://www.election.aaronlaan.com
+- **Backend url:** https://www.election.aaronlaan.com/api
+  **Port:** 7420
 
 ## Manual Deployment Guide Using Dockerfile
 #### **Step 1: Export Docker Images**
