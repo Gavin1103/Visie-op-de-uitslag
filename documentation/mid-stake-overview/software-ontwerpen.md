@@ -58,7 +58,7 @@ classDiagram
     User "1" --> "0..*" Answer
     Topic "1" --> "0..*" Answer
     Answer "1" --> "0..*" Comment
-   ```
+```
 
 
 ### Implementation diagram
