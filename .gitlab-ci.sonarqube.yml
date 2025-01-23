@@ -1,17 +1,28 @@
+gradle-test-coverage:
+  stage: test
+  image: openjdk:21-jdk-slim
+  script:
+    - cd backend
+    - ./gradlew test jacocoTestReport
+  artifacts:
+    paths:
+      - backend/build/test-results
+      - backend/build/reports/jacoco/test
+  only:
+    - main
+
 sonarqube-analysis:
   stage: test
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   script:
-    - cd backend
-    - ./gradlew test jacocoTestReport
-    - cd ..
-
+    - cd frontend
     - npm install --prefix frontend
     - npm run test --prefix frontend
-
     - sonar-scanner
+  dependencies:
+    - gradle-test-coverage
   variables:
     SONAR_TOKEN: $SONAR_TOKEN
   only:
