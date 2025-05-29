@@ -7,13 +7,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
-    @Value("${cors.origin}")
-    private String corsOrigin;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:7419", "https://elections.aaronlaan.com", "https://visieopdeuitslag.nl", "https://www.visieopdeuitslag.nl")
+                .allowedOrigins(
+                        "http://localhost:7419",
+                        "https://elections.aaronlaan.com",
+                        "https://visieopdeuitslag.nl",
+                        "https://www.visieopdeuitslag.nl",
+                        "https://visie-op-de-uitslag.up.railway.app"
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
