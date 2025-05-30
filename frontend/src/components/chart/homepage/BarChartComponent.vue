@@ -5,6 +5,9 @@ import {Bar} from 'vue-chartjs';
 import type {ChartEvent, ActiveElement} from 'chart.js';
 import type {PartyWithVotes} from "@/models/Party";
 import {PartyService} from "@/services/PartyService";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
@@ -62,7 +65,7 @@ const chartOptions = ref({
       const index = chartElement.index;
       const party = partiesWithVotes.value[index].partyId;
 
-      window.location.href = `/party/${party}`;
+      router.push({ name: 'party', params: { id: party } })
     }
   },
 });
