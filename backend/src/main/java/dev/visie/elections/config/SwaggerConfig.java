@@ -29,7 +29,7 @@ public class SwaggerConfig {
                         .title("Elections API")
                         .description("API for the elections application")
                         .version("1.0.0"))
-                .servers(List.of(server)) // <- dit is belangrijk
+                .servers(List.of(server))
                 .components(new Components()
                         .addSecuritySchemes("JWT", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
